@@ -27,12 +27,32 @@ Route::get('users',function(){
 
 });
 
-//Para crear nuevos funcinarios¿?
-Route::post('users',function(){
-	return '[Acá de crearan nuevos funcionarios]';
-});
+//grupo de rutas para los funcionarios
+Route::group(['prefix' => 'funcionarios'], function(){
 
-//mostrar info del usuario, por el id
-Route::get('users/{id}',function($id){
-	return $id;
-})->where('id', '[0-9]+');
+	//mostrar info del funcionario, por el id
+	/*
+	Route::get('view/{id}',function($id){
+		return $id;
+	})->where('id', '[0-9]+');
+	*/
+
+	//Para crear nuevos funcinarios (debe ser post enves de get...)
+	Route::get('crearFuncionario',function(){
+		return '[Acá de crearan nuevos funcionarios]';
+	});
+
+	Route::get('view/{id}',[
+		'uses' => 'TestController@view',
+		'as'   => 'funcionarioView'
+	]);
+
+	/*
+	Route::get('all',function(){
+		$funcinarios = User::all();
+
+		return view('users',compact('users'));
+	});
+	*/
+
+});

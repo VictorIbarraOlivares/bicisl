@@ -17,6 +17,6 @@ class Type extends Model
     //un tipo de usuarios puede tener muchos usuarios
     public function users()
     {
-    	return->hasMany('App\User');
+    	return $this->hasMany('App\User');
     }
 }
