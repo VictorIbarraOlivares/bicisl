@@ -20,3 +20,4 @@ class Type extends Model
     	return $this->hasMany('App\User');
     }
 }
+  
