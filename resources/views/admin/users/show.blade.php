@@ -1,4 +1,1 @@
 @extends('admin.template.main')
-
-
-{{}}
