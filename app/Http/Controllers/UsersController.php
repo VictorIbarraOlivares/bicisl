@@ -24,4 +24,9 @@ class UsersController extends Controller
     	$user->save();
     	dd('Usuario Creado Satisfactoriamente');
     }
+
+    public function show($id)
+    {
+    	return view('admin.users.show');
+    }
 }
