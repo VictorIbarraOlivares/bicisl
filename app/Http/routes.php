@@ -27,6 +27,13 @@ Route::get('users',function(){
 
 });
 
+//grupo de rutas para la administracion
+Route::group(['prefix' => 'admin'],function(){
+
+	Route::resource('users','UsersController');
+	
+});
+
 //grupo de rutas para los funcionarios
 Route::group(['prefix' => 'funcionarios'], function(){
 

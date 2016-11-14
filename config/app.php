@@ -155,6 +155,11 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        /* providers agregados*/
+        /* laravelcollective,version 5.2.4*/
+        Collective\Html\HtmlServiceProvider::class,
+        /* cviebrock/eloquent-sluggable*/
+        Cviebrock\EloquentSluggable\ServiceProvider::class,
 
     ],
 
@@ -201,6 +206,10 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        /* Aliases agregados */
+        /* laravelcollective*/
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
 
     ],
 
