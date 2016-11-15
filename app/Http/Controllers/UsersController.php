@@ -25,8 +25,10 @@ class UsersController extends Controller
     	dd('Usuario Creado Satisfactoriamente');
     }
 
-    public function show($id)
+    public function index()
     {
-    	return view('admin.users.show');
+        $users = User::orderBy('type_id','ASC')->paginate(1);
+
+        return view('admin.users.index')->with('users',$users);
     }
 }
