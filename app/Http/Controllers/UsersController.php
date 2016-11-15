@@ -35,4 +35,33 @@ class UsersController extends Controller
 
         return view('admin.users.index')->with('users',$users);
     }
+
+    public function destroy($id)
+    {
+        $user = User::find($id);
+        $user->delete();
+
+        Flash::error('El usario '. $user->name . ' ha sido borrado de forma exitosa!');
+        return redirect()->route('admin.users.index');
+    }
+
+    public function edit($id)
+    {
+        $user = User::find($id);
+        return view('admin.users.edit')->with('user', $user);
+    }
+
+    public function update(Request $request, $id)
+    {
+        //dd($request->all());
+        
+        $user = User::find($id);
+        $user->name = $request->name;
+        $user->email= $request->email;
+        $user->type_id = $request->type_id;
+        $user->save();
+        
+        Flash::warning('El usuario '. $user->name . ' ha sido editado con exito!');
+        return redirect()->route('admin.users.index');
+    }
 }
