@@ -8,10 +8,20 @@
 	@include('admin.template.partials.nav')
 
 	<section>
+		@include('flash::message')
 		@yield('content')
 	</section>
 
-	<footer>
+	<footer class="admin-footer">
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="collapse navbar-collapse">
+					<p class="navbar-text"> Todos los derechos reservados &copy {{ date('Y') }}</p>
+					<p class="navbar-text navbar-right"><b>Ing.Sw.2° Semestre</b></p>
+				</div>
+				
+			</div>
+		</nav>
 		
 	</footer>
 
