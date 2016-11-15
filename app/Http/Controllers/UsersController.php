@@ -9,6 +9,7 @@ use App\Http\Requests;
 use App\User;
 
 use Laracasts\Flash\Flash;
+use App\Http\Requests\UserRequest;
 
 class UsersController extends Controller
 {
@@ -17,7 +18,7 @@ class UsersController extends Controller
     	return view('admin.users.create');
     }
 
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
     	//dd($request-> all());
     	$user = new User($request -> all());
