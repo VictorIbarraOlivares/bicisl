@@ -34,7 +34,3 @@ Route::group(['prefix' => 'admin'],function(){
 	
 });
 
-//grupo de rutas para los funcionarios
-
-
-});
