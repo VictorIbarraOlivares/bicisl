@@ -18,15 +18,6 @@ Route::get('/', function () {
 });
 
 
-//Para ver todos los usuarios(por ahora, hay que hacer una para clientes y usuarios,osea hacer filtros)
-Route::get('users',function(){
-
-	$users = User::all();
-
-	return view('users',compact('users'));
-
-});
-
 //grupo de rutas para la administracion
 Route::group(['prefix' => 'admin'],function(){
 
