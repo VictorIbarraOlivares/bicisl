@@ -53,8 +53,14 @@ class UsersController extends Controller
     {
         $user = User::find($id);
         $types = Type::all();
-        $auxId=0;
-        $auxName="no";
+        foreach ($types as $type) 
+        {
+            if ($type->id == $user->type_id)
+            {
+                $auxId=$type->id;
+                $auxName=$type->name;
+            }
+        }
         return view('admin.users.edit')->with('user', $user)->with('types',$types)->with('auxId',$auxId)->with('auxName',$auxName);
     }
 

@@ -24,12 +24,6 @@
 		<div class="form-group">
 			{!! Form::label('type_id','Tipo') !!}
 			<select class="form-control" required="required" id="type_id" name="type_id">
-				@foreach($types as $type)
-				  @if($type->id == $user->id)
-				  	{!! $auxId=$type->id !!}
-				  	{!! $auxName=$type->name !!}
-				  @endif
-				@endforeach
 
 				<option selected="selected" value="{{ $auxId }}">{{ $auxName }}</option>
 				@foreach($types as $type)
