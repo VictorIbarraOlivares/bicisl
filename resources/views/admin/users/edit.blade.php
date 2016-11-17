@@ -23,7 +23,21 @@
 
 		<div class="form-group">
 			{!! Form::label('type_id','Tipo') !!}
-			{!! Form::select('type_id',['1' => 'Tipo de prueba', '2' => 'Funcionario/Usuario(aun no creado este tipo)', '3' => 'Admin(Aun no creado este tipo)'],null, ['class' => 'form-control','required', 'placeholder' => 'Seleccione un tipo de usuario']) !!}
+			<select class="form-control" required="required" id="type_id" name="type_id">
+				@foreach($types as $type)
+				  @if($type->id == $user->id)
+				  	{!! $auxId=$type->id !!}
+				  	{!! $auxName=$type->name !!}
+				  @endif
+				@endforeach
+
+				<option selected="selected" value="{{ $auxId }}">{{ $auxName }}</option>
+				@foreach($types as $type)
+					@if($type->id != $user->id)
+						<option value="{{$type->id }}">{{ $type->name }}</option>
+					@endif
+				@endforeach
+			</select>
 		</div>
 
 		<div class="form-group">

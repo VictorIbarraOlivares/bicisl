@@ -4,12 +4,21 @@
 	<title>@yield('title', 'Default') | Panel de Administración</title>
 	<link rel="stylesheet" type="text/css" href="{{ asset('plugins/bootstrap/css/bootstrap.css') }}">
 </head>
-<body style="margin-left: 10%;margin-right: 10%;">
+<body class="admin-body" style="margin-left: 10%;margin-right: 10%;">
 	@include('admin.template.partials.nav')
 
-	<section >
-		@include('flash::message')
-		@yield('content')
+	<section>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">@yield('title')</h3>
+			</div>
+
+			<div class="panel-body">
+				@include('flash::message')
+				@yield('content')
+			</div>
+		</div>
+
 	</section>
 
 	<footer class="admin-footer" >

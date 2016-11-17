@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterUsersTable extends Migration
+class AltUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,7 @@ class AlterUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('type_id')->unsigned()->after('claveBici');
-            $table->foreign('type_id')->references('id')->on('types')->onDelete('cascade');
+            $table->dropColumn('claveBici');
         });
     }
 
@@ -26,7 +25,7 @@ class AlterUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            //
+            $table->integer('claveBici')->nullable();
         });
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 
 use App\User;
+use App\Type;
 
 use Laracasts\Flash\Flash;
 use App\Http\Requests\UserRequest;
@@ -15,7 +16,8 @@ class UsersController extends Controller
 {
     public function create()
     {
-    	return view('admin.users.create');
+        $types = Type::all();
+    	return view('admin.users.create')->with('types', $types);
     }
 
     public function store(UserRequest $request)
@@ -32,7 +34,8 @@ class UsersController extends Controller
 
     public function index()
     {
-        $users = User::orderBy('type_id','ASC')->paginate(1);
+        $users = User::orderBy('type_id','ASC')->paginate(2);
+        $types = Type::all();
 
         return view('admin.users.index')->with('users',$users);
     }
@@ -49,7 +52,10 @@ class UsersController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        return view('admin.users.edit')->with('user', $user);
+        $types = Type::all();
+        $auxId=0;
+        $auxName="no";
+        return view('admin.users.edit')->with('user', $user)->with('types',$types)->with('auxId',$auxId)->with('auxName',$auxName);
     }
 
     public function update(Request $request, $id)
@@ -61,6 +67,7 @@ class UsersController extends Controller
         $user->email= $request->email;
         $user->type_id = $request->type_id;
         $user->save();
+
         
         Flash::warning('El usuario '. $user->name . ' ha sido editado con exito!');
         return redirect()->route('admin.users.index');

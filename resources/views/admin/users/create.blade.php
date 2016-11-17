@@ -27,7 +27,7 @@
 
 		<div class="form-group">
 			{!! Form::label('email', 'Correo Electronico') !!}
-			{!! Form::email('email', 'NULL' ,['class' => 'form-control', 'placeholder' => 'example@gmail.com' ,'required']) !!} <!-- No deberia ser requerido para los funcionarios -->
+			{!! Form::email('email', 'null@null.cl' ,['class' => 'form-control', 'placeholder' => 'example@gmail.com']) !!} <!-- No deberia ser requerido para los funcionarios -->
 		</div>
 
 		<div class="form-group">
@@ -37,7 +37,14 @@
 
 		<div class="form-group">
 			{!! Form::label('type_id','Tipo') !!}
-			{!! Form::select('type_id',['1' => 'Tipo de prueba', '2' => 'Funcionario/Usuario(aun no creado este tipo)', '3' => 'Admin(Aun no creado este tipo)'],null, ['class' => 'form-control','required', 'placeholder' => 'Seleccione un tipo de usuario']) !!}
+			
+
+			<select class="form-control" required="required" id="type_id" name="type_id">
+				<option selected="selected" value="">Seleccione un tipo de usuario</option>
+				@foreach($types as $type)
+				<option value="{{$type->id }}">{{ $type->name }}</option>
+				@endforeach
+			</select>
 		</div>
 
 		<div class="form-group">

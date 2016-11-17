@@ -19,8 +19,14 @@
 					<td>{{ $user->name }}</td>
 					<td>{{ $user->email }}</td>
 					<td>
-						@if($user->type_id == "1")
-							<span class="label label-danger">Tipo de Prueba</span>
+						@if($user->type_id == "4")
+							<span class="label label-primary">Alumno</span>
+						@elseif($user->type_id == "2")
+							<span class="label label-danger">Administrador</span>
+						@elseif($user->type_id == "3")
+							<span class="label label-info">Funcionario</span>
+						@else
+							<span class="label label-success">Tipo de Prueba</span>
 						@endif
 					</td>
 					<td>
