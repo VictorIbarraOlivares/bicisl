@@ -34,7 +34,7 @@ class UsersController extends Controller
 
     public function index()
     {
-        $users = User::orderBy('type_id','ASC')->paginate(2);
+        $users = User::orderBy('type_id','ASC')->paginate(3);
         $types = Type::all();
 
         return view('admin.users.index')->with('users',$users);
@@ -63,6 +63,12 @@ class UsersController extends Controller
             }
         }
         return view('admin.users.edit')->with('user', $user)->with('types',$types)->with('auxId',$auxId)->with('auxName',$auxName);
+    }
+
+    public function show($id)
+    {
+        $user = User::find($id);
+        return view('admin.users.detalle')->with('user',$user);
     }
 
     public function update(Request $request, $id)
