@@ -68,7 +68,9 @@ class UsersController extends Controller
     public function show($id)
     {
         $user = User::find($id);
-        return view('admin.users.detalle')->with('user',$user);
+        $type = Type::find($user->type_id);
+
+        return view('admin.users.detalle')->with('user',$user)->with('type',$type);
     }
 
     public function update(Request $request, $id)
