@@ -34,3 +34,9 @@ Route::group(['prefix' => 'admin'],function(){
 	
 });
 
+//grupo de rutas para los funcionarios
+Route::group(['prefix' => 'funcionario'],function(){
+
+	Route::resource('users','FuncionarioController');
+	
+});
