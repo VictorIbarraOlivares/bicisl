@@ -52,6 +52,7 @@ class UsersController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
+        //$user = User::where('type_id',"=",3)->get();
         $types = Type::all();
         foreach ($types as $type) 
         {
