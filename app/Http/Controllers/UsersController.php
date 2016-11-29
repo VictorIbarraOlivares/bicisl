@@ -20,6 +20,11 @@ class UsersController extends Controller
     	return view('admin.users.create')->with('types', $types);
     }
 
+    public function home()
+    {
+        return view('admin.home');
+    }
+
     public function store(UserRequest $request)
     {
     	//dd($request-> all());

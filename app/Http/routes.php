@@ -24,8 +24,8 @@ Route::group(['middleware' => ['web']], function(){
 	Route::get('/home', 'HomeController@index');
 
 	//grupo de rutas para la administracion
-	Route::group(['prefix' => 'admin'],function(){
-
+	Route::group(['prefix' => 'admin', 'middleware' => 'auth'],function(){
+		
 		Route::resource('users','UsersController');
 		Route::get('users/{id}/destroy',[
 			'uses' => 'UsersController@destroy',
@@ -35,12 +35,16 @@ Route::group(['middleware' => ['web']], function(){
 			'uses' => 'UsersController@show',
 			'as' => 'admin.users.detalle'
 		]);
+		Route::get('home',[
+			'uses' => 'UsersController@home',
+			'as' => 'admin.home'
+		]);
 
 		
 	});
 
 	//grupo de rutas para los funcionarios
-	Route::group(['prefix' => 'funcionario'],function(){
+	Route::group(['prefix' => 'funcionario','middleware' => 'auth'],function(){
 
 		Route::resource('users','FuncionarioController');
 		
