@@ -1,1 +1,1 @@
-@extends('admin.template.main')
+@extends('funcionario.template.main')
