@@ -1,2 +1,1 @@
-HOLA, ESTO HAY QUE MODIFICARLO
 {{ Auth::user() }}

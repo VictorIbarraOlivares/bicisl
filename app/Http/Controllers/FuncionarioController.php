@@ -17,6 +17,11 @@ class FuncionarioController extends Controller
     	return view('admin.users.create');
     }
 
+    public function home()
+    {
+        return view('funcionario.home');
+    }
+
     public function store(UserRequest $request)
     {
     	//dd($request-> all());
