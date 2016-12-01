@@ -14,7 +14,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','rut','claveBici','type_id',
+        'name', 'email', 'password','rut','claveBici','type_id','carrera_id'
     ];
 
     /**
@@ -30,6 +30,12 @@ class User extends Authenticatable
     public function type()
     {
         return $this->belongsTo('App\Type');
+    }
+
+    //un usuario puede tener una carrera
+    public function carrera()
+    {
+        return $this->belongsTo('App\Carrera');
     }
 
     //un usuario puede tener "muchas" bicicletas
