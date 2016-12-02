@@ -18,7 +18,7 @@
 					<td>{{ $carrera->codigo_carrera }}</td>
 					<td>
 						 <a href="{{ route('admin.carreras.edit', $carrera->id ) }}" class="btn btn-warning" title="Editar"><span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Editar"></span></a>
-								<a href="#" onclick="return confirm('¿Seguro que deseas eliminarlo? \n Esto probacará que se borren todos los clientes que pertenecen a esta carrera')" class="btn btn-danger" title="Eliminar"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true" title="Eliminar"></span>
+								<a href="{{ route('admin.carreras.destroy' , $carrera->id) }}" onclick="return confirm('¿Seguro que deseas eliminarlo? \n Esto probacará que se borren todos los clientes que pertenecen a esta carrera')" class="btn btn-danger" title="Eliminar"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true" title="Eliminar"></span>
 								</a>
 						<a href="{{ route('admin.carreras.detalle', $carrera->id ) }}" class="btn btn-success" title="Detalles"><span class="glyphicon glyphicon-eye-open" aria-hidden="true" title="Detalles"></span></a>
 

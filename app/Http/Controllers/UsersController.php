@@ -8,6 +8,8 @@ use App\Http\Requests;
 
 use App\User;
 use App\Type;
+use App\Carrera;
+
 
 use Laracasts\Flash\Flash;
 use App\Http\Requests\UserRequest;
@@ -17,7 +19,8 @@ class UsersController extends Controller
     public function create()
     {
         $types = Type::all();
-    	return view('admin.users.create')->with('types', $types);
+        $carreras = Carrera::all();
+    	return view('admin.users.create')->with('types', $types)->with('carreras', $carreras);
     }
 
     public function home()
@@ -67,15 +70,26 @@ class UsersController extends Controller
                 $auxName=$type->name;
             }
         }
-        return view('admin.users.edit')->with('user', $user)->with('types',$types)->with('auxId',$auxId)->with('auxName',$auxName);
+        $carreras = Carrera::all();
+        foreach ($carreras as $carrera) 
+        {
+            if($carrera->id == $user->carrera_id)
+            {
+                $auxIdCarrera = $carrera->id;
+                $auxNameCarrera = $carrera->name;
+            }
+        }
+
+        return view('admin.users.edit')->with('user', $user)->with('types',$types)->with('auxId',$auxId)->with('auxName',$auxName)->with('carreras',$carreras)->with('auxNameCarrera',$auxNameCarrera)->with('auxIdCarrera',$auxIdCarrera);
     }
 
     public function show($id)
     {
         $user = User::find($id);
         $type = Type::find($user->type_id);
+        $carrera = Carrera::find($user->carrera_id);
 
-        return view('admin.users.detalle')->with('user',$user)->with('type',$type);
+        return view('admin.users.detalle')->with('user',$user)->with('type',$type)->with('carrera', $carrera);
     }
 
     public function update(Request $request, $id)

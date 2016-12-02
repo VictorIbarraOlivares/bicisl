@@ -44,6 +44,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','is_admin']],function
 		'uses' => 'CarrerasController@show',
 		'as' => 'admin.carreras.detalle'
 	]);
+	Route::get('carreras/{id}/destroy',[
+		'uses' => 'CarrerasController@destroy',
+		'as' => 'admin.carreras.destroy'
+	]);
 
 	
 });

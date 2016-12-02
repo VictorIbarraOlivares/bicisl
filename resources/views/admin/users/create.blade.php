@@ -51,6 +51,18 @@
 		</div>
 
 		<div class="form-group">
+			{!! Form::label('carrera_id','Código Carrera') !!}
+			
+
+			<select class="form-control" required="required" id="carrera_id" name="carrera_id">
+				<option selected="selected" value="">Seleccione la carrera a la que pertenece el usuario</option>
+				@foreach($carreras as $carrera)
+				<option value="{{$carrera->id }}">{{ $carrera->name }}</option>
+				@endforeach
+			</select>
+		</div>
+
+		<div class="form-group">
 			{!! Form::submit('Registrar', ['class' => 'btn btn-primary']) !!}
 		</div>
 
