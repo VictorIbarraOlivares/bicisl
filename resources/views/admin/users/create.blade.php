@@ -30,7 +30,7 @@
 
 		<div class="form-group">
 			{!! Form::label('email', 'Correo Electronico') !!}
-			{!! Form::email('email', 'null@null.cl' ,['class' => 'form-control', 'placeholder' => 'example@gmail.com']) !!} <!-- No deberia ser requerido para los funcionarios -->
+			{!! Form::email('email', 'null@null.cl' ,['class' => 'form-control', 'placeholder' => 'example@gmail.com']) !!} 
 		</div>
 
 		<div class="form-group">

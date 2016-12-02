@@ -3,7 +3,7 @@
 @section('title','Detalles de  ' . $user->name)
 
 @section('content')
-	{!! Form::open(['route' => ['admin.users.update',$user ] , 'method' => 'PUT']) !!}
+	{!! Form::open() !!}
 
 		<div class="form-group">
 			{!! Form::label('name', 'Nombre') !!}
@@ -26,9 +26,7 @@
 			{!! Form::text('type_name',  $type->name ,['class' => 'form-control' ,'readonly'=>'readonly']) !!}
 		</div>
 
-		<div class="form-group">
-			{!! Form::submit('Editar', ['class' => 'btn btn-primary']) !!}
-		</div>
+		<a href="{{ url()->previous() }}" class="btn btn-primary" title="Volver"><span class="fa fa-btn fa-sign-in" aria-hidden="true" title="Volver">Volver</span></a>
 
 	{!! Form::close() !!}
 @endsection

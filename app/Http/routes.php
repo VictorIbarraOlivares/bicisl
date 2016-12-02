@@ -39,6 +39,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','is_admin']],function
 		'as' => 'admin.home'
 	]);
 
+	Route::resource('carreras', 'CarrerasController');
+	Route::get('carreras/{id}',[
+		'uses' => 'CarrerasController@show',
+		'as' => 'admin.carreras.detalle'
+	]);
+
 	
 });
 
