@@ -60,6 +60,10 @@ Route::group(['prefix' => 'funcionario','middleware' => 'auth'],function(){
 		'uses' => 'FuncionarioController@home',
 		'as' => 'funcionario.home'
 	]);
+	Route::get('users/{id}',[
+		'uses' => 'FuncionarioController@show',
+		'as' => 'funcionario.users.detalle'
+	]);
 	
 });
 

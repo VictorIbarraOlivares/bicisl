@@ -4,7 +4,7 @@
 	<title>@yield('title', 'Default') | Panel de Administración</title>
 	<link rel="stylesheet" type="text/css" href="{{ asset('plugins/bootstrap/css/bootstrap.css') }}">
 </head>
-<body class="admin-body" style="margin-left: 10%;margin-right: 10%;">
+<body class="funcionario-body" style="margin-left: 10%;margin-right: 10%;">
 	@include('funcionario.template.partials.nav')
 
 	<section>
@@ -27,7 +27,7 @@
 
 	</section>
 
-	<footer class="admin-footer" >
+	<footer class="funcionario-footer" >
 		<nav class="navbar navbar-default">
 			<div class="container-fluid">
 				<div class="collapse navbar-collapse">
