@@ -64,6 +64,12 @@ Route::group(['prefix' => 'funcionario','middleware' => 'auth'],function(){
 		'uses' => 'FuncionarioController@show',
 		'as' => 'funcionario.users.detalle'
 	]);
+
+	Route::resource('carreras', 'CarrerasController');
+	Route::get('carreras/{id}',[
+		'uses' => 'CarrerasController@show',
+		'as' => 'funcionario.carreras.detalle'
+	]);
 	
 });
 

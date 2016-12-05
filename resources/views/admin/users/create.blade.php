@@ -51,7 +51,7 @@
 		</div>
 
 		<div class="form-group">
-			{!! Form::label('carrera_id','Código Carrera') !!}
+			{!! Form::label('carrera_id','Carrera  (en caso de no ser estudiante seleccione la opción)') !!}
 			
 
 			<select class="form-control" required="required" id="carrera_id" name="carrera_id">

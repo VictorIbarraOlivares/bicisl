@@ -45,7 +45,7 @@
 			<select class="form-control" required="required" id="type_id" name="type_id">
 				<option selected="selected" value="">Seleccione un tipo de usuario</option>
 				@foreach($types as $type)
-					@if($type->id == 4)
+					@if($type->id == 4 || $type->id == 1)
 						<option value="{{$type->id }}">{{ $type->name }}</option>
 					@endif
 				@endforeach

@@ -29,6 +29,5 @@
 			{!! Form::text('carrera_name',  $carrera->name ,['class' => 'form-control' ,'readonly'=>'readonly']) !!}
 		</div>
 
-
 		<a href="{{ url()->previous() }}" class="btn btn-primary" title="Volver"><span class="fa fa-btn fa-sign-in" aria-hidden="true" title="Volver">Volver</span></a>
 @endsection

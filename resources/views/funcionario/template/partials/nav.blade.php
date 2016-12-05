@@ -16,7 +16,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" align="center">
       <ul class="nav navbar-nav">
         <li><a href="{{route('funcionario.users.index') }}">Listado de Usuarios<span class="sr-only">(current)</span></a></li>
-        <li><a href="#">link</a></li>
+        <li><a href="{{route('funcionario.carreras.index') }}">Listado de Carreras<span class="sr-only">(current)</span></a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Opciones <span class="caret"></span></a>
           <ul class="dropdown-menu">
