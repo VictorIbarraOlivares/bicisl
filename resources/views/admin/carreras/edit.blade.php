@@ -17,7 +17,8 @@
 
 		<div class="form-group">
 			{!! Form::submit('Editar', ['class' => 'btn btn-primary']) !!}
-		</div>
+		</div>		
 
 	{!! Form::close() !!}
+	<a href="{{ url()->previous() }}" class=" pull-right btn btn-primary" title="Volver">Volver</a>
 @endsection

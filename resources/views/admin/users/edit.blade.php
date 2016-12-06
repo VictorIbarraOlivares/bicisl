@@ -52,4 +52,5 @@
 		</div>
 
 	{!! Form::close() !!}
+	<a href="{{ url()->previous() }}" class=" pull-right btn btn-primary" title="Volver">Volver</a>
 @endsection

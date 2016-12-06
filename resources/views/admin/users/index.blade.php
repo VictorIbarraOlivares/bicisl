@@ -5,7 +5,8 @@
 <a href="{{ route('admin.users.create') }}" class="btn btn-info">Registrar nuevo Usuario</a><br><br><br>
 	<table class="table table-striped">
 		<thead>
-			<th>ID</th>
+			<!--<th>ID</th>-->
+			<th>Código Carrera</th>
 			<th>Nombre</th>
 			<th>Email</th>
 			<th>Tipo</th>
@@ -14,7 +15,14 @@
 		<tbody>
 			@foreach($users as $user)
 				<tr>
-					<td>{{ $user->id }}</td>
+					<!--<td>{{ $user->id }}</td>-->
+					@foreach($carreras as $carrera)
+						@if($carrera->id == $user->carrera_id)
+							<td>
+								<a href="{{ route('admin.carreras.detalle', $carrera->id ) }}" style="color: black;"  title="{{ $carrera->name }}">{{ $carrera->codigo_carrera }}</a>
+							</td>
+						@endif
+					@endforeach
 					<td>{{ $user->name }}</td>
 					<td>{{ $user->email }}</td>
 					<td>
@@ -41,4 +49,5 @@
 		</tbody>
 	</table>
 	{!! $users->render() !!}
+	<a href="{{ url()->previous() }}" class=" pull-right btn btn-primary" title="Volver">Volver</a>
 @endsection

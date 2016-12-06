@@ -44,8 +44,9 @@ class UsersController extends Controller
     {
         $users = User::orderBy('type_id','ASC')->paginate(3);
         $types = Type::all();
+        $carreras = Carrera::all();
 
-        return view('admin.users.index')->with('users',$users);
+        return view('admin.users.index')->with('users',$users)->with('carreras' , $carreras);
     }
 
     public function destroy($id)

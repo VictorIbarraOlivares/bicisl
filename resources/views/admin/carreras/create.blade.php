@@ -18,6 +18,7 @@
 		<div class="form-group">
 			{!! Form::submit('Registrar', ['class' => 'btn btn-success btn-lg']) !!}
 		</div>
+		<a href="{{ url()->previous() }}" class=" pull-right btn btn-primary" title="Volver">Volver</a>
 
 	{!! Form::close() !!}
 @endsection

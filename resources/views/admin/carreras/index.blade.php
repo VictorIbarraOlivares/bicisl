@@ -6,6 +6,7 @@
 	<table class="table table-striped">
 		<thead>
 			<th>ID</th>
+			<th>Total</th>
 			<th>Nombre</th>
 			<th>Código</th>
 			<th>Acción</th>
@@ -14,6 +15,8 @@
 			@foreach($carreras as $carrera)
 				<tr>
 					<td>{{ $carrera->id }}</td>
+					<?php $contador = DB::table('users')->where('carrera_id','=',$carrera->id)->count(); ?>
+					<td> {{ $contador }} </td>
 					<td>{{ $carrera->name }}</td>
 					<td>{{ $carrera->codigo_carrera }}</td>
 					<td>
@@ -28,4 +31,5 @@
 		</tbody>
 	</table>
 	{!! $carreras->render() !!}
+	<a href="{{ url()->previous() }}" class=" pull-right btn btn-primary" title="Volver">Volver</a>
 @endsection
