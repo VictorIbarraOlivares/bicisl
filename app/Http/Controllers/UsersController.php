@@ -101,6 +101,7 @@ class UsersController extends Controller
         $user->name = $request->name;
         $user->email= $request->email;
         $user->type_id = $request->type_id;
+        $user->carrera_id = $request->carrera_id; 
         $user->save();
 
         //flash('El usuario '. $user->name . ' ha sido editado con exito!', 'warning');
