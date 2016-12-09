@@ -49,6 +49,16 @@ class FuncionarioController extends Controller
         return view('funcionario.users.index')->with('users',$users);
     }
 
+    public function edit($id)
+    {
+        $user = User::find($id);
+        //$user = User::where('type_id',"=",3)->get();
+        $name = User::find($user->name);
+        $rut = User::find($user->rut);
+
+        return view('funcionario.users.edit')->with('user', $user)->with('name',$name)->with('rut',$rut);
+    }
+
 
     public function show($id)
     {
@@ -65,8 +75,7 @@ class FuncionarioController extends Controller
         
         $user = User::find($id);
         $user->name = $request->name;
-        $user->email= $request->email;
-        $user->type_id = $request->type_id;
+        $user->rut= $request->rut;
         $user->save();
 
         //flash('El usuario '. $user->name . ' ha sido editado con exito!', 'warning');
