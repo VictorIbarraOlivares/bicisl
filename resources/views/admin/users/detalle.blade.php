@@ -20,14 +20,18 @@
 		</div>
 
 		<div class="form-group">
-			{!! Form::label('type_id','Tipo') !!}
+			{!! Form::label('type_name','Tipo') !!}
 			{!! Form::text('type_name',  $type->name ,['class' => 'form-control' ,'readonly'=>'readonly']) !!}
 		</div>
+		@if($type->id == 3 || $type->id == 2)
 
-		<div class="form-group">
+		@else
+			<div class="form-group">
 			{!! Form::label('carera_id','Carrera') !!}
 			{!! Form::text('carrera_name',  $carrera->name ,['class' => 'form-control' ,'readonly'=>'readonly']) !!}
 		</div>
+
+		@endif
 
 
 		<a href="{{ url()->previous() }}" class="btn btn-primary" title="Volver"><span class="fa fa-btn fa-sign-in" aria-hidden="true" title="Volver">Volver</span></a>

@@ -33,6 +33,9 @@ class UsersController extends Controller
     	//dd($request-> all());
     	$user = new User($request -> all());
     	$user->password = bcrypt($request->password);
+        if($user->type_id == 2 || $type_id == 3){//si el tipo de usuario es administrador o funcionario
+            $user->carrera_id="16";
+        }
     	//dd($user);
     	$user->save();
 

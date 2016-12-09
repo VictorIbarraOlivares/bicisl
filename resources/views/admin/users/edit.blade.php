@@ -34,19 +34,30 @@
 			</select>
 		</div>
 
-		<div class="form-group">
+		@if($user->type_id == 2 || $user->type_id == 3)
+			<div class="form-group">
 			{!! Form::label('carrera_id','Carrera') !!}
-			<select class="form-control" required="required" id="carrera_id" name="carrera_id">
+				<select class="form-control" required="required" id="carrera_id" name="carrera_id">
+					<option selected="selected" value="{{ $auxIdCarrera }}">{{ $auxNameCarrera }}</option>
+				</select>
+			</div>
+		@else
+			<div class="form-group">
+			{!! Form::label('carrera_id','Carrera') !!}
+				<select class="form-control" required="required" id="carrera_id" name="carrera_id">
+					<option selected="selected" value="{{ $auxIdCarrera }}">{{ $auxNameCarrera }}</option>
+					@foreach($carreras as $carrera)
+						@if($carrera->id != $user->carrera_id && $carrera->id != 16)
+							<option value="{{$carrera->id }}">{{ $carrera->name }}</option>
+						@endif
+					@endforeach
+				</select>
+			</div>
 
-				<option selected="selected" value="{{ $auxIdCarrera }}">{{ $auxNameCarrera }}</option>
-				@foreach($carreras as $carrera)
-					@if($carrera->id != $user->carrera_id)
-						<option value="{{$carrera->id }}">{{ $carrera->name }}</option>
-					@endif
-				@endforeach
-			</select>
-		</div>
+		@endif
 
+		
+		<br>
 		<div class="form-group">
 			{!! Form::submit('Editar', ['class' => 'btn btn-primary']) !!}
 		</div>

@@ -57,7 +57,9 @@
 			<select class="form-control" required="required" id="carrera_id" name="carrera_id">
 				<option selected="selected" value="">Seleccione la carrera a la que pertenece el usuario</option>
 				@foreach($carreras as $carrera)
+				@if($carrera->id != 16)
 				<option value="{{$carrera->id }}">{{ $carrera->name }}</option>
+				@endif
 				@endforeach
 			</select>
 		</div>
