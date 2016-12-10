@@ -4,6 +4,22 @@
 
 @section('title','Crear Usuario')
 
+@section('head')
+<script type="text/javascript">
+
+function mostrar(id){
+	if( id == 1 || id == 4){
+		$("#carre").show();
+		$('#carrera_id').prop("required",true);
+	}else{
+		$("#carre").hide();
+		$('#carrera_id').removeAttr("required");
+	}
+}
+
+</script>
+@endsection
+
 @section('content')
 
 	@if(count($errors) > 0)
@@ -16,7 +32,7 @@
 			</ul>
 		</div>
 	@endif
-	{!! Form::open(['route' => 'admin.users.store', 'method' => 'POST']) !!}
+	{!! Form::open(['route' => 'admin.users.store', 'method' => 'POST' , 'name' => 'creando']) !!}
 
 		<div class="form-group">
 			{!! Form::label('name', 'Nombre') !!}
@@ -42,19 +58,19 @@
 			{!! Form::label('type_id','Tipo') !!}
 			
 
-			<select class="form-control" required="required" id="type_id" name="type_id">
-				<option selected="selected" value="">Seleccione un tipo de usuario</option>
+			<select class="form-control" id="type_id" name="type_id" onchange="mostrar(this.value);" >
+				<option selected="selected" required value="">Seleccione un tipo de usuario</option>
 				@foreach($types as $type)
 				<option value="{{$type->id }}">{{ $type->name }}</option>
 				@endforeach
 			</select>
 		</div>
 
-		<div class="form-group">
+		<div class="form-group" id="carre" style="display: none;">
 			{!! Form::label('carrera_id','Carrera  (en caso de no ser estudiante seleccione la opción)') !!}
 			
 
-			<select class="form-control" required="required" id="carrera_id" name="carrera_id">
+			<select class="form-control" id="carrera_id" name="carrera_id" required >
 				<option selected="selected" value="">Seleccione la carrera a la que pertenece el usuario</option>
 				@foreach($carreras as $carrera)
 				@if($carrera->id != 16)

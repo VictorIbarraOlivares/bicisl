@@ -3,6 +3,9 @@
 <head>
 	<title>@yield('title', 'Default') | Panel de Administración</title>
 	<link rel="stylesheet" type="text/css" href="{{ asset('plugins/bootstrap/css/bootstrap.css') }}">
+	<script src="{{ asset('plugins/jquery/js/jquery-2.1.4.js') }}"></script>
+	<script src="{{ asset('plugins/bootstrap/js/bootstrap.js') }}"></script>
+	@yield('head')
 </head>
 <body class="admin-body" style="margin-left: 10%;margin-right: 10%;">
 	@include('admin.template.partials.nav')
@@ -40,7 +43,6 @@
 		
 	</footer>
 
-	<script src="{{ asset('plugins/jquery/js/jquery-2.1.4.js') }}"></script>
-	<script src="{{ asset('plugins/bootstrap/js/bootstrap.js') }}"></script>
+	
 </body>
 </html>

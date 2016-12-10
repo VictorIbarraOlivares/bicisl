@@ -30,11 +30,19 @@ class UsersController extends Controller
 
     public function store(UserRequest $request)
     {
+         /*ELIMINAR COSAS NI NECESARIAS TODO LO DEL ELSE*/
     	//dd($request-> all());
     	$user = new User($request -> all());
     	$user->password = bcrypt($request->password);
-        if($user->type_id == 2 || $type_id == 3){//si el tipo de usuario es administrador o funcionario
+        if($user->type_id == 2 || $user->type_id == 3){//si el tipo de usuario es administrador o funcionario
             $user->carrera_id="16";
+        }else{
+            if($user->carrera_id == ""){
+            Flash::warning('No se ha regisgtrado');
+            Flash::error('No se ha regisgtrado Debe ingresar una carrera');
+            return redirect()->route('admin.users.create');
+
+            }
         }
     	//dd($user);
     	$user->save();
