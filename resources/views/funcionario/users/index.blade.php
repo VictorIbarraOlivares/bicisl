@@ -29,10 +29,10 @@
 						@endif
 					</td>
 					<td>
-						@if($user->type_id == "4" || $user->type_id == "1")
-							<a href="{{ route('funcionario.users.edit', $user->id) }}" class="btn btn-warning" title="Editar"><span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Editar"></span></a>
-						@endif
-
+					@if ($user->type_id == 4 || $user->type_id == 1 )
+						<a href="{{ route('funcionario.users.edit', $user->id) }}" class="btn btn-warning" title="Editar"><span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Editar"></span></a>
+					@endif
+						 
 						<a href="{{ route('funcionario.users.detalle', $user->id) }}" class="btn btn-success" title="Detalles"><span class="glyphicon glyphicon-eye-open" aria-hidden="true" title="Detalles"></span></a>
 
 					</td>
@@ -41,4 +41,5 @@
 		</tbody>
 	</table>
 	{!! $users->render() !!}
+	<a href="{{ url()->previous() }}" class=" pull-right btn btn-primary" title="Volver">Volver</a>
 @endsection

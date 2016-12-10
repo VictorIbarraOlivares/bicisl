@@ -5,7 +5,6 @@
 <a href="{{ route('admin.users.create') }}" class="btn btn-info">Registrar nuevo Usuario</a><br><br><br>
 	<table class="table table-striped">
 		<thead>
-			<!--<th>ID</th>-->
 			<th>Código Carrera</th>
 			<th>Nombre</th>
 			<th>Email</th>
@@ -15,7 +14,6 @@
 		<tbody>
 			@foreach($users as $user)
 				<tr>
-					<!--<td>{{ $user->id }}</td>-->
 					@if( $user->type_id == 2 || $user->type_id == 3)
 						<td>
 									<a href="#" style="color: black;"  title="No aplica">-----</a>

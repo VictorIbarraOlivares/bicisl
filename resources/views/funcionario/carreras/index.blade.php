@@ -4,7 +4,6 @@
 @section('content')
 	<table class="table table-striped">
 		<thead>
-			<th>ID</th>
 			<th>Nombre</th>
 			<th>Código</th>
 			<th>Acción</th>
@@ -12,7 +11,6 @@
 		<tbody>
 			@foreach($carreras as $carrera)
 				<tr>
-					<td>{{ $carrera->id }}</td>
 					<td>{{ $carrera->name }}</td>
 					<td>{{ $carrera->codigo_carrera }}</td>
 					<td>
@@ -24,4 +22,5 @@
 		</tbody>
 	</table>
 	{!! $carreras->render() !!}
+	<a href="{{ url()->previous() }}" class=" pull-right btn btn-primary" title="Volver">Volver</a>
 @endsection
