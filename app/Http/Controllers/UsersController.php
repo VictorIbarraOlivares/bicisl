@@ -45,7 +45,7 @@ class UsersController extends Controller
 
     public function index()
     {
-        $users = User::orderBy('type_id','ASC')->paginate(3);
+        $users = User::orderBy('created_at','desc')->paginate(3);
         $types = Type::all();
         $carreras = Carrera::all();
 

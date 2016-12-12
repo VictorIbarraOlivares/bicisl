@@ -53,8 +53,24 @@ class BicicletasAdminController extends Controller
     public function index()
     {
     	$bikes = Bike::all();
+    	$users = User::all();
     	//dd($bikes);
 
-    	return view('admin.bicicletas.index')->with('bikes', $bikes);
+    	return view('admin.bicicletas.index')->with('bikes', $bikes)->with('users', $users);
+    }
+
+    public function edit($id)
+    {
+    	$bike = Bike::find($id);
+    	$user = User::find($bike->user_id);
+    	if($bike->activa == 1){
+    		$encargado = User::find($bike->encargado_a);
+    	}else
+    	{
+    		$encargado = "no hay encargado";
+    	}
+    	
+
+    	return view('admin.bicicletas.edit')->with('bike',$bike)->with('user' ,$user)->with('encargado',$encargado);
     }
 }

@@ -54,6 +54,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','is_admin']],function
 		'uses' => 'BicicletasAdminController@create',
 		'as' => 'admin.bicicletas.create'
 	]);
+	
 
 
 
