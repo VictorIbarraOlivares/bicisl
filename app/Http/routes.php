@@ -24,7 +24,7 @@ Route::get('/home', 'HomeController@index');
 
 //grupo de rutas para la administracion
 Route::group(['prefix' => 'admin', 'middleware' => ['auth','is_admin']],function(){
-	
+	/*Usuarios*/
 	Route::resource('users','UsersController');
 	Route::get('users/{id}/destroy',[
 		'uses' => 'UsersController@destroy',
@@ -38,7 +38,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','is_admin']],function
 		'uses' => 'UsersController@home',
 		'as' => 'admin.home'
 	]);
-
+	/*Carreras*/
 	Route::resource('carreras', 'CarrerasController');
 	Route::get('carreras/{id}',[
 		'uses' => 'CarrerasController@show',
@@ -48,6 +48,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','is_admin']],function
 		'uses' => 'CarrerasController@destroy',
 		'as' => 'admin.carreras.destroy'
 	]);
+	/*Bicicletas*/
+	Route::resource('bicicletas', 'BicicletasAdminController');
+	Route::get('bicicletas/{id}/create',[
+		'uses' => 'BicicletasAdminController@create',
+		'as' => 'admin.bicicletas.create'
+	]);
+
+
 
 	
 });
