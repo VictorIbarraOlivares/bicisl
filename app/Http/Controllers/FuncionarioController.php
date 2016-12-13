@@ -53,10 +53,18 @@ class FuncionarioController extends Controller
     {
         $user = User::find($id);
         //$user = User::where('type_id',"=",3)->get();
-        $name = User::find($user->name);
-        $rut = User::find($user->rut);
 
-        return view('funcionario.users.edit')->with('user', $user)->with('name',$name)->with('rut',$rut);
+        if($user->type_id == 2 || $user->type_id == 3){
+            Flash::warning('Funcionario no tienes permiso para realizar esta acción ! ');
+            return redirect()->route('funcionario.users.index');
+        }
+        else{
+            $name = User::find($user->name);
+            $rut = User::find($user->rut);
+            return view('funcionario.users.edit')->with('user', $user)->with('name',$name)->with('rut',$rut);
+        }
+        
+
     }
 
 

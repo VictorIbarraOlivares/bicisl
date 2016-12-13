@@ -79,6 +79,12 @@ Route::group(['prefix' => 'funcionario','middleware' => 'auth'],function(){
 		'uses' => 'CarrerasFuncionarioController@show',
 		'as' => 'funcionario.carreras.detalle'
 	]);
+
+	Route::resource('bicicletas', 'BicicletasFuncController');
+	Route::get('bicicletas/{id}/create',[
+		'uses' => 'BicicletasFuncController@create',
+		'as' => 'funcionario.bicicletas.create'
+	]);
 	
 });
 
