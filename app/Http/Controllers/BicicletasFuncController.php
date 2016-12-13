@@ -73,10 +73,50 @@ class BicicletasFuncController extends Controller
             $encargado = User::find($bike->encargado_a);
         }else
         {
-            $encargado = "no hay encargado";
+            $encargado = User::find($bike->encargado_s);
         }
         
 
         return view('funcionario.bicicletas.edit')->with('bike',$bike)->with('user' ,$user)->with('encargado',$encargado);
+    }
+
+    public function update(Request $request,$id)
+    {
+        //dd($request->all());
+        $encargado = Auth::user();
+        $bike = Bike::find($id);
+        $user = User::find($bike->user_id);
+        if ($request->activa != $bike->activa){
+            if($request->activa == 0){
+                $bike->encargado_s = $encargado->id;
+                $bike->fecha_s = date("Y-m-d");
+                $bike->activa = $request->activa;
+                $bike->nota = "";
+                $bike->hora_s = date("H:i:s",time());
+            }else{
+                $bike->encargado_a = $encargado->id;
+                $bike->fecha_a = date("Y-m-d");
+                $bike->activa = $request->activa;
+                $bike->nota = $request->nota;
+                $bike->hora_a = date("H:i:s",time());
+            }
+        }else{
+            Flash::warning('No se ha editado nada de la Bicicleta del usuario '. $user->name . ' !');
+            return redirect()->route('funcionario.bicicletas.index');
+        }
+        $bike->save();
+
+        Flash::warning('La bicicleta del usuario '. $user->name . 'ha sido editada con exito !');
+        return redirect()->route('funcionario.bicicletas.index');
+    }
+
+    public function destroy($id)
+    {
+        $bike = Bike::find($id);
+        $user = User::find($bike->user_id);
+        $bike->delete();
+
+        Flash::error('La Bicicleta del usuario '. $user->name .' ha sido eliminada de forma exitosa !');
+        return redirect()->route('admin.bicicletas.index');
     }
 }
