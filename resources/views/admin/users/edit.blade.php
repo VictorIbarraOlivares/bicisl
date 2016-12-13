@@ -1,6 +1,21 @@
 @extends('admin.template.main')
 
 @section('title','Editar usuario ' . $user->name)
+@section('head')
+<script type="text/javascript">
+
+function mostrar(id){
+	if( id == 1 || id == 4){
+		$("#carre").show();
+		$('#carrera_id').prop("required",true);
+	}else{
+		$("#carre").hide();
+		$('#carrera_id').removeAttr("required");
+	}
+}
+
+</script>
+@endsection
 
 @section('content')
 	{!! Form::open(['route' => ['admin.users.update',$user ] , 'method' => 'PUT']) !!}
@@ -23,9 +38,9 @@
 
 		<div class="form-group">
 			{!! Form::label('type_id','Tipo') !!}
-			<select class="form-control" required="required" id="type_id" name="type_id">
+			<select class="form-control" required="required" id="type_id" name="type_id" onchange="mostrar(this.value);">
 
-				<option selected="selected" value="{{ $auxId }}">{{ $auxName }}</option>
+				<option selected="selected" required value="{{ $auxId }}">{{ $auxName }}</option>
 				@foreach($types as $type)
 					@if($type->id != $user->type_id)
 						<option value="{{$type->id }}">{{ $type->name }}</option>
@@ -34,27 +49,23 @@
 			</select>
 		</div>
 
-		@if($user->type_id == 2 || $user->type_id == 3)
-			<div class="form-group">
-			{!! Form::label('carrera_id','Carrera') !!}
-				<select class="form-control" required="required" id="carrera_id" name="carrera_id">
-					<option selected="selected" value="{{ $auxIdCarrera }}">{{ $auxNameCarrera }}</option>
-				</select>
-			</div>
-		@else
-			<div class="form-group">
-			{!! Form::label('carrera_id','Carrera') !!}
-				<select class="form-control" required="required" id="carrera_id" name="carrera_id">
-					<option selected="selected" value="{{ $auxIdCarrera }}">{{ $auxNameCarrera }}</option>
-					@foreach($carreras as $carrera)
-						@if($carrera->id != $user->carrera_id && $carrera->id != 16)
-							<option value="{{$carrera->id }}">{{ $carrera->name }}</option>
-						@endif
-					@endforeach
-				</select>
-			</div>
+		<div class="form-group" id="carre" style="display: none;">
+			{!! Form::label('carrera_id','Carrera (en caso de no ser estudiante seleccione la opción)') !!}
+			
 
-		@endif
+			<select class="form-control" id="carrera_id" name="carrera_id" required >
+				@if($auxId == 2 || $auxId == 3 )
+					<option selected="selected" required value="">Seleccione un tipo de usuario</option>
+				@else
+					<option selected="selected" value="{{ $auxIdCarrera }}">{{ $auxNameCarrera }}</option>
+				@endif
+				@foreach($carreras as $carrera)
+					@if($carrera->id != 16 && $carrera->id != $user->carrera_id)
+						<option value="{{$carrera->id }}">{{ $carrera->name }}</option>
+					@endif
+				@endforeach
+			</select>
+		</div>
 
 		
 		<br>
@@ -63,5 +74,5 @@
 		</div>
 
 	{!! Form::close() !!}
-	<a href="{{ url()->previous() }}" class=" pull-right btn btn-primary" title="Volver">Volver</a>
+	<a href="{{ url()->previous() }}" class=" pull-right btn btn-primary" title="Cancelar">Cancelar</a>
 @endsection

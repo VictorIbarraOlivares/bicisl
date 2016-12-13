@@ -104,7 +104,10 @@ class UsersController extends Controller
         $user->name = $request->name;
         $user->email= $request->email;
         $user->type_id = $request->type_id;
-        $user->carrera_id = $request->carrera_id; 
+        $user->carrera_id = $request->carrera_id;
+        if($user->type_id == 2 || $user->type_id == 3){//si el tipo de usuario es administrador o funcionario
+            $user->carrera_id="16";
+        }
         $user->save();
 
         //flash('El usuario '. $user->name . ' ha sido editado con exito!', 'warning');
