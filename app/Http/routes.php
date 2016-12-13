@@ -54,6 +54,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','is_admin']],function
 		'uses' => 'BicicletasAdminController@create',
 		'as' => 'admin.bicicletas.create'
 	]);
+	Route::get('bicicletas/{id}/destroy',[
+		'uses' => 'BicicletasAdminController@destroy',
+		'as' => 'admin.bicicletas.destroy'
+	]);
 	
 
 
