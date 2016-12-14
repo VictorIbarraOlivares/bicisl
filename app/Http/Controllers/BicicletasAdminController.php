@@ -28,6 +28,12 @@ class BicicletasAdminController extends Controller
 	    $encargado = Auth::user();
     	$user = User::find($id);
 
+        if( $user->type_id == 2 || $user->type_id == 3){
+
+            Flash::warning('No se puede agregar bicicleta a '. $user->name . ' !');
+            return redirect()->route('admin.users.index');
+        }
+
     	return view('admin.bicicletas.create')->with('user',$user)->with('encargado', $encargado);
     	
     }
@@ -85,7 +91,7 @@ class BicicletasAdminController extends Controller
                 $bike->encargado_s = $encargado->id;
                 $bike->fecha_s = date("Y-m-d");
                 $bike->activa = $request->activa;
-                $bike->nota = "";
+                $bike->nota = "";//se borra la nota, ya que esta pensada para la llegada de la bicicleta
                 $bike->hora_s = date("H:i:s",time());
             }else{
                 $bike->encargado_a = $encargado->id;
@@ -95,12 +101,12 @@ class BicicletasAdminController extends Controller
                 $bike->hora_a = date("H:i:s",time());
             }
         }else{
-            Flash::warning('No se ha editado nada de la Bicicleta del usuario '. $user->name . ' !');
+            Flash::warning('No se ha editado nada de la Bicicleta del dueño '. $user->name . ' !');
             return redirect()->route('admin.bicicletas.index');
         }
         $bike->save();
 
-        Flash::warning('La bicicleta del usuario '. $user->name . 'ha sido editada con exito !');
+        Flash::warning('La bicicleta del dueño '. $user->name . ' ha sido editada con exito !');
         return redirect()->route('admin.bicicletas.index');
     }
 

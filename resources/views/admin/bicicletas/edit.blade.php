@@ -7,23 +7,83 @@
 @section('head')
 <script type="text/javascript">
 
-function datos(id){
-	if( id == 0){
-		$("#notas").hide();
-		$('#fecha_activa').hide();
-		$('#hora_activa').hide();
-		$('#encargado_activa').hide();
-		$('#fecha_salida').show();
-		$('#hora_salida').show();
-		$('#encargado_salida').show();
-	}if( id == 1){
-		$("#notas").show();
-		$('#fecha_activa').show();
-		$('#hora_activa').show();
-		$('#encargado_activa').show();
-		$('#fecha_salida').hide();
-		$('#hora_salida').hide();
-		$('#encargado_salida').hide();
+function datos(id,valor){
+	if( id != valor){
+		if(id == 1){
+			//se activan las opciones de nueva activa
+			$("#notasN").show();
+			$('#fecha_activaN').show();
+			$('#hora_activaN').show();
+			$('#encargado_activaN').show();
+			//se desactivan las opciones antiguas
+			$('#fecha_salida').hide();
+			$('#hora_salida').hide();
+			$('#encargado_salida').hide();
+			$("#notas").hide();
+			$('#fecha_activa').hide();
+			$('#hora_activa').hide();
+			$('#encargado_activa').hide();
+			//se desactivan las opciones nueva salida
+			$('#fecha_salidaN').hide();
+			$('#hora_salidaN').hide();
+			$('#encargado_salidaN').hide();
+		}
+		if(id == 0){
+			//se activan las opciones nueva salida
+			$('#fecha_salidaN').show();
+			$('#hora_salidaN').show();
+			$('#encargado_salidaN').show();
+			//se desactivan las opciones antiguas
+			$('#fecha_salida').hide();
+			$('#hora_salida').hide();
+			$('#encargado_salida').hide();
+			$("#notas").hide();
+			$('#fecha_activa').hide();
+			$('#hora_activa').hide();
+			$('#encargado_activa').hide();
+			//se desactivan las opciones de nueva activa
+			$("#notasN").hide();
+			$('#fecha_activaN').hide();
+			$('#hora_activaN').hide();
+			$('#encargado_activaN').hide();
+		}
+	}if( id == valor){
+		if(id == 1){
+			$("#notas").show();
+			$('#fecha_activa').show();
+			$('#hora_activa').show();
+			$('#encargado_activa').show();
+			$('#fecha_salida').hide();
+			$('#hora_salida').hide();
+			$('#encargado_salida').hide();
+			//se desactivan las opciones nueva salida
+			$('#fecha_salidaN').hide();
+			$('#hora_salidaN').hide();
+			$('#encargado_salidaN').hide();
+			//se desactivan las opciones de nueva activa
+			$("#notasN").hide();
+			$('#fecha_activaN').hide();
+			$('#hora_activaN').hide();
+			$('#encargado_activaN').hide();
+		}
+		if(id == 0){
+			$("#notas").hide();
+			$('#fecha_activa').hide();
+			$('#hora_activa').hide();
+			$('#encargado_activa').hide();
+			$('#fecha_salida').show();
+			$('#hora_salida').show();
+			$('#encargado_salida').show();
+			//se desactivan las opciones nueva salida
+			$('#fecha_salidaN').hide();
+			$('#hora_salidaN').hide();
+			$('#encargado_salidaN').hide();
+			//se desactivan las opciones de nueva activa
+			$("#notasN").hide();
+			$('#fecha_activaN').hide();
+			$('#hora_activaN').hide();
+			$('#encargado_activaN').hide();
+		}
 	}
 }
 
@@ -41,9 +101,10 @@ function datos(id){
 		<div class="form-group">
 			<p>Eliga una opcion :</p>
 			@if($bike->activa == 1)<!-- ESTE IF ES PARA MOSTRAR INFO DEPENDIENDO SI ESTA ACTIVA O NO -->
-				<input name='activa' type='radio' value='0'  onclick="datos(this.value)" title="Significa que la bicicleta NO esta en la Universidad" >Bicicleta no Activa</input>
+				<input name='activa' type='radio' value='0'  onclick="datos(this.value,1)" title="Significa que la bicicleta NO esta en la Universidad" >Bicicleta no Activa</input>
 				<br>
-				<input name='activa' type='radio' value='1' checked="checked" onclick="datos(this.value)" title="Significa que la bicicleta esta en la Universidad" >Bicicleta Activa</input>
+				<input name='activa' type='radio' value='1' checked="checked" onclick="datos(this.value,1)" title="Significa que la bicicleta esta en la Universidad" >Bicicleta Activa</input>
+				<!--CODIGO PARA ACTIVA -->
 				<div class="form-group" id='notas' style="display: show;">
 					{!! Form::label('nota', 'Nota para Bicicleta') !!}
 					{!! Form::text('nota', $bike->nota ,['class' => 'form-control', 'placeholder' => 'Ingrese alguna nota sobre la bicicleta en caso que sea necesario']) !!}
@@ -64,10 +125,9 @@ function datos(id){
 					{!! Form::text('encargado_activa', $encargado->name ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
 				</div>
 			@else
-				<input name='activa' type='radio' value='0' checked="checked" onclick="datos(this.value)" title="Significa que la bicicleta NO esta en la Universidad" >Bicicleta no Activa</input>
+				<input name='activa' type='radio' value='0' checked="checked" onclick="datos(this.value,0)" title="Significa que la bicicleta NO esta en la Universidad" >Bicicleta no Activa</input>
 				<br>
-				<input name='activa' type='radio' value='1'  onclick="datos(this.value)" title="Significa que la bicicleta esta en la Universidad" >Bicicleta Activa</input>
-
+				<input name='activa' type='radio' value='1'  onclick="datos(this.value,0)" title="Significa que la bicicleta esta en la Universidad" >Bicicleta Activa</input>
 				<div class="form-group" id='fecha_salida' style="display: show;">
 					{!! Form::label('fecha_s', 'Fecha de salida de la Universidad ,de la bicicleta') !!}
 					{!! Form::text('fecha_salida', $bike->fecha_s ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
@@ -83,6 +143,46 @@ function datos(id){
 					{!! Form::text('encargado_salida', $encargado->name ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
 				</div>
 			@endif
+
+				 <!--CODIGO PARA ACTIVA -->
+				<div class="form-group" id='notasN' style="display: none;">
+					{!! Form::label('nota', 'Nueva Nota para Bicicleta') !!}
+					{!! Form::text('nota', null ,['class' => 'form-control', 'placeholder' => 'Ingrese alguna nota sobre la bicicleta en caso que sea necesario']) !!}
+				</div>
+
+				<div class="form-group" id='fecha_activaN' style="display: none;">
+					{!! Form::label('fecha_a', 'Nueva Fecha de ingreso a la Universidad de la bicicleta') !!}
+					{!! Form::text('fecha_a', date("d-m-Y") ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
+				</div>
+
+				<div class="form-group" id='hora_activaN' style="display: none;" >
+					{!! Form::label('hora_a', 'Nueva Hora de ingreso a la Universidad de la bicicleta') !!}
+					{!! Form::text('hora_a',date("H:i:s",time()) ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
+				</div>
+
+				<div class="form-group" id='encargado_activaN' style="display: none;">
+					{!! Form::label('encargado_a', 'Nuevo Encargado del ingreso a la Universidad de la bicicleta') !!}
+					{!! Form::text('encargado_activa', $encargado->name ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
+				</div>
+
+				<!--CODIGO PARA NO ACTIVA -->
+				<div class="form-group" id='fecha_salidaN' style="display: none;">
+					{!! Form::label('fecha_s', 'Nueva Fecha de salida de la Universidad ,de la bicicleta') !!}
+					{!! Form::text('fecha_salida', date("d-m-Y") ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
+				</div>
+
+				<div class="form-group" id='hora_salidaN' style="display: none;" >
+					{!! Form::label('hora_s', 'Nueva Hora de salida de la Universidad ,de la bicicleta') !!}
+					{!! Form::text('hora_salida', date("H:i:s",time()),['class' => 'form-control', 'readonly' => 'readonly']) !!}
+				</div>
+
+				<div class="form-group" id='encargado_salidaN' style="display: none;">
+					{!! Form::label('encargado_s', 'Nuevo Encargado del salida de la Universidad ,de la bicicleta') !!}
+					{!! Form::text('encargado_salida', $encargado->name ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
+				</div>
+
+
+
 		</div>
 
 		
