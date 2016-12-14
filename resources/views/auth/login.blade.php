@@ -1,7 +1,7 @@
 
 @extends('template.main')
 
-@section('title', 'Login')
+@section('title')
 
 @section('content')
 <div class="container">

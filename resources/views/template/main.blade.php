@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>@yield('title', 'Default') | Sistema Bicicletas UTEM</title>
+	<title>@yield('title','MiBicicletaUTEM')</title>
 	<link rel="stylesheet" type="text/css" href="{{ asset('plugins/bootstrap/css/bootstrap.css') }}">
 </head>
 <body class="admin-body" style="margin-left: 10%;margin-right: 10%;">
