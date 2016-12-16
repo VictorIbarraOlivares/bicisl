@@ -22,21 +22,21 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Opciones <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="{{ route('funcionario.users.create') }}">Registrar Nuevo Usuario</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
+            <li><a href="#">Opcion disponible</a></li>
+            <li><a href="#">Opcion disponible</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
+            <li><a href="#">Opcion disponible</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="{{ route('funcionario.users.edit', Auth::user()->id) }}">Editar perfil</a></li>
+            <li><a href="#">Opcion disponible</a></li>
           </ul>
         </li>
-      </ul>
+      </ul><!--
       <form class="navbar-form navbar-left">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search">
         </div>
         <button type="submit" class="btn btn-default">Submit</button>
-      </form>
+      </form>-->
       <ul class="nav navbar-nav navbar-right">
         <li><a href="{{ route('funcionario.home') }}">Home</a></li>
         @if (Auth::guest())
@@ -49,7 +49,13 @@
                 </a>
 
                 <ul class="dropdown-menu" role="menu">
-                    <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Cerrar Sesion</a></li>
+                    <li><a href="{{ route('funcionario.users.detalle', Auth::user()->id) }}" style="font-size:16px;" title="Ver Perfil">
+                    <span class="glyphicon glyphicon-eye-open " style="color: #54CC14" aria-hidden="true" title="Ver Perfil"></span>   Ver Perfil</a></li>
+                    <li><a href="{{ route('funcionario.users.edit', Auth::user()->id) }}" style="font-size: 16px" title="Editar Perfil">
+                      <span class="glyphicon glyphicon-pencil" aria-hidden="true" style="color: #313AFF" title="Editar Perfil"></span>   Editar Perfil</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="{{ url('/logout') }}" title="Cerrar Sesion" style="font-size: 16px;"><i class="fa fa-btn fa-sign-out"></i><span class="glyphicon glyphicon-exclamation-sign" style="color: #FF0000;" aria-hidden="true" title="Cerrar Sesion"></span>   Cerrar Sesion </a></li>
+                    
                 </ul>
             </li>
         @endif

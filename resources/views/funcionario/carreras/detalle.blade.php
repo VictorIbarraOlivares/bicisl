@@ -44,6 +44,9 @@
 					<td>
 						 
 						<a href="{{ route('funcionario.users.detalle', $user->id) }}" class="btn btn-success" title="Detalles"><span class="glyphicon glyphicon-eye-open" aria-hidden="true" title="Detalles"></span></a>
+						@if($user->type_id != "2" && $user->type_id != "3")
+							<a href="{{ route('funcionario.bicicletas.create', $user->id) }}" class="btn btn-primary" title="Añadir Bicicleta"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true" title="Añadir Bicicleta"></span></a>
+						@endif
 
 					</td>
 				</tr>
