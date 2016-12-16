@@ -1,6 +1,6 @@
 @extends('admin.template.main')
 
-@section('title','Detalles de  ' . $user->name)
+@section('title','Detalles ' . $title)
 
 @section('content')
 

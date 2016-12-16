@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+use App\Http\Controllers\Controller;
+
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -9,6 +12,9 @@ use App\Http\Requests;
 use App\User;
 use App\Type;
 use App\Carrera;
+
+use Illuminate\Support\Facades\Auth; /*para poder usar el Auth:: ...*/
+
 
 
 use Laracasts\Flash\Flash;
@@ -25,7 +31,9 @@ class UsersController extends Controller
 
     public function home()
     {
-        return view('admin.home');
+        //cambiar la solicitud para obtener todos los datos necesarios
+        $bicis = DB::table('bikes')->where('activa','=',1)->orderby("id","desc")->get();
+        return view('admin.home')->with('bicis', $bicis);
     }
 
     public function store(UserRequest $request)
@@ -63,6 +71,7 @@ class UsersController extends Controller
 
     public function edit($id)
     {
+        $encargado = Auth::user();
         $user = User::find($id);
         //$user = User::where('type_id',"=",3)->get();
         $types = Type::all();
@@ -84,7 +93,13 @@ class UsersController extends Controller
             }
         }
 
-        return view('admin.users.edit')->with('user', $user)->with('types',$types)->with('auxId',$auxId)->with('auxName',$auxName)->with('carreras',$carreras)->with('auxNameCarrera',$auxNameCarrera)->with('auxIdCarrera',$auxIdCarrera);
+        if($encargado->id == $id){
+            $title = "mi Perfil";
+        }else{
+            $title = "usuario ". $user->name;
+        }
+
+        return view('admin.users.edit')->with('user', $user)->with('types',$types)->with('auxId',$auxId)->with('auxName',$auxName)->with('carreras',$carreras)->with('auxNameCarrera',$auxNameCarrera)->with('auxIdCarrera',$auxIdCarrera)->with('title',$title);
     }
 
     public function show($id)
@@ -92,8 +107,14 @@ class UsersController extends Controller
         $user = User::find($id);
         $type = Type::find($user->type_id);
         $carrera = Carrera::find($user->carrera_id);
+        $encargado = Auth::user();
+        if($encargado->id == $id){
+            $title = "Perfil";
+        }else{
+            $title = "de ".$user->name;
+        }
 
-        return view('admin.users.detalle')->with('user',$user)->with('type',$type)->with('carrera', $carrera);
+        return view('admin.users.detalle')->with('user',$user)->with('type',$type)->with('carrera', $carrera)->with('title',$title);
     }
 
     public function update(Request $request, $id)

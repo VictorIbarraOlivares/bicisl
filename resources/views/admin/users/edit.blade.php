@@ -1,6 +1,6 @@
 @extends('admin.template.main')
 
-@section('title','Editar usuario ' . $user->name)
+@section('title','Editar ' . $title)
 @section('head')
 <script type="text/javascript">
 
