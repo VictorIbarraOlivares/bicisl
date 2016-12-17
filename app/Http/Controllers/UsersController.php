@@ -31,9 +31,10 @@ class UsersController extends Controller
 
     public function home()
     {
+        $dia= date("Y-m-d");
         //cambiar la solicitud para obtener todos los datos necesarios
-        $bicis = DB::table('bikes')->where('activa','=',1)->orderby("id","desc")->get();
-        return view('admin.home')->with('bicis', $bicis);
+        $bikes = DB::table('bikes')->where("fecha_a","=",$dia)->orderby("hora_a","asc")->get();
+        return view('admin.home')->with('bikes', $bikes);
     }
 
     public function store(UserRequest $request)

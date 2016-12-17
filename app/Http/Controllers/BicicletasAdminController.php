@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+use App\Http\Controllers\Controller;
+
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -16,6 +19,28 @@ use Laracasts\Flash\Flash;
 
 class BicicletasAdminController extends Controller
 {
+    public function cambiar($id)
+    {
+        $encargado = Auth::user();
+        $bike = Bike::find($id);
+        if($bike->activa == 1){
+            $bike->encargado_s = $encargado->id;
+            $bike->fecha_s = date("Y-m-d");
+            $bike->activa = 0;
+            $bike->hora_s = date("H:i:s",time());
+        }else{
+            $bike->encargado_a = $encargado->id;
+            $bike->fecha_a = date("Y-m-d");
+            $bike->activa = 1;
+            $bike->hora_a = date("H:i:s",time());
+        }
+
+        $bike->save();
+
+
+        return redirect()->route('admin.home');
+    }
+
 	//el id es del usuario
     public function create($id)
     {
