@@ -32,7 +32,6 @@ class UsersController extends Controller
     public function home()
     {
         $dia= date("Y-m-d");
-        //cambiar la solicitud para obtener todos los datos necesarios
         $bikes = DB::table('bikes')->where("fecha_a","=",$dia)->orderby("hora_a","asc")->get();
         return view('admin.home')->with('bikes', $bikes);
     }
@@ -44,6 +43,8 @@ class UsersController extends Controller
     	$user->password = bcrypt($request->password);
         if($user->type_id == 2 || $user->type_id == 3){//si el tipo de usuario es administrador o funcionario
             $user->carrera_id="16";
+        }elseif($user->type_id == 1){
+            $user->carrera_id="17";
         }
     	//dd($user);
     	$user->save();
@@ -54,7 +55,7 @@ class UsersController extends Controller
 
     public function index()
     {
-        $users = User::orderBy('created_at','desc')->paginate(3);
+        $users = User::orderBy('created_at','desc')->paginate(5);
         $types = Type::all();
         $carreras = Carrera::all();
 
@@ -66,7 +67,7 @@ class UsersController extends Controller
         $user = User::find($id);
         $user->delete();
 
-        Flash::error('El usuario '. $user->name . ' ha sido borrado de forma exitosa!');
+        Flash::error('El usuario '. $user->name . ' ha sido eliminado de forma exitosa!');
         return redirect()->route('admin.users.index');
     }
 
@@ -130,6 +131,7 @@ class UsersController extends Controller
         if($user->type_id == 2 || $user->type_id == 3){//si el tipo de usuario es administrador o funcionario
             $user->carrera_id="16";
         }
+        //dd($user);
         $user->save();
 
         //flash('El usuario '. $user->name . ' ha sido editado con exito!', 'warning');

@@ -35,7 +35,7 @@ class CarrerasController extends Controller
 
     public function index()
     {
-    	$carreras = Carrera::orderBy('name','ASC')->paginate(3);
+    	$carreras = Carrera::orderBy('name','ASC')->paginate(5);
 
     	return view('admin.carreras.index')->with('carreras',$carreras);
     }

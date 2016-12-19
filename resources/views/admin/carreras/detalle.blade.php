@@ -38,7 +38,7 @@
 						@elseif($user->type_id == "3")
 							<span class="label label-info">Funcionario</span>
 						@else
-							<span class="label label-success">Tipo de Prueba</span>
+							<span class="label label-success">Visita</span>
 						@endif
 					</td>
 					<td>

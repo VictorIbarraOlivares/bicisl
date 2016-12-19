@@ -8,12 +8,23 @@
 <script type="text/javascript">
 
 function mostrar(id){
-	if( id == 1 || id == 4){
+	if( id == 4){
 		$("#carre").show();
 		$('#carrera_id').prop("required",true);
 	}else{
 		$("#carre").hide();
 		$('#carrera_id').removeAttr("required");
+	}
+	if( id == 1){
+		$("#mail").hide();
+		$("#email").removeAttr("required");
+		$("#clave").hide();
+		$("#password").removeAttr("required");
+	}else{
+		$("#mail").show();
+		$("#email").prop("required",true);
+		$("#clave").show();
+		$("#password").prop("required",true);
 	}
 }
 
@@ -35,26 +46,6 @@ function mostrar(id){
 	{!! Form::open(['route' => 'admin.users.store', 'method' => 'POST' , 'name' => 'creando']) !!}
 
 		<div class="form-group">
-			{!! Form::label('name', 'Nombre') !!}
-			{!! Form::text('name', null ,['class' => 'form-control', 'placeholder' => 'Ingrese nombre' ,'required']) !!}
-		</div>
-
-		<div class="form-group">
-			{!! Form::label('rut', 'Rut') !!}
-			{!! Form::number('rut', null ,['class' => 'form-control', 'placeholder' => 'Ingrese RUT sin digito verificador' ,'required']) !!}
-		</div>
-
-		<div class="form-group">
-			{!! Form::label('email', 'Correo Electronico') !!}
-			{!! Form::email('email', 'null@null.cl' ,['class' => 'form-control', 'placeholder' => 'example@gmail.com']) !!} 
-		</div>
-
-		<div class="form-group">
-			{!! Form::label('password', 'Contraseña') !!}
-			{!! Form::password('password',['class' => 'form-control', 'placeholder' => 'Ingrese la contraseña para el usuario' ,'required']) !!}
-		</div>
-
-		<div class="form-group">
 			{!! Form::label('type_id','Tipo') !!}
 			
 
@@ -64,6 +55,26 @@ function mostrar(id){
 				<option value="{{$type->id }}">{{ $type->name }}</option>
 				@endforeach
 			</select>
+		</div>
+		
+		<div class="form-group">
+			{!! Form::label('name', 'Nombre') !!}
+			{!! Form::text('name', null ,['class' => 'form-control', 'placeholder' => 'Ingrese nombre' ,'required']) !!}
+		</div>
+
+		<div class="form-group">
+			{!! Form::label('rut', 'Rut') !!}
+			{!! Form::number('rut', null ,['class' => 'form-control', 'placeholder' => 'Ingrese RUT sin digito verificador' ,'required']) !!}
+		</div>
+
+		<div class="form-group" id="mail">
+			{!! Form::label('email', 'Correo Electronico') !!}
+			{!! Form::email('email', NULL ,['class' => 'form-control', 'placeholder' => 'example@gmail.com']) !!} 
+		</div>
+
+		<div class="form-group" id="clave">
+			{!! Form::label('password', 'Contraseña') !!}
+			{!! Form::password('password',['class' => 'form-control', 'placeholder' => 'Ingrese la contraseña para el usuario' ,'required']) !!}
 		</div>
 
 		<div class="form-group" id="carre" style="display: none;">

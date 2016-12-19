@@ -25,9 +25,9 @@ class UserRequest extends Request
     {//en la documentacion de laravel estan los request
         return [
             'name'     => 'min:8|max:27|required',
-            'email'    => 'min:4|max:250|unique:users|required',
+            'email'    => 'min:4|max:250|unique:users',
             'rut'      => 'min:7|max:8|unique:users|required',
-            'password' => 'min:4|max:120|required'
+            'password' => 'min:4|max:120'
         ];
     }
 }
