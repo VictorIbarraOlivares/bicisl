@@ -7,7 +7,7 @@
 @section('head')
 <script type="text/javascript">
 
-function mostrar(id){
+function mostrar(id){//no se pedira clave para los "alumnos"
 	if( id == 4){
 		$("#carre").show();
 		$('#carrera_id').prop("required",true);
@@ -18,11 +18,14 @@ function mostrar(id){
 	if( id == 1){
 		$("#mail").hide();
 		$("#email").removeAttr("required");
-		$("#clave").hide();
-		$("#password").removeAttr("required");
 	}else{
 		$("#mail").show();
 		$("#email").prop("required",true);
+	}
+	if( id == 1 || id == 4){//no se pedira clave para los "alumnos" y visita
+		$("#clave").hide();
+		$("#password").removeAttr("required");
+	}else{
 		$("#clave").show();
 		$("#password").prop("required",true);
 	}
@@ -59,7 +62,7 @@ function mostrar(id){
 		
 		<div class="form-group">
 			{!! Form::label('name', 'Nombre') !!}
-			{!! Form::text('name', null ,['class' => 'form-control', 'placeholder' => 'Ingrese nombre' ,'required']) !!}
+			{!! Form::text('name', null ,['class' => 'form-control', 'placeholder' => 'Ingrese nombre y apellido' ,'required']) !!}
 		</div>
 
 		<div class="form-group">
@@ -69,7 +72,7 @@ function mostrar(id){
 
 		<div class="form-group" id="mail">
 			{!! Form::label('email', 'Correo Electronico') !!}
-			{!! Form::email('email', NULL ,['class' => 'form-control', 'placeholder' => 'example@gmail.com']) !!} 
+			{!! Form::email('email', NULL ,['class' => 'form-control', 'placeholder' => 'ejemplo@gmail.com']) !!} 
 		</div>
 
 		<div class="form-group" id="clave">
@@ -82,9 +85,9 @@ function mostrar(id){
 			
 
 			<select class="form-control" id="carrera_id" name="carrera_id" required >
-				<option selected="selected" value="">Seleccione la carrera a la que pertenece el usuario</option>
+				<option selected="selected" value="">Seleccione la carrera a la que pertenece el Alumno</option>
 				@foreach($carreras as $carrera)
-					@if($carrera->id != 16)
+					@if($carrera->id != 16 && $carrera->id != 17)
 						<option value="{{$carrera->id }}">{{ $carrera->name }}</option>
 					@endif
 				@endforeach
@@ -96,5 +99,5 @@ function mostrar(id){
 		</div>
 
 	{!! Form::close() !!}
-	<a href="{{ url()->previous() }}" class=" pull-right btn btn-primary" title="Volver">Volver</a>
+	<a href="{{ url()->previous() }}" class=" pull-right btn btn-primary" title="Cancelar">Cancelar</a>
 @endsection

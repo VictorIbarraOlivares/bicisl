@@ -45,6 +45,8 @@ class UsersController extends Controller
             $user->carrera_id="16";
         }elseif($user->type_id == 1){
             $user->carrera_id="17";
+        }elseif($user->type_id == 4){
+            $user->password = bcrypt($request->rut);
         }
     	//dd($user);
     	$user->save();
