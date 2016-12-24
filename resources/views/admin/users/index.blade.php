@@ -3,7 +3,7 @@
 @section('title','Lista de Usuarios')
 @section('content')
 <a href="{{ route('admin.users.create') }}" class="btn btn-info">Registrar nuevo Usuario</a><br><br><br>
-	<table class="table table-striped">
+	<table class="table" width="100%" cellpadding="0" cellspacing="0" id="datatable_usuarios">
 		<thead>
 			<th>Código Carrera</th>
 			<th>Nombre</th>
@@ -56,7 +56,17 @@
 			@endforeach
 		</tbody>
 	</table>
-	{!! $users->render() !!}
 	<br>
 	<a href="{{ url()->previous() }}" class=" pull-right btn btn-primary" title="Volver">Volver</a>
+@endsection
+
+@section('script')
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#datatable_usuarios').DataTable({
+    	"order": false
+    });
+});
+
+</script>
 @endsection

@@ -40,13 +40,17 @@ class UsersController extends Controller
     {
     	//dd($request-> all());
     	$user = new User($request -> all());
-    	$user->password = bcrypt($request->password);
         if($user->type_id == 2 || $user->type_id == 3){//si el tipo de usuario es administrador o funcionario
             $user->carrera_id="16";
-        }elseif($user->type_id == 1){
+            $user->password = bcrypt($request->password);
+        }elseif($user->type_id == 1){//visita
             $user->carrera_id="17";
-        }elseif($user->type_id == 4){
+            $user->email= $user->rut."_".$user->carrera_id."VISITA@soyvisita.cls";
+        }elseif($user->type_id == 4){//"cliente"
             $user->password = bcrypt($request->rut);
+            $user->save();
+            Flash::success('Se ha registrado '. $user->name .' de forma exitosa!');
+            return redirect()->route('admin.bicicletas.create', $user->id);
         }
     	//dd($user);
     	$user->save();
@@ -57,7 +61,7 @@ class UsersController extends Controller
 
     public function index()
     {
-        $users = User::orderBy('created_at','desc')->paginate(5);
+        $users = DB::table('users')->orderBy('created_at','desc')->get();
         $types = Type::all();
         $carreras = Carrera::all();
 

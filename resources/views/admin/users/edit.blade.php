@@ -14,7 +14,10 @@ function mostrar(id){
 	}
 	if( id == 1){
 		$("#mail").hide();
-		$("#mail").removeAttr("required";)
+		$("#email").removeAttr("required");
+	}else{
+		$("#mail").show();
+		$("#email").prop("required",true);
 	}
 }
 
@@ -40,7 +43,7 @@ function mostrar(id){
 			<div class="form-group" id="mail" style="display: none;">
 		@endif
 			{!! Form::label('email', 'Correo Electronico') !!}
-			{!! Form::email('email', $user->email ,['class' => 'form-control', 'placeholder' => 'example@gmail.com' ,'required']) !!} <!-- No deberia ser requerido para los funcionarios -->
+			{!! Form::email('email', $user->email ,['class' => 'form-control', 'placeholder' => 'example@gmail.com' ]) !!} 
 		</div>
 
 
