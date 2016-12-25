@@ -13,10 +13,10 @@
 			{!! Form::label('codigo_carrera', 'Código Carrera') !!}
 			{!! Form::text('codigo_carrera', $carrera->codigo_carrera ,['class' => 'form-control','readonly'=>'readonly']) !!}
 		</div>
-		<p>Total de personas que pertenecen a esta carrera : {{$contador}} </p>
+		<p style="font-weight:bold;">Total de personas que pertenecen a esta carrera : {{$contador}} </p>
 
 		<!-- Inicio de tabla de los usuarios -->
-		<table class="table table-striped">
+		<table class="table" width="100%" cellpadding="0" cellspacing="0" id="datatable_usuarios">
 		<thead>
 			<th>Rut</th>
 			<th>Nombre</th>
@@ -53,11 +53,20 @@
 			@endforeach
 		</tbody>
 	</table>
-	{!! $users->render() !!}
 	<!-- Termino de tabla de los usuarios -->
 
 		<a href="{{ url()->previous() }}" class=" pull-right btn btn-primary" title="Volver">Volver</a>
 
 
 	
+@endsection
+@section('script')
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#datatable_usuarios').DataTable({
+    	
+    });
+});
+
+</script>
 @endsection

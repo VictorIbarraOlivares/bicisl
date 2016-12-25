@@ -2,7 +2,7 @@
 
 @section('title','Lista de Bicicletas')
 @section('content')
-	<table class="table table-striped">
+	<table class="table" width="100%" cellpadding="0" cellspacing="0" id="datatable_bicicletas">
 		<thead>
 			<th>Dueño</th>
 			<th>Activa</th>
@@ -31,4 +31,30 @@
 	</table>
 	<br>
 	<a href="{{ url()->previous() }}" class=" pull-right btn btn-primary" title="Volver">Volver</a>
+@endsection
+@section('script')
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#datatable_bicicletas').DataTable({
+    	dom: 'Bfrtip',
+    	stateSave: true,
+        LengthMenu: [
+        	[ 10 , 25 , 50 , 100 ],
+        	[ '10' , '25', '50' , '100']
+        ],
+        buttons: [
+            {
+            	text: 'Ocular Columnas',
+                extend: 'colvis',
+                columns: ':not(:first-child)'
+            },
+            {
+            	text: 'Mostrar Registros',
+            	extend: 'pageLength'
+            }
+        ]
+    });
+});
+
+</script>
 @endsection

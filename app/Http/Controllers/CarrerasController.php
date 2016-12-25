@@ -35,8 +35,8 @@ class CarrerasController extends Controller
 
     public function index()
     {
-    	$carreras = Carrera::orderBy('name','ASC')->paginate(5);
 
+        $carreras = DB::table('carreras')->orderBy('created_at','desc')->get();
     	return view('admin.carreras.index')->with('carreras',$carreras);
     }
 
@@ -44,7 +44,7 @@ class CarrerasController extends Controller
     {
     	$carrera = Carrera::find($id);
     	//$users = DB::table('users')->where('carrera_id','=',$id)->orderby("type_id","desc")->get();
-    	$users = User::orderBy('type_id','asc')->where('carrera_id','=',$id)->paginate(4);
+    	$users = User::orderBy('type_id','asc')->where('carrera_id','=',$id)->get();
     	$contador = DB::table('users')->where('carrera_id','=',$id)->count();
     	//dd($contador);
     	return view('admin.carreras.detalle')->with('carrera',$carrera)->with('users',$users)->with('contador', $contador);

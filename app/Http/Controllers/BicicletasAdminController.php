@@ -83,7 +83,7 @@ class BicicletasAdminController extends Controller
 
     public function index()
     {
-    	$bikes = Bike::all();
+        $bikes = DB::table('bikes')->orderBy('created_at','desc')->get();
     	$users = User::all();
     	//dd($bikes);
 

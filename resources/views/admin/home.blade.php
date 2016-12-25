@@ -22,7 +22,7 @@ function formato_y_m_d($fecha){
 			<th>Activa</th>
 			<th>Descripcion</th>
 			<th>Hora Llegada</th>
-			<th>Fecha Activa</th>
+			<th>Fecha Llegada</th>
 			<th>Encargado Llegada</th>
 			<th>Hora Salida</th>
 			<th>Fecha Salida</th>
@@ -81,6 +81,7 @@ $(document).ready(function(){
     	"order": false,
     	"ordering": false,
     	dom: 'Bfrtip',
+    	stateSave: true,
         LengthMenu: [
         	[ 10 , 25 , 50 , 100 ],
         	[ '10' , '25', '50' , '100']

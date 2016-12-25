@@ -14,20 +14,21 @@
 		<tbody>
 			@foreach($users as $user)
 				<tr>
-					@if( $user->type_id == 2 || $user->type_id == 3)
-						<td>
-									<a href="#" style="color: black;"  title="No aplica">-----</a>
-						</td>
-					@else
-						@foreach($carreras as $carrera)
-							@if($carrera->id == $user->carrera_id)
-								<td>
-									<a href="{{ route('admin.carreras.detalle', $carrera->id ) }}" style="color: black;"  title="{{ $carrera->name }}">{{ $carrera->codigo_carrera }}</a>
-								</td>
-							@endif
-						@endforeach
-					@endif
-					
+					<td align="center">
+						@if( $user->type_id == 2 || $user->type_id == 3)
+								<a href="#" style="color: black;"  title="Funcionarios">Funcionarios</a>
+						@else
+							@foreach($carreras as $carrera)
+								@if($carrera->id == $user->carrera_id)
+									@if($carrera->id == 15 || $carrera->id == 16 || $carrera->id == 17)
+										<a href="{{ route('admin.carreras.detalle', $carrera->id ) }}" style="color: black;"  title="{{ $carrera->name }}">{{ $carrera->name }}</a>
+									@else
+										<a href="{{ route('admin.carreras.detalle', $carrera->id ) }}" style="color: black;"  title="{{ $carrera->name }}">{{ $carrera->codigo_carrera }}</a>
+									@endif
+								@endif
+							@endforeach
+						@endif
+					</td>
 					<td>{{ $user->name }}</td>
 					<td>{{ $user->email }}</td>
 					<td>
@@ -64,7 +65,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
     $('#datatable_usuarios').DataTable({
-    	"order": false
+    	
     });
 });
 

@@ -33,6 +33,15 @@ class UsersController extends Controller
     {
         $dia= date("Y-m-d");
         $bikes = DB::table('bikes')->where("fecha_a","=",$dia)->orderby("hora_a","asc")->get();
+
+        /*INICIO BORRAR VISITANTES*/
+        /*
+        $visitas = DB::table('users')->where("type_id","=",1)->where("created_at","<>",$dia) ->get();
+        foreach ($visitas as $visita){
+            //dd($visita);
+        }
+        */
+        /*FIN BORRAR VISITANTES*/
         return view('admin.home')->with('bikes', $bikes);
     }
 
