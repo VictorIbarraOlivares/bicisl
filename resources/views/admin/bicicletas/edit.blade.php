@@ -2,7 +2,7 @@
 @extends('admin.template.main')
 
 
-@section('title','Editar bicicleta de '. $user->name)
+@section('title','Editar bicicleta del dueño : '. $user->name)
 
 @section('head')
 <script type="text/javascript">
@@ -199,5 +199,5 @@ function datos(id,valor){
 	{!! Form::close() !!}
 
 	
-	<a href="{{ url()->previous() }}" class=" pull-right btn btn-primary" title="Volver">Cancelar</a>
+	<a href="{{ url()->previous() }}" class=" pull-right btn btn-primary" title="Cancelar">Cancelar</a>
 @endsection

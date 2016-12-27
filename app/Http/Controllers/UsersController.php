@@ -20,8 +20,25 @@ use Illuminate\Support\Facades\Auth; /*para poder usar el Auth:: ...*/
 use Laracasts\Flash\Flash;
 use App\Http\Requests\UserRequest;
 
+
 class UsersController extends Controller
 {
+     public function autocomplete(Requests $request)
+    {
+        /* TIRA ERROR PORQUE ESTA ALGO MALO EN EL SHOW, HAY QUE ARREGLAR ESO Y CREO QUE HAY PROBLEMAS CON LAS LIBRERIRAS NECESARIAS PARA HACER EL AUTOCOMPLETAR*/
+        $term = $request->input('term');
+        $results = array();
+
+        $consultas = DB::table('users')->where('name','like', '%'.$term.'%')->take(5)->get();
+
+        foreach($consultas as $consulta)
+        {
+            $results[] = array ('id' => $consulta->id, 'value' => $consulta->name);
+        }
+
+        return json_encode($resuls);
+    }
+
     public function create()
     {
         $types = Type::all();
@@ -119,8 +136,9 @@ class UsersController extends Controller
         return view('admin.users.edit')->with('user', $user)->with('types',$types)->with('auxId',$auxId)->with('auxName',$auxName)->with('carreras',$carreras)->with('auxNameCarrera',$auxNameCarrera)->with('auxIdCarrera',$auxIdCarrera)->with('title',$title);
     }
 
+
     public function show($id)
-    {
+    { 
         $user = User::find($id);
         $type = Type::find($user->type_id);
         $carrera = Carrera::find($user->carrera_id);
@@ -148,9 +166,15 @@ class UsersController extends Controller
         }
         //dd($user);
         $user->save();
+        $encargado = Auth::user();
+        if($encargado->id == $user->id){
+            Flash::warning('Tú perfil ha sido editado con exito '. $user->name . ' !');
+        }else{
+            Flash::warning('El usuario '. $user->name . ' ha sido editado con exito!');
+        }
 
         //flash('El usuario '. $user->name . ' ha sido editado con exito!', 'warning');
-        Flash::warning('El usuario '. $user->name . ' ha sido editado con exito!');
+        
         return redirect()->route('admin.users.index');
     }
 }

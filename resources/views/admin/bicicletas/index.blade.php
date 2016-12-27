@@ -23,7 +23,15 @@
 					<td>{{ $bike->descripcion }}</td>
 					<td>
 						<a href="{{ route('admin.bicicletas.edit', $bike->id) }}" class="btn btn-warning" onclick="return confirm('¿Seguro quieres editar? \n Esto puede afectar al registro de Bicicletas en la Universidad')" title="Editar"><span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Editar"></span></a>
+
+						<a href="{{ route('admin.bicicletas.detalle', $bike->id) }}" class="btn btn-info" title="Detalles"><span class="glyphicon glyphicon-eye-open" aria-hidden="true" title="Detalles"></span></a>
+
 						<a href="{{ route('admin.bicicletas.destroy', $bike->id) }}" class="btn btn-danger" onclick="return confirm('¿Seguro quieres ELIMINAR? \n No se podra recuperar la informacion de la Bicicleta')" title="Eliminar"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true" title="Eliminar"></span></a>
+						@if($bike->activa == 0)
+							<a href="{{ route('admin.bicicletas.cambiar', $bike->id) }}" class="btn btn-primary" onclick="return confirm('¿Seguro quieres voler a ingresar la bicicleta? \n Esto afectara al registro de Bicicletas en la Universidad')" title="Ingresar"><span class="glyphicon glyphicon-download" aria-hidden="true" title="Ingresar"></span></a>
+						@else
+							<a href="{{ route('admin.bicicletas.cambiar', $bike->id) }}" class="btn btn-success" onclick="return confirm('¿Seguro quieres retirar la bicicleta? \n Esto afectara al registro de Bicicletas en la Universidad')" title="Retirar"><span class="glyphicon glyphicon-upload" aria-hidden="true" title="Retirar"></span></a>
+						@endif
 					</td>
 				</tr>
 			@endforeach

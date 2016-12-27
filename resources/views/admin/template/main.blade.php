@@ -8,6 +8,10 @@
 	<link rel="stylesheet" href="{{ asset('plugins/datatables/DataTables-1.10.13/css/dataTables.bootstrap.css') }}">
 	<link rel="stylesheet" href="{{ asset('plugins/datatables/Buttons-1.2.4/css/buttons.bootstrap.css') }}">
 	<link rel="stylesheet" href="{{ asset('plugins/datatables/Buttons-1.2.4/css/buttons.dataTables.css') }}">
+	<!-- Para autocompletar -->
+	<link rel="stylesheet" href="{{ asset('plugins/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('plugins/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.theme.min.css') }}">
+	<!-- FIN Para autocompletar -->
 
 	@yield('head')
 </head>
@@ -54,6 +58,9 @@
 <script src="{{ asset('plugins/datatables/Buttons-1.2.4/js/dataTables.buttons.js') }}"></script>
 <script src="{{ asset('plugins/dataTables/Buttons-1.2.4/js/buttons.bootstrap.js') }}"></script>
 <script src="{{ asset('plugins/datatables/Buttons-1.2.4/js/buttons.colVis.js') }}"></script>
+<!-- Para autocompletar -->
+<script src="{{ asset('plugins/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.js') }}"></script>
+<!-- FIN Para autocompletar -->
 @yield('script')
 
 	

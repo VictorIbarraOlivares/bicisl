@@ -38,6 +38,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','is_admin']],function
 		'uses' => 'UsersController@home',
 		'as' => 'admin.home'
 	]);
+	Route::get('users/autocomplete',[
+		'uses' => 'UsersController@autocomplete',
+		'as' => 'admin.users.autocomplete'
+	]);
 	/*Carreras*/
 	Route::resource('carreras', 'CarrerasController');
 	Route::get('carreras/{id}',[
@@ -61,14 +65,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','is_admin']],function
 	Route::get('bicicletas/{id}/cambiar',[
 		'uses' => 'BicicletasAdminController@cambiar',
 		'as' => 'admin.bicicletas.cambiar'
-
-	]);
-	
-
-
-
-	
+	]);	
+	Route::get('bicicletas/{id}',[
+		'uses' => 'BicicletasAdminController@show',
+		'as' => 'admin.bicicletas.detalle'
+	]);	
 });
+
 
 //grupo de rutas para los funcionarios
 Route::group(['prefix' => 'funcionario','middleware' => 'auth'],function(){

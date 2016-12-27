@@ -9,13 +9,22 @@ function formato_y_m_d($fecha){
 
 @section('title','Bicicletas en la Universidad')
 
-@section('content')
-		<form>
-			SECTOR PARA INGRESAR NUEVA LLEGADA
-		</form>
-		<br>
-		<br>
+@section('head')
 
+@endsection
+
+@section('content')
+		<!--Buscador de "clientes" -->
+		<!--
+		{!! Form::open() !!}
+				{{ Form::text('q','',['id' => 'q','placeholder' => 'Buscar Cliente...']) }}
+				{!! Form::submit('Ingresar' , array('class' => 'button expand')) !!}
+		{!! Form::close() !!}
+		-->
+		<!--Fin del buscador -->
+		<a href="" class="btn btn-danger">Ingresar llegada bicicleta</a>
+		<br><br><br>
+		<hr>
 		<table class="table" width="100%" cellpadding="0" cellspacing="0" id="datatable_bike_u">
 		<thead>
 			<th>Dueño</th>
@@ -32,6 +41,7 @@ function formato_y_m_d($fecha){
 		<tbody>
 			@foreach($bikes as $bike)
 			<?php
+					$hoy = date("Y-m-d");
 					$encargadoLLegada = User::find($bike->encargado_a);
 					if($bike->encargado_s != 0){
 						$encargadoSalida = User::find($bike->encargado_s);
@@ -39,7 +49,7 @@ function formato_y_m_d($fecha){
 					}else{
 						$aux=0;
 					}
-					
+
 					$dueño = User::find($bike->user_id);
 					if($bike->activa == 0){ ?>
 						<tr style="background-color: #069993;" >
@@ -51,10 +61,22 @@ function formato_y_m_d($fecha){
 					<td>{{ $bike->activa }}</td>
 					<td>{{ $bike->descripcion }}</td>
 					<td>{{ $bike->hora_a }}</td>
-					<td>{{ formato_y_m_d($bike->fecha_a) }}</td><!-- invertir fecha -->
-					<td>{{ $encargadoLLegada->name }}</td><!-- mostrar nombre -->
-					<td>{{ $bike->hora_s }}</td>
-					<td>{{ formato_y_m_d($bike->fecha_s) }}</td>
+					<td>{{ formato_y_m_d($bike->fecha_a) }}</td>
+					<td>{{ $encargadoLLegada->name }}</td> 
+					<td>
+						@if($bike->fecha_s != $hoy)
+							--:--:--
+						@else
+							{{ $bike->hora_s }}
+						@endif
+					</td>
+					<td>
+						@if($bike->fecha_s != $hoy)
+							xx-xx-xxxx
+						@else
+							{{ formato_y_m_d($bike->fecha_s) }}
+						@endif
+					</td>
 					<td>
 						@if($aux == 1)
 						  	{{ $encargadoSalida->name }}
@@ -64,9 +86,9 @@ function formato_y_m_d($fecha){
 					</td>
 					<td>
 						@if($bike->activa == 0)
-							<a href="{{ route('admin.bicicletas.cambiar', $bike->id) }}" class="btn btn-warning" onclick="return confirm('¿Seguro quieres voler a ingresar la bicicleta? \n Esto afectara al registro de Bicicletas en la Universidad')" title="Ingresar"><span class="glyphicon glyphicon-download" aria-hidden="true" title="Ingresar"></span></a>
+							<a href="{{ route('admin.bicicletas.cambiar', $bike->id) }}" class="btn btn-danger" onclick="return confirm('¿Seguro quieres voler a ingresar la bicicleta? \n Esto afectara al registro de Bicicletas en la Universidad')" title="Ingresar"><span class="glyphicon glyphicon-download" aria-hidden="true" title="Ingresar"></span></a>
 						@else
-							<a href="{{ route('admin.bicicletas.cambiar', $bike->id) }}" class="btn btn-warning" onclick="return confirm('¿Seguro quieres retirar la bicicleta? \n Esto Enviara un mail al dueño')" title="Retirar"><span class="glyphicon glyphicon-upload" aria-hidden="true" title="Retirar"></span></a>
+							<a href="{{ route('admin.bicicletas.cambiar', $bike->id) }}" class="btn btn-success" onclick="return confirm('¿Seguro quieres retirar la bicicleta? \n Esto Enviara un mail al dueño')" title="Retirar"><span class="glyphicon glyphicon-upload" aria-hidden="true" title="Retirar"></span></a>
 						@endif
 					</td>
 				</tr>
@@ -75,7 +97,17 @@ function formato_y_m_d($fecha){
 	</table>
 @endsection
 @section('script')
-<script type="text/javascript">
+<script type="text/javascript">/*
+$(function(){
+	$("#q").autocomplete({
+		source: "{{ route('admin.users.autocomplete') }}",
+		minLength: 3,
+		select: function(event, ui){
+			$('#q').val(ui.item.value);
+		}
+	});
+});
+*/
 $(document).ready(function(){
     $('#datatable_bike_u').DataTable({
     	"order": false,

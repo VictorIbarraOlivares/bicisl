@@ -23,16 +23,19 @@ class BicicletasAdminController extends Controller
     {
         $encargado = Auth::user();
         $bike = Bike::find($id);
+        $user = User::find($bike->user_id);
         if($bike->activa == 1){
             $bike->encargado_s = $encargado->id;
             $bike->fecha_s = date("Y-m-d");
             $bike->activa = 0;
             $bike->hora_s = date("H:i:s",time());
+            Flash::warning('Se retiro la bicicleta de '. $user->name . ' !');
         }else{
             $bike->encargado_a = $encargado->id;
             $bike->fecha_a = date("Y-m-d");
             $bike->activa = 1;
             $bike->hora_a = date("H:i:s",time());
+            Flash::warning('Se ingreso la bicicleta de '. $user->name . ' !');
         }
 
         $bike->save();
@@ -143,5 +146,22 @@ class BicicletasAdminController extends Controller
 
         Flash::error('La Bicicleta del usuario '. $user->name .' ha sido eliminada de forma exitosa !');
         return redirect()->route('admin.bicicletas.index');
+    }
+
+    public function show($id)
+    {
+        $bike = Bike::find($id);
+        $user = User::find($bike->user_id);
+        $encargadoLLegada = User::find($bike->encargado_a);
+
+        if($bike->encargado_s != 0)
+        {
+            $encargadoSalida = User::find($bike->encargado_s);
+        }else
+        {
+            $encargadoSalida = 0;
+        }
+
+        return view('admin.bicicletas.detalle')->with('user',$user)->with('bike',$bike)->with('encargadoLLegada',$encargadoLLegada)->with('encargadoSalida',$encargadoSalida);
     }
 }
