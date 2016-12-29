@@ -1,3 +1,15 @@
+@php
+	foreach($consulta as $au)
+        {
+            $user=$au;
+            if($encargado->id == $user->id){
+                $title = "Perfil";
+            }else{
+                $title = "de ". $user->name;
+            }
+        }
+@endphp
+
 @extends('admin.template.main')
 
 @section('title','Detalles ' . $title)
@@ -21,14 +33,14 @@
 
 		<div class="form-group">
 			{!! Form::label('type_name','Tipo') !!}
-			{!! Form::text('type_name',  $type->name ,['class' => 'form-control' ,'readonly'=>'readonly']) !!}
+			{!! Form::text('type_name',  $user->nomTipo ,['class' => 'form-control' ,'readonly'=>'readonly']) !!}
 		</div>
-		@if($type->id == 3 || $type->id == 2)
+		@if($user->tipo == 3 || $user->tipo == 2)
 
 		@else
 			<div class="form-group">
 			{!! Form::label('carera_id','Carrera') !!}
-			{!! Form::text('carrera_name',  $carrera->name ,['class' => 'form-control' ,'readonly'=>'readonly']) !!}
+			{!! Form::text('carrera_name',  $user->nomCarrera ,['class' => 'form-control' ,'readonly'=>'readonly']) !!}
 		</div>
 
 		@endif

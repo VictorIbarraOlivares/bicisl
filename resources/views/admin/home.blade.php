@@ -1,10 +1,12 @@
-<?php use App\User;
-function formato_y_m_d($fecha){
+@php use 
+App\User;
+function formato_y_m_d($fecha)
+{
 	$particiones = explode("-", $fecha);
 	$fecha = $particiones[2]."-".$particiones[1]."-".$particiones[0];
  	return $fecha;
 }
-?>
+@endphp
 @extends('admin.template.main')
 
 @section('title','Bicicletas en la Universidad')
@@ -15,15 +17,12 @@ function formato_y_m_d($fecha){
 
 @section('content')
 		<!--Buscador de "clientes" -->
-		<!--
-		{!! Form::open() !!}
-				{{ Form::text('q','',['id' => 'q','placeholder' => 'Buscar Cliente...']) }}
-				{!! Form::submit('Ingresar' , array('class' => 'button expand')) !!}
+		{!! Form::open(['route' => 'admin.bicicletas.ingreso', 'method' => 'get']) !!}
+				{{ Form::text('q','',['id' => 'q','placeholder' => 'Buscar Cliente...','required']) }}
+				{!! Form::submit('Ingresar llegada' , array('class' => 'btn btn-danger')) !!}
 		{!! Form::close() !!}
-		-->
 		<!--Fin del buscador -->
-		<a href="" class="btn btn-danger">Ingresar llegada bicicleta</a>
-		<br><br><br>
+		
 		<hr>
 		<table class="table" width="100%" cellpadding="0" cellspacing="0" id="datatable_bike_u">
 		<thead>
@@ -40,7 +39,7 @@ function formato_y_m_d($fecha){
 		</thead>
 		<tbody>
 			@foreach($bikes as $bike)
-			<?php
+			@php
 					$hoy = date("Y-m-d");
 					$encargadoLLegada = User::find($bike->encargado_a);
 					if($bike->encargado_s != 0){
@@ -51,12 +50,13 @@ function formato_y_m_d($fecha){
 					}
 
 					$dueño = User::find($bike->user_id);
-					if($bike->activa == 0){ ?>
+					if($bike->activa == 0){
+			@endphp
 						<tr style="background-color: #069993;" >
-			<?php	}else{ ?>
+			@php	}else{ @endphp
 						<tr >
-			<?php	}
-				?>
+			@php	}
+				@endphp
 					<td>{{ $dueño->name }}</td>
 					<td>{{ $bike->activa }}</td>
 					<td>{{ $bike->descripcion }}</td>
@@ -78,10 +78,14 @@ function formato_y_m_d($fecha){
 						@endif
 					</td>
 					<td>
-						@if($aux == 1)
-						  	{{ $encargadoSalida->name }}
+						@if($bike->fecha_s != $hoy)
+							No registra retiro hoy
 						@else
-							No registra salida
+							@if($aux == 1)
+						  	{{ $encargadoSalida->name }}
+							@else
+								No registra salida
+							@endif
 						@endif
 					</td>
 					<td>
@@ -97,17 +101,16 @@ function formato_y_m_d($fecha){
 	</table>
 @endsection
 @section('script')
-<script type="text/javascript">/*
+<script type="text/javascript">
 $(function(){
 	$("#q").autocomplete({
 		source: "{{ route('admin.users.autocomplete') }}",
-		minLength: 3,
+		minLength: 2,
 		select: function(event, ui){
 			$('#q').val(ui.item.value);
 		}
 	});
 });
-*/
 $(document).ready(function(){
     $('#datatable_bike_u').DataTable({
     	"order": false,

@@ -20,25 +20,10 @@ use Illuminate\Support\Facades\Auth; /*para poder usar el Auth:: ...*/
 use Laracasts\Flash\Flash;
 use App\Http\Requests\UserRequest;
 
+use Input;
 
 class UsersController extends Controller
 {
-     public function autocomplete(Requests $request)
-    {
-        /* TIRA ERROR PORQUE ESTA ALGO MALO EN EL SHOW, HAY QUE ARREGLAR ESO Y CREO QUE HAY PROBLEMAS CON LAS LIBRERIRAS NECESARIAS PARA HACER EL AUTOCOMPLETAR*/
-        $term = $request->input('term');
-        $results = array();
-
-        $consultas = DB::table('users')->where('name','like', '%'.$term.'%')->take(5)->get();
-
-        foreach($consultas as $consulta)
-        {
-            $results[] = array ('id' => $consulta->id, 'value' => $consulta->name);
-        }
-
-        return json_encode($resuls);
-    }
-
     public function create()
     {
         $types = Type::all();
@@ -139,17 +124,18 @@ class UsersController extends Controller
 
     public function show($id)
     { 
-        $user = User::find($id);
-        $type = Type::find($user->type_id);
-        $carrera = Carrera::find($user->carrera_id);
+        
+        $consulta = DB::table('users')->where('users.id','=',$id)
+                ->join('types','types.id','=','users.type_id')
+                ->join('carreras','carreras.id','=','users.carrera_id')
+                ->select('users.id','users.name','users.rut','users.email','types.name as nomTipo','types.id as tipo','carreras.name as nomCarrera')
+                ->get();//es un array de objetos
         $encargado = Auth::user();
-        if($encargado->id == $id){
-            $title = "Perfil";
-        }else{
-            $title = "de ".$user->name;
-        }
+        
+        
+        //dd($consulta);
 
-        return view('admin.users.detalle')->with('user',$user)->with('type',$type)->with('carrera', $carrera)->with('title',$title);
+       return view('admin.users.detalle')->with('consulta',$consulta)->with('encargado',$encargado);
     }
 
     public function update(Request $request, $id)
@@ -177,4 +163,25 @@ class UsersController extends Controller
         
         return redirect()->route('admin.users.index');
     }
+
+    public function autocomplete(Request $request)
+    { 
+        //previene que nose pueda ingresar por url
+        if($request->ajax())
+        {
+            $term = $request->get('term');
+            //dd($term);
+            $results = array();
+
+            $consultas = DB::table('users')->where('name','like', '%'.$term.'%')->where('type_id','=','4')->take(5)->get();
+
+            foreach($consultas as $consulta)
+            {
+                $results[] = array ('id' => $consulta->id, 'value' => $consulta->name);
+            }
+
+            return json_encode($results);
+        }
+    }
+
 }

@@ -38,7 +38,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','is_admin']],function
 		'uses' => 'UsersController@home',
 		'as' => 'admin.home'
 	]);
-	Route::get('users/autocomplete',[
+	Route::get('users/autocomplete/auto',[
 		'uses' => 'UsersController@autocomplete',
 		'as' => 'admin.users.autocomplete'
 	]);
@@ -70,6 +70,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','is_admin']],function
 		'uses' => 'BicicletasAdminController@show',
 		'as' => 'admin.bicicletas.detalle'
 	]);	
+	Route::get('bicicletas/ingreso/ingreso',[
+		'uses' => 'BicicletasAdminController@ingreso',
+		'as' => 'admin.bicicletas.ingreso'
+	]);
+
 });
 
 

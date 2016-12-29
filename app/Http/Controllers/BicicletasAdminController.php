@@ -19,31 +19,7 @@ use Laracasts\Flash\Flash;
 
 class BicicletasAdminController extends Controller
 {
-    public function cambiar($id)
-    {
-        $encargado = Auth::user();
-        $bike = Bike::find($id);
-        $user = User::find($bike->user_id);
-        if($bike->activa == 1){
-            $bike->encargado_s = $encargado->id;
-            $bike->fecha_s = date("Y-m-d");
-            $bike->activa = 0;
-            $bike->hora_s = date("H:i:s",time());
-            Flash::warning('Se retiro la bicicleta de '. $user->name . ' !');
-        }else{
-            $bike->encargado_a = $encargado->id;
-            $bike->fecha_a = date("Y-m-d");
-            $bike->activa = 1;
-            $bike->hora_a = date("H:i:s",time());
-            Flash::warning('Se ingreso la bicicleta de '. $user->name . ' !');
-        }
-
-        $bike->save();
-
-
-        return redirect()->route('admin.home');
-    }
-
+    
 	//el id es del usuario
     public function create($id)
     {
@@ -148,9 +124,27 @@ class BicicletasAdminController extends Controller
         return redirect()->route('admin.bicicletas.index');
     }
 
+    public function ingreso(Request $request)
+    {
+        /* HACER TODA LA DINAMICA, VER SI ENCUENTRA CLIENTE Y AVANZAR ,SINO DEVOLVER*/
+        $consulta = DB::table('users')->where('name','=', $request->get('q'))->where('type_id','=','4')->get();
+        if($consulta != "")
+        {
+            echo "ESTOY ACA";
+        }else{
+            echo "no hay nadie";
+        }
+        //dd($consulta);
+        //$bikes = DB::table('bikes')->orderBy('created_at','desc')->get();
+        
+        //return view('admin.bicicletas.ingreso');
+    }
+
     public function show($id)
     {
+
         $bike = Bike::find($id);
+        /*
         $user = User::find($bike->user_id);
         $encargadoLLegada = User::find($bike->encargado_a);
 
@@ -161,7 +155,35 @@ class BicicletasAdminController extends Controller
         {
             $encargadoSalida = 0;
         }
-
-        return view('admin.bicicletas.detalle')->with('user',$user)->with('bike',$bike)->with('encargadoLLegada',$encargadoLLegada)->with('encargadoSalida',$encargadoSalida);
+        */
+        return view('admin.bicicletas.detalle')->with('bike',$bike);
     }
+
+    public function cambiar($id)
+    {
+        $encargado = Auth::user();
+        $bike = Bike::find($id);
+        $user = User::find($bike->user_id);
+        if($bike->activa == 1){
+            $bike->encargado_s = $encargado->id;
+            $bike->fecha_s = date("Y-m-d");
+            $bike->activa = 0;
+            $bike->hora_s = date("H:i:s",time());
+            Flash::warning('Se retiro la bicicleta de '. $user->name . ' !');
+        }else{
+            $bike->encargado_a = $encargado->id;
+            $bike->fecha_a = date("Y-m-d");
+            $bike->activa = 1;
+            $bike->hora_a = date("H:i:s",time());
+            Flash::warning('Se ingreso la bicicleta de '. $user->name . ' !');
+        }
+
+        $bike->save();
+
+
+        return redirect()->route('admin.home');
+    }
+
+
+
 }
