@@ -22,6 +22,10 @@ function formato_y_m_d($fecha)
 				{!! Form::submit('Ingresar llegada' , array('class' => 'btn btn-danger')) !!}
 		{!! Form::close() !!}
 		<!--Fin del buscador -->
+		<br><br>
+		<!-- prueba fancybox -->
+		 <a class="single-image" href="{{ asset('images/UTEM.png') }}" ><img src="{{ asset('images/UTEM.png') }}" style="width: 10%;height: 14%"></a>
+		<!-- fin prueba -->
 		
 		<hr>
 		<table class="table" width="100%" cellpadding="0" cellspacing="0" id="datatable_bike_u">
@@ -102,6 +106,21 @@ function formato_y_m_d($fecha)
 @endsection
 @section('script')
 <script type="text/javascript">
+$(".single-image").fancybox({
+      openEffect : 'elastic',   //'fade', 'elastic'
+      closeEffect	: 'elastic',
+      openSpeed:'normal', //ms, slow, normal, fast (default 250ms)
+      closeSpeed:'normal',
+      helpers : {
+        title : {
+           type : 'inside' //'float', 'inside', 'outside' or 'over'
+        },
+        overlay : {
+          closeClick : true  // if true, se cierra al hacer click fuera de la imagen
+        }
+    },
+    padding:11
+});
 $(function(){
 	$("#q").autocomplete({
 		source: "{{ route('admin.users.autocomplete') }}",
