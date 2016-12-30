@@ -13,8 +13,6 @@ use App\Carrera;
 use Laracasts\Flash\Flash;
 use App\Http\Requests\UserRequest;
 
-// CAMBIAR VISTAS USERS POR LA DE FUNCIONARIO
-
 class FuncionarioController extends Controller
 {
    public function create()

@@ -82,9 +82,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','is_admin']],function
 });
 
 
+
 //grupo de rutas para los funcionarios
 Route::group(['prefix' => 'funcionario', 'middleware' => ['auth','is_funcionario']],function(){
-
+	/*USERS*/
 	Route::resource('users','FuncionarioController');
 	Route::get('home',[
 		'uses' => 'FuncionarioController@home',
@@ -95,16 +96,38 @@ Route::group(['prefix' => 'funcionario', 'middleware' => ['auth','is_funcionario
 		'as' => 'funcionario.users.detalle'
 	]);
 
+	/*CARRERAS*/
 	Route::resource('carreras', 'CarrerasFuncionarioController');
 	Route::get('carreras/{id}',[
 		'uses' => 'CarrerasFuncionarioController@show',
 		'as' => 'funcionario.carreras.detalle'
 	]);
 
+
+	/*BICICLETAS*/
 	Route::resource('bicicletas', 'BicicletasFuncController');
 	Route::get('bicicletas/{id}/create',[
 		'uses' => 'BicicletasFuncController@create',
 		'as' => 'funcionario.bicicletas.create'
+	]);
+
+	Route::get('bicicletas/{id}/cambiar',[
+		'uses' => 'BicicletasFuncController@cambiar',
+		'as' => 'funcionario.bicicletas.cambiar'
+	]);
+
+	Route::get('bicicletas/{id}/note',[
+		'uses' => 'BicicletasFuncController@note',
+		'as' => 'funcionario.bicicletas.note'
+	]);
+
+	Route::get('bicicletas/{id}',[
+		'uses' => 'BicicletasFuncController@show',
+		'as' => 'funcionario.bicicletas.detalle'
+	]);	
+	Route::get('bicicletas/ingreso/ingreso',[
+		'uses' => 'BicicletasFuncController@ingreso',
+		'as' => 'funcionario.bicicletas.ingreso'
 	]);
 	
 });

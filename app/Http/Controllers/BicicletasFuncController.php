@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+use App\Http\Controllers\Controller;
+
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -16,25 +19,26 @@ use Laracasts\Flash\Flash;
 
 class BicicletasFuncController extends Controller
 {
+    
     //el id es del usuario
     public function create($id)
     {
         /*
         $creador = Auth::user();
         if($creador->type_id == 2 ){
-            return view('admin.bicicletas.create')->with('user',$user);
+            return view('funcionario.bicicletas.create')->with('user',$user);
         }
         */
         $encargado = Auth::user();
         $user = User::find($id);
 
-        if($user->type_id == 2 || $user->type_id == 3){
-            Flash::warning('Funcionario no tienes permiso para realizar esta acción ! ');
+        if( $user->type_id == 2 || $user->type_id == 3){
+
+            Flash::warning('No se puede agregar bicicleta a '. $user->name . ' !');
             return redirect()->route('funcionario.users.index');
         }
-        else{
-            return view('funcionario.bicicletas.create')->with('user',$user)->with('encargado', $encargado);
-        }
+
+        return view('funcionario.bicicletas.create')->with('user',$user)->with('encargado', $encargado);
         
     }
 
@@ -58,7 +62,7 @@ class BicicletasFuncController extends Controller
 
     public function index()
     {
-        $bikes = Bike::all();
+        $bikes = DB::table('bikes')->orderBy('created_at','desc')->get();
         $users = User::all();
         //dd($bikes);
 
@@ -75,7 +79,7 @@ class BicicletasFuncController extends Controller
         {
             $encargado = User::find($bike->encargado_s);
         }
-        
+
 
         return view('funcionario.bicicletas.edit')->with('bike',$bike)->with('user' ,$user)->with('encargado',$encargado);
     }
@@ -91,7 +95,7 @@ class BicicletasFuncController extends Controller
                 $bike->encargado_s = $encargado->id;
                 $bike->fecha_s = date("Y-m-d");
                 $bike->activa = $request->activa;
-                $bike->nota = "";
+                $bike->nota = "";//se borra la nota, ya que esta pensada para la llegada de la bicicleta
                 $bike->hora_s = date("H:i:s",time());
             }else{
                 $bike->encargado_a = $encargado->id;
@@ -101,22 +105,98 @@ class BicicletasFuncController extends Controller
                 $bike->hora_a = date("H:i:s",time());
             }
         }else{
-            Flash::warning('No se ha editado nada de la Bicicleta del usuario '. $user->name . ' !');
+            Flash::warning('No se ha editado nada de la Bicicleta del dueño '. $user->name . ' !');
             return redirect()->route('funcionario.bicicletas.index');
         }
         $bike->save();
 
-        Flash::warning('La bicicleta del usuario '. $user->name . 'ha sido editada con exito !');
+        Flash::warning('La bicicleta del dueño '. $user->name . ' ha sido editada con exito !');
         return redirect()->route('funcionario.bicicletas.index');
     }
 
-    public function destroy($id)
+    public function ingreso(Request $request)
     {
+        $dia= date("Y-m-d");//obtener con la hora
+        $encargado = Auth::user();
+        /*pueden haber personas con el mismo nombre, hacer filtro, como ?*/
+        /* HACER TODA LA DINAMICA, VER SI ENCUENTRA CLIENTE Y AVANZAR ,SINO DEVOLVER*/
+        $consulta = DB::table('users')->where('name','=', $request->get('q'))->where('type_id','=','4')->get();
+        if($consulta != null){
+            foreach ($consulta as $user) 
+            {
+                $bikes = DB::table('bikes')->where('user_id','=',$user->id)->where('activa','=','0')->where('fecha_a','<>',$dia)->get();
+                if($bikes != null){
+                    return view('funcionario.bicicletas.ingreso')->with('user',$user)->with('bikes',$bikes)->with('encargado',$encargado);
+                }else{
+                    Flash::error('No hay bicicletas para ingresar del dueño '.$user->name);
+                    return redirect()->route('funcionario.home');
+                }
+                
+            }
+        }else{
+            Flash::error('Ingrese un nombre de la lista sugerida porfavor');
+            return redirect()->route('funcionario.home');
+        }
+        
+        //dd($consulta);
+        //$bikes = DB::table('bikes')->orderBy('created_at','desc')->get();
+        
+        //return view('funcionario.bicicletas.ingreso');
+    }
+
+    public function show($id)
+    {
+
+        $bike = Bike::find($id);
+        /*
+        $user = User::find($bike->user_id);
+        $encargadoLLegada = User::find($bike->encargado_a);
+
+        if($bike->encargado_s != 0)
+        {
+            $encargadoSalida = User::find($bike->encargado_s);
+        }else
+        {
+            $encargadoSalida = 0;
+        }
+        */
+        return view('funcionario.bicicletas.detalle')->with('bike',$bike);
+    }
+
+    public function cambiar($id)
+    {
+        $encargado = Auth::user();
         $bike = Bike::find($id);
         $user = User::find($bike->user_id);
-        $bike->delete();
+        if($bike->activa == 1){
+            $bike->encargado_s = $encargado->id;
+            $bike->fecha_s = date("Y-m-d");
+            $bike->activa = 0;
+            $bike->hora_s = date("H:i:s",time());
+            Flash::warning('Se retiro la bicicleta de '. $user->name . ' !');
+        }else{
+            $bike->encargado_a = $encargado->id;
+            $bike->fecha_a = date("Y-m-d");
+            $bike->activa = 1;
+            $bike->hora_a = date("H:i:s",time());
+            Flash::warning('Se ingreso la bicicleta de '. $user->name . ' !');
+        }
 
-        Flash::error('La Bicicleta del usuario '. $user->name .' ha sido eliminada de forma exitosa !');
-        return redirect()->route('admin.bicicletas.index');
+        $bike->save();
+
+
+        return redirect()->route('funcionario.home');
     }
+
+    public function note($id)
+    {
+        $bike = Bike::find($id);
+        $html = "";
+        $html .= "<p style='font-weight:bold;'>Nota de la bicicleta : " .$bike->nota. " </p>";
+        echo $html;
+
+    }
+
+
+
 }
