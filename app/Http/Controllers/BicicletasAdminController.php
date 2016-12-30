@@ -126,14 +126,28 @@ class BicicletasAdminController extends Controller
 
     public function ingreso(Request $request)
     {
+        $dia= date("Y-m-d");//obtener con la hora
+        $encargado = Auth::user();
+        /*pueden haber personas con el mismo nombre, hacer filtro, como ?*/
         /* HACER TODA LA DINAMICA, VER SI ENCUENTRA CLIENTE Y AVANZAR ,SINO DEVOLVER*/
         $consulta = DB::table('users')->where('name','=', $request->get('q'))->where('type_id','=','4')->get();
-        if($consulta != "")
-        {
-            echo "ESTOY ACA";
+        if($consulta != null){
+            foreach ($consulta as $user) 
+            {
+                $bikes = DB::table('bikes')->where('user_id','=',$user->id)->where('activa','=','0')->where('fecha_a','<>',$dia)->get();
+                if($bikes != null){
+                    return view('admin.bicicletas.ingreso')->with('user',$user)->with('bikes',$bikes)->with('encargado',$encargado);
+                }else{
+                    Flash::error('No hay bicicletas para ingresar del dueño '.$user->name);
+                    return redirect()->route('admin.home');
+                }
+                
+            }
         }else{
-            echo "no hay nadie";
+            Flash::error('Ingrese un nombre de la lista sugerida porfavor');
+            return redirect()->route('admin.home');
         }
+        
         //dd($consulta);
         //$bikes = DB::table('bikes')->orderBy('created_at','desc')->get();
         
@@ -182,6 +196,15 @@ class BicicletasAdminController extends Controller
 
 
         return redirect()->route('admin.home');
+    }
+
+    public function note($id)
+    {
+        $bike = Bike::find($id);
+        $html = "";
+        $html .= "<p style='font-weight:bold;'>Nota de la bicicleta : " .$bike->nota. " </p>";
+        echo $html;
+
     }
 
 

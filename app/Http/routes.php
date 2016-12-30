@@ -65,7 +65,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','is_admin']],function
 	Route::get('bicicletas/{id}/cambiar',[
 		'uses' => 'BicicletasAdminController@cambiar',
 		'as' => 'admin.bicicletas.cambiar'
-	]);	
+	]);
+	Route::get('bicicletas/{id}/note',[
+		'uses' => 'BicicletasAdminController@note',
+		'as' => 'admin.bicicletas.note'
+	]);
 	Route::get('bicicletas/{id}',[
 		'uses' => 'BicicletasAdminController@show',
 		'as' => 'admin.bicicletas.detalle'

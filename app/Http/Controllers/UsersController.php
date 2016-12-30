@@ -34,14 +34,19 @@ class UsersController extends Controller
     public function home()
     {
         $dia= date("Y-m-d");
-        $bikes = DB::table('bikes')->where("fecha_a","=",$dia)->orderby("hora_a","asc")->get();
+        $bikes = DB::table('bikes')->where("fecha_a","=",$dia)
+                ->join('users','users.id','=','bikes.user_id')
+                ->select('bikes.id','bikes.activa','bikes.descripcion','bikes.hora_a','bikes.fecha_a','hora_s','fecha_s','bikes.encargado_s','bikes.encargado_a','users.name as dueño','bikes.nota')
+                ->orderby("hora_a","asc")->get();
 
         /*INICIO BORRAR VISITANTES*/
         /*
-        $visitas = DB::table('users')->where("type_id","=",1)->where("created_at","<>",$dia) ->get();
+        $visitas = DB::table('users')->where("type_id","=","1")->where("created_at","<>",$dia) ->get();
+        dd($visitas);
         foreach ($visitas as $visita){
-            //dd($visita);
+            $visita->delete();
         }
+        FUNCIONA, SOLO HAY QUE DESCOMENTAR
         */
         /*FIN BORRAR VISITANTES*/
         return view('admin.home')->with('bikes', $bikes);

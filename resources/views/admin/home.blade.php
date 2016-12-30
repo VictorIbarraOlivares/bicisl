@@ -24,7 +24,9 @@ function formato_y_m_d($fecha)
 		<!--Fin del buscador -->
 		<br><br>
 		<!-- prueba fancybox -->
+		<!--
 		 <a class="single-image" href="{{ asset('images/UTEM.png') }}" ><img src="{{ asset('images/UTEM.png') }}" style="width: 10%;height: 14%"></a>
+		 -->
 		<!-- fin prueba -->
 		
 		<hr>
@@ -53,7 +55,6 @@ function formato_y_m_d($fecha)
 						$aux=0;
 					}
 
-					$dueño = User::find($bike->user_id);
 					if($bike->activa == 0){
 			@endphp
 						<tr style="background-color: #069993;" >
@@ -61,7 +62,7 @@ function formato_y_m_d($fecha)
 						<tr >
 			@php	}
 				@endphp
-					<td>{{ $dueño->name }}</td>
+					<td>{{ $bike->dueño }}</td>
 					<td>{{ $bike->activa }}</td>
 					<td>{{ $bike->descripcion }}</td>
 					<td>{{ $bike->hora_a }}</td>
@@ -98,6 +99,9 @@ function formato_y_m_d($fecha)
 						@else
 							<a href="{{ route('admin.bicicletas.cambiar', $bike->id) }}" class="btn btn-success" onclick="return confirm('¿Seguro quieres retirar la bicicleta? \n Esto Enviara un mail al dueño')" title="Retirar"><span class="glyphicon glyphicon-upload" aria-hidden="true" title="Retirar"></span></a>
 						@endif
+						@if($bike->nota != "")
+                    		<a href="{{ route('admin.bicicletas.note', $bike->id) }}" class="btn btn-info fancybox fancybox.ajax" title="Ver nota"><span class="glyphicon glyphicon-file" title="Ver nota"></span></a>
+						@endif
 					</td>
 				</tr>
 			@endforeach
@@ -106,6 +110,7 @@ function formato_y_m_d($fecha)
 @endsection
 @section('script')
 <script type="text/javascript">
+/*ejemplo fancybox
 $(".single-image").fancybox({
       openEffect : 'elastic',   //'fade', 'elastic'
       closeEffect	: 'elastic',
@@ -120,6 +125,20 @@ $(".single-image").fancybox({
         }
     },
     padding:11
+});
+*/
+$(document).ready(function() {
+	$(".fancybox").fancybox({
+		openEffect: 'elastic',
+		closeEffect: 'elastic',
+		openSpeed:'fast',
+		closeSpeed:'fasst',
+		helpers : {
+        overlay : {
+          closeClick : true  // if true, se cierra al hacer click fuera de la imagen
+        }
+    },
+	});
 });
 $(function(){
 	$("#q").autocomplete({
