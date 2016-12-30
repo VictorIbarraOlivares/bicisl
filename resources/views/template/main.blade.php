@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>@yield('title', 'Default') | Panel de Administración</title>
+	<title>@yield('title', 'miBicicletaUTEM')</title>
 	<link rel="stylesheet" href="{{ asset('plugins/bootstrap/css/bootstrap.css') }}">
 	<!-- DATATABLES -->
 	<link rel="stylesheet" href="{{ asset('plugins/datatables/Bootsrap-3.3.7/css/bootstrap.min.css') }}"><!--BORRAR A VER SI SIGUE FUNCIONANDO -->
@@ -21,7 +21,7 @@
 	@yield('head')
 </head>
 <body class="admin-body" style="margin-left: 10%;margin-right: 10%;">
-	@include('admin.template.partials.nav')
+	@include('template.partials.nav')
 
 	<section>
 		<div class="panel panel-default">
