@@ -20,7 +20,6 @@ use Illuminate\Support\Facades\Auth; /*para poder usar el Auth:: ...*/
 use Laracasts\Flash\Flash;
 use App\Http\Requests\UserRequest;
 
-use Input;
 
 class UsersController extends Controller
 {
@@ -182,7 +181,7 @@ class UsersController extends Controller
 
             foreach($consultas as $consulta)
             {
-                $results[] = array ('id' => $consulta->id, 'value' => $consulta->name);
+                $results[] = array ('id' => $consulta->id, 'value' => $consulta->name." ".$consulta->rut);
             }
 
             return json_encode($results);

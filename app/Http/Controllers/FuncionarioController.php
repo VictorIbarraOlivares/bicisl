@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+use App\Http\Controllers\Controller;
+
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -9,6 +12,8 @@ use App\Http\Requests;
 use App\User;
 use App\Type;
 use App\Carrera;
+
+use Illuminate\Support\Facades\Auth; /*para poder usar el Auth:: ...*/
 
 use Laracasts\Flash\Flash;
 use App\Http\Requests\UserRequest;
@@ -24,7 +29,23 @@ class FuncionarioController extends Controller
 
     public function home()
     {
-        return view('funcionario.home');
+        $dia= date("Y-m-d");
+        $bikes = DB::table('bikes')->where("fecha_a","=",$dia)
+                ->join('users','users.id','=','bikes.user_id')
+                ->select('bikes.id','bikes.activa','bikes.descripcion','bikes.hora_a','bikes.fecha_a','hora_s','fecha_s','bikes.encargado_s','bikes.encargado_a','users.name as dueño','bikes.nota')
+                ->orderby("hora_a","asc")->get();
+
+        /*INICIO BORRAR VISITANTES*/
+        /*
+        $visitas = DB::table('users')->where("type_id","=","1")->where("created_at","<>",$dia) ->get();
+        dd($visitas);
+        foreach ($visitas as $visita){
+            $visita->delete();
+        }
+        FUNCIONA, SOLO HAY QUE DESCOMENTAR
+        */
+        /*FIN BORRAR VISITANTES*/
+        return view('funcionario.home')->with('bikes',$bikes);
     }
 
     public function store(UserRequest $request)
@@ -41,10 +62,11 @@ class FuncionarioController extends Controller
 
     public function index()
     {
-        $users = User::orderBy('type_id','ASC')->paginate(3);
+        $users = DB::table('users')->orderBy('created_at','desc')->get();
         $types = Type::all();
+        $carreras = Carrera::all();
 
-        return view('funcionario.users.index')->with('users',$users);
+        return view('funcionario.users.index')->with('users',$users)->with('carreras',$carreras);
     }
 
     public function edit($id)

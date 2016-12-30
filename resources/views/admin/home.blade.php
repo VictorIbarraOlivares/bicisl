@@ -19,7 +19,8 @@ function formato_y_m_d($fecha)
 		<!--Buscador de "clientes" -->
 		{!! Form::open(['route' => 'admin.bicicletas.ingreso', 'method' => 'get']) !!}
 				{{ Form::text('q','',['id' => 'q','placeholder' => 'Buscar Cliente...','required']) }}
-				{!! Form::submit('Ingresar llegada' , array('class' => 'btn btn-danger')) !!}
+				<input type="hidden" name="valor" id="valor" autocomplete="on">
+				{!! Form::submit('Ingresar llegada' ,['class' => 'btn btn-danger']) !!}
 		{!! Form::close() !!}
 		<!--Fin del buscador -->
 		<br><br>
@@ -146,6 +147,7 @@ $(function(){
 		minLength: 2,
 		select: function(event, ui){
 			$('#q').val(ui.item.value);
+			$('#valor').val(ui.item.id);
 		}
 	});
 });

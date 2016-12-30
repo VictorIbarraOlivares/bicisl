@@ -127,31 +127,24 @@ class BicicletasAdminController extends Controller
     public function ingreso(Request $request)
     {
         $dia= date("Y-m-d");//obtener con la hora
+        $valor = $request->get('valor');
+        //dd($valor);
         $encargado = Auth::user();
-        /*pueden haber personas con el mismo nombre, hacer filtro, como ?*/
-        /* HACER TODA LA DINAMICA, VER SI ENCUENTRA CLIENTE Y AVANZAR ,SINO DEVOLVER*/
-        $consulta = DB::table('users')->where('name','=', $request->get('q'))->where('type_id','=','4')->get();
-        if($consulta != null){
-            foreach ($consulta as $user) 
-            {
-                $bikes = DB::table('bikes')->where('user_id','=',$user->id)->where('activa','=','0')->where('fecha_a','<>',$dia)->get();
-                if($bikes != null){
-                    return view('admin.bicicletas.ingreso')->with('user',$user)->with('bikes',$bikes)->with('encargado',$encargado);
-                }else{
-                    Flash::error('No hay bicicletas para ingresar del dueño '.$user->name);
-                    return redirect()->route('admin.home');
-                }
-                
+        $user = User::find($valor);
+        //dd($user);
+        if($user != null)
+        {
+            $bikes = DB::table('bikes')->where('user_id','=',$valor)->where('activa','=','0')->where('fecha_a','<>',$dia)->get();
+            if($bikes != null){
+                return view('admin.bicicletas.ingreso')->with('user',$user)->with('bikes',$bikes)->with('encargado',$encargado);
+            }else{
+                Flash::error('No hay bicicletas para ingresar del dueño '.$user->name);
+                return redirect()->route('admin.home');
             }
         }else{
-            Flash::error('Ingrese un nombre de la lista sugerida porfavor');
+            Flash::error('Ingrese seleccionando un nombre de la lista sugerida porfavor');
             return redirect()->route('admin.home');
         }
-        
-        //dd($consulta);
-        //$bikes = DB::table('bikes')->orderBy('created_at','desc')->get();
-        
-        //return view('admin.bicicletas.ingreso');
     }
 
     public function show($id)

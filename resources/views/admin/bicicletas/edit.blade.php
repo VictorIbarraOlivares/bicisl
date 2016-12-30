@@ -185,13 +185,6 @@ function datos(id,valor){
 
 		</div>
 
-		
-
-		<div class="form-group" style="display: none;">
-			{!! Form::label('user_id', 'Le pertenece a ') !!}
-			{!! Form::text('user_id', $bike->user_id ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
-		</div>
-
 		<div class="form-group">
 			{!! Form::submit('Listo', ['class' => 'btn btn-primary']) !!}
 		</div>

@@ -142,7 +142,7 @@ $(document).ready(function() {
 });
 $(function(){
 	$("#q").autocomplete({
-		source: "{{ route('funcionario.users.autocomplete') }}",
+		source: "",
 		minLength: 2,
 		select: function(event, ui){
 			$('#q').val(ui.item.value);
