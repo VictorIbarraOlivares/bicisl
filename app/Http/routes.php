@@ -83,7 +83,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','is_admin']],function
 
 
 //grupo de rutas para los funcionarios
-Route::group(['prefix' => 'funcionario','middleware' => 'auth'],function(){
+Route::group(['prefix' => 'funcionario', 'middleware' => ['auth','is_funcionario']],function(){
 
 	Route::resource('users','FuncionarioController');
 	Route::get('home',[
