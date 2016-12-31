@@ -135,11 +135,21 @@ class UsersController extends Controller
                 ->select('users.id','users.name','users.rut','users.email','types.name as nomTipo','types.id as tipo','carreras.name as nomCarrera')
                 ->get();//es un array de objetos
         $encargado = Auth::user();
+        foreach($consulta as $au)
+        {
+            $user=$au;
+            if($encargado->id == $user->id){
+                $title = "Perfil";
+            }else{
+                $title = "de ". $user->name;
+            }
+            $bikes = DB::table('bikes')->where('user_id','=',$user->id)->get();
+        }
         
         
         //dd($consulta);
 
-       return view('admin.users.detalle')->with('consulta',$consulta)->with('encargado',$encargado);
+       return view('admin.users.detalle')->with('user',$user)->with('title',$title)->with('bikes',$bikes);
     }
 
     public function update(Request $request, $id)
@@ -181,7 +191,7 @@ class UsersController extends Controller
 
             foreach($consultas as $consulta)
             {
-                $results[] = array ('id' => $consulta->id, 'value' => $consulta->name." ".$consulta->rut);
+                $results[] = array ('id' => $consulta->id, 'value' => $consulta->name." Rut:".$consulta->rut);
             }
 
             return json_encode($results);

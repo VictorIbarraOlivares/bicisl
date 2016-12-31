@@ -78,6 +78,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','is_admin']],function
 		'uses' => 'BicicletasAdminController@ingreso',
 		'as' => 'admin.bicicletas.ingreso'
 	]);
+	Route::get('bicicletas/ingresa/bike',[
+		'uses' => 'BicicletasAdminController@ingresa',
+		'as' => 'admin.bicicletas.ingresa'
+	]);
 
 });
 

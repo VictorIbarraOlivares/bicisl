@@ -124,28 +124,7 @@ class BicicletasAdminController extends Controller
         return redirect()->route('admin.bicicletas.index');
     }
 
-    public function ingreso(Request $request)
-    {
-        $dia= date("Y-m-d");//obtener con la hora
-        $valor = $request->get('valor');
-        //dd($valor);
-        $encargado = Auth::user();
-        $user = User::find($valor);
-        //dd($user);
-        if($user != null)
-        {
-            $bikes = DB::table('bikes')->where('user_id','=',$valor)->where('activa','=','0')->where('fecha_a','<>',$dia)->get();
-            if($bikes != null){
-                return view('admin.bicicletas.ingreso')->with('user',$user)->with('bikes',$bikes)->with('encargado',$encargado);
-            }else{
-                Flash::error('No hay bicicletas para ingresar del dueño '.$user->name);
-                return redirect()->route('admin.home');
-            }
-        }else{
-            Flash::error('Ingrese seleccionando un nombre de la lista sugerida porfavor');
-            return redirect()->route('admin.home');
-        }
-    }
+    
 
     public function show($id)
     {
@@ -189,6 +168,53 @@ class BicicletasAdminController extends Controller
 
 
         return redirect()->route('admin.home');
+    }
+
+    public function ingreso(Request $request)
+    {
+        $dia= date("Y-m-d");//obtener con la hora
+        $valor = $request->get('valor');
+        //dd($valor);
+        $encargado = Auth::user();
+        $user = User::find($valor);
+        //dd($user);
+        if($user != null)
+        {
+            $bikes = DB::table('bikes')->where('user_id','=',$valor)->where('activa','=','0')->get();
+            if($bikes != null){
+                return view('admin.bicicletas.ingreso')->with('user',$user)->with('bikes',$bikes)->with('encargado',$encargado);
+            }else{
+                Flash::error('No hay bicicletas para ingresar del dueño '.$user->name);
+                return redirect()->route('admin.home');
+            }
+        }else{
+            Flash::error('Ingrese seleccionando un nombre de la lista sugerida porfavor');
+            return redirect()->route('admin.home');
+        }
+    }
+
+    public function ingresa(Request $request)
+    {
+        $bike = Bike::find($request->bike);
+        //dd($bike,$request->all());
+        if($bike->activa == 0)
+        {
+            $hoy=date("Y-m-d");
+            $encargado = Auth::user();
+            $bike->activa = 1;
+            $bike->nota = $request->nota;
+            $bike->hora_a = $request->hora_a;
+            $bike->fecha_a = $hoy;
+            $bike->encargado_a = $encargado->id;
+            //dd($bike);
+            $bike->save();
+            Flash::success('Se ha ingresado correctamente la bicicleta , descripcion: '.$bike->descripcion);
+            return redirect()->route('admin.home'); 
+
+        }else{
+            Flash::error('La bicicleta seleccionada , registra como presente en la Universidad');
+            return redirect()->route('admin.home'); 
+        }
     }
 
     public function note($id)

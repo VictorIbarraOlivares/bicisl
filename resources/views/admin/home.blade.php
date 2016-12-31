@@ -1,5 +1,5 @@
-@php use 
-App\User;
+@php 
+use App\User;
 function formato_y_m_d($fecha)
 {
 	$particiones = explode("-", $fecha);
@@ -96,7 +96,9 @@ function formato_y_m_d($fecha)
 					</td>
 					<td>
 						@if($bike->activa == 0)
+						<!-- SE QUITA ESTO, SOLO SE PUEDE INGRESAR MEDIANTE EL BOTON DE INGRESO
 							<a href="{{ route('admin.bicicletas.cambiar', $bike->id) }}" class="btn btn-danger" onclick="return confirm('¿Seguro quieres voler a ingresar la bicicleta? \n Esto afectara al registro de Bicicletas en la Universidad')" title="Ingresar"><span class="glyphicon glyphicon-download" aria-hidden="true" title="Ingresar"></span></a>
+							-->
 						@else
 							<a href="{{ route('admin.bicicletas.cambiar', $bike->id) }}" class="btn btn-success" onclick="return confirm('¿Seguro quieres retirar la bicicleta? \n Esto Enviara un mail al dueño')" title="Retirar"><span class="glyphicon glyphicon-upload" aria-hidden="true" title="Retirar"></span></a>
 						@endif
