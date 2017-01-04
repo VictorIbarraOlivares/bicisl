@@ -35,7 +35,7 @@
 						@if($user->type_id == "4")
 							<span class="label label-primary">Alumno</span>
 						@elseif($user->type_id == "2")
-							<span class="label label-danger">funcionarioistrador</span>
+							<span class="label label-danger">Administrador</span>
 						@elseif($user->type_id == "3")
 							<span class="label label-info">Funcionario</span>
 						@else
@@ -44,9 +44,6 @@
 					</td>
 					<td>
 						 <a href="{{ route('funcionario.users.edit', $user->id) }}" class="btn btn-warning" title="Editar"><span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Editar"></span></a>
-						 @if(Auth::user()->id != $user->id)
-								<a href="{{ route('funcionario.users.destroy', $user->id) }}" onclick="return confirm('¿Seguro que deseas eliminarlo? \n Esto borrara toda la informacion asociada al usuario')" class="btn btn-danger" title="Eliminar"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true" title="Eliminar"></span></a>
-						@endif
 						<a href="{{ route('funcionario.users.detalle', $user->id) }}" class="btn btn-success" title="Detalles"><span class="glyphicon glyphicon-eye-open" aria-hidden="true" title="Detalles"></span></a>
 						@if($user->type_id != "2" && $user->type_id != "3")
 							<a href="{{ route('funcionario.bicicletas.create', $user->id) }}" class="btn btn-primary" title="Añadir Bicicleta"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true" title="Añadir Bicicleta"></span></a>

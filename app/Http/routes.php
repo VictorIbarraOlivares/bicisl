@@ -95,6 +95,10 @@ Route::group(['prefix' => 'funcionario', 'middleware' => ['auth','is_funcionario
 		'uses' => 'FuncionarioController@home',
 		'as' => 'funcionario.home'
 	]);
+	Route::get('users/autocomplete/auto',[
+		'uses' => 'FuncionarioController@autocomplete',
+		'as' => 'funcionario.users.autocomplete'
+	]);
 	Route::get('users/{id}',[
 		'uses' => 'FuncionarioController@show',
 		'as' => 'funcionario.users.detalle'

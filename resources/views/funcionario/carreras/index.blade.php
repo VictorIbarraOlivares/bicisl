@@ -17,9 +17,7 @@
 					<td align="center"> {{ $contador }} </td>
 					<td align="center">{{ $carrera->codigo_carrera }}</td>
 					<td>
-						 <a href="{{ route('funcionario.carreras.edit', $carrera->id ) }}" class="btn btn-warning" title="Editar"><span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Editar"></span></a>
 						<a href="{{ route('funcionario.carreras.detalle', $carrera->id ) }}" class="btn btn-success" title="Detalles"><span class="glyphicon glyphicon-eye-open" aria-hidden="true" title="Detalles"></span></a>
-
 					</td>
 				</tr>
 			@endforeach

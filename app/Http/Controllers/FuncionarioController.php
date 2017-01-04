@@ -89,12 +89,29 @@ class FuncionarioController extends Controller
 
 
     public function show($id)
-    {
-        $user = User::find($id);
-        $type = Type::find($user->type_id);
-        $carrera = Carrera::find($user->carrera_id);
+    { 
+        
+        $consulta = DB::table('users')->where('users.id','=',$id)
+                ->join('types','types.id','=','users.type_id')
+                ->join('carreras','carreras.id','=','users.carrera_id')
+                ->select('users.id','users.name','users.rut','users.email','types.name as nomTipo','types.id as tipo','carreras.name as nomCarrera')
+                ->get();//es un array de objetos
+        $encargado = Auth::user();
+        foreach($consulta as $au)
+        {
+            $user=$au;
+            if($encargado->id == $user->id){
+                $title = "Perfil";
+            }else{
+                $title = "de ". $user->name;
+            }
+            $bikes = DB::table('bikes')->where('user_id','=',$user->id)->get();
+        }
+        
+        
+        //dd($consulta);
 
-        return view('funcionario.users.detalle')->with('user',$user)->with('type',$type)->with('carrera', $carrera);
+       return view('funcionario.users.detalle')->with('user',$user)->with('title',$title)->with('bikes',$bikes);
     }
 
     public function update(Request $request, $id)
@@ -109,6 +126,26 @@ class FuncionarioController extends Controller
         //flash('El usuario '. $user->name . ' ha sido editado con exito!', 'warning');
         Flash::warning('El usuario '. $user->name . ' ha sido editado con exito!');
         return redirect()->route('funcionario.users.index');
+    }
+
+    public function autocomplete(Request $request)
+    { 
+        //previene que nose pueda ingresar por url
+        if($request->ajax())
+        {
+            $term = $request->get('term');
+            //dd($term);
+            $results = array();
+
+            $consultas = DB::table('users')->where('name','like', '%'.$term.'%')->where('type_id','=','4')->take(5)->get();
+
+            foreach($consultas as $consulta)
+            {
+                $results[] = array ('id' => $consulta->id, 'value' => $consulta->name." Rut:".$consulta->rut);
+            }
+
+            return json_encode($results);
+        }
     }
 }
  

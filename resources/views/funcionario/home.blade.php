@@ -1,5 +1,5 @@
-@php use 
-App\User;
+@php 
+use App\User;
 function formato_y_m_d($fecha)
 {
 	$particiones = explode("-", $fecha);
@@ -19,7 +19,8 @@ function formato_y_m_d($fecha)
 		<!--Buscador de "clientes" -->
 		{!! Form::open(['route' => 'funcionario.bicicletas.ingreso', 'method' => 'get']) !!}
 				{{ Form::text('q','',['id' => 'q','placeholder' => 'Buscar Cliente...','required']) }}
-				{!! Form::submit('Ingresar llegada' , array('class' => 'btn btn-danger')) !!}
+				<input type="hidden" name="valor" id="valor" autocomplete="on">
+				{!! Form::submit('Ingresar llegada' ,['class' => 'btn btn-danger']) !!}
 		{!! Form::close() !!}
 		<!--Fin del buscador -->
 		<br><br>
@@ -95,7 +96,9 @@ function formato_y_m_d($fecha)
 					</td>
 					<td>
 						@if($bike->activa == 0)
+						<!-- SE QUITA ESTO, SOLO SE PUEDE INGRESAR MEDIANTE EL BOTON DE INGRESO
 							<a href="{{ route('funcionario.bicicletas.cambiar', $bike->id) }}" class="btn btn-danger" onclick="return confirm('¿Seguro quieres voler a ingresar la bicicleta? \n Esto afectara al registro de Bicicletas en la Universidad')" title="Ingresar"><span class="glyphicon glyphicon-download" aria-hidden="true" title="Ingresar"></span></a>
+							-->
 						@else
 							<a href="{{ route('funcionario.bicicletas.cambiar', $bike->id) }}" class="btn btn-success" onclick="return confirm('¿Seguro quieres retirar la bicicleta? \n Esto Enviara un mail al dueño')" title="Retirar"><span class="glyphicon glyphicon-upload" aria-hidden="true" title="Retirar"></span></a>
 						@endif
@@ -142,10 +145,11 @@ $(document).ready(function() {
 });
 $(function(){
 	$("#q").autocomplete({
-		source: "",
+		source: "{{ route('funcionario.users.autocomplete') }}",
 		minLength: 2,
 		select: function(event, ui){
 			$('#q').val(ui.item.value);
+			$('#valor').val(ui.item.id);
 		}
 	});
 });
@@ -174,4 +178,5 @@ $(document).ready(function(){
 });
 
 </script>
+@endsection
 @endsection
