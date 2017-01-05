@@ -65,6 +65,13 @@ class UsersController extends Controller
             $user->password = bcrypt($request->rut);
             $user->save();
             Flash::success('Se ha registrado '. $user->name .' de forma exitosa!');
+            
+            $mensaje=['recibido'];
+            $user = User::find($id);
+            Mail::send('funcionario.home',$mensaje,function($msje){
+                $msje->subject('SALIDA BICICLETA');                
+                $msje->to($user->email);
+            });
             return redirect()->route('admin.bicicletas.create', $user->id);
         }
     	//dd($user);
