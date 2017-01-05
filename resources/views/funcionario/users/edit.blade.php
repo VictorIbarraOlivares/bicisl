@@ -14,6 +14,11 @@
 			{!! Form::label('rut', 'Rut') !!}
 			{!! Form::number('rut', $user->rut ,['class' => 'form-control', 'placeholder' => 'Ingrese RUT sin digito verificador' ,'required']) !!}
 		</div>
+		
+		<div class="form-group">
+			{!! Form::label('email', 'Correo Electronico') !!}
+			{!! Form::email('email', $user->email ,['class' => 'form-control', 'placeholder' => 'example@gmail.com' ]) !!} 
+		</div>
 
 		<br>
 		<div class="form-group">
