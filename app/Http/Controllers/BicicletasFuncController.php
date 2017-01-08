@@ -156,8 +156,7 @@ class BicicletasFuncController extends Controller
             $bike->hora_s = date("H:i:s",time());
             Flash::warning('Se retiro la bicicleta de '. $user->name . ' !');
 
-            $mensaje=[];
-            Mail::send('funcionario.mensaje',$mensaje,function($msje) use ($user){
+            Mail::send('mensaje',['user' => $user],function($msje) use ($user){
                 $msje->subject('SALIDA BICICLETA');             
                 $msje->to($user->email);
             });
