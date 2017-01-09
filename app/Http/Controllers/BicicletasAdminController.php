@@ -166,8 +166,8 @@ class BicicletasAdminController extends Controller
 
         $bike->save();
 
-
-        return redirect()->route('admin.home');
+        return redirect()->back();
+        //return redirect()->route('admin.home');
     }
 
     public function ingreso(Request $request)
