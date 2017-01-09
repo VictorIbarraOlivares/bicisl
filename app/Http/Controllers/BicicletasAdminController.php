@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-
+use Mail;
 use App\User;
 use App\Type;
 use App\Carrera;
@@ -156,6 +156,12 @@ class BicicletasAdminController extends Controller
             $bike->activa = 0;
             $bike->hora_s = date("H:i:s",time());
             Flash::warning('Se retiro la bicicleta de '. $user->name . ' !');
+
+            Mail::send('mensaje',['user' => $user],function($msje) use ($user){
+                $msje->subject('SALIDA BICICLETA');             
+                $msje->to($user->email);
+            });
+
         }else{
             $bike->encargado_a = $encargado->id;
             $bike->fecha_a = date("Y-m-d");

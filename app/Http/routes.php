@@ -140,6 +140,11 @@ Route::group(['prefix' => 'funcionario', 'middleware' => ['auth','is_funcionario
 	
 });
 
+Route::group(['prefix' => 'Cliente', 'middleware' => ['auth','is_cliente']],function(){
 
+	Route::get('users',[
+		'uses' => 'ClienteController@show',
+		'as' => 'cliente.detalle'
+	]);
 
-
+});
