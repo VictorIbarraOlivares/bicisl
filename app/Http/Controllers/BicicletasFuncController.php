@@ -14,6 +14,9 @@ use App\User;
 use App\Type;
 use App\Carrera;
 use App\Bike;
+
+use App\Image;
+
 use Illuminate\Support\Facades\Auth; /*para poder usar el Auth:: ...*/
 
 use Laracasts\Flash\Flash;
