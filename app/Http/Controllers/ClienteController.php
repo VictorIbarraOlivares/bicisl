@@ -27,17 +27,17 @@ class ClienteController extends Controller
         $user = Auth::user();
         $carrera = Carrera::find($user->carrera_id);
 
-        return view('Cliente.index')->with('user',$user)->with('carrera',$carrera);
+        return view('cliente.users.index')->with('user',$user)->with('carrera',$carrera);
     }
 
-    public function edit()
+    public function edit($id)
     {
         $user = Auth::user();
-        $auxName= $user->name;
-        $auxEmail = $user->email;
-        $title = "usuario ". $user->name;
-
-        return view('Cliente.edit')->with('user', $user)->with('auxName',$auxName)->with('auxEmail',$auxEmail)->with('title',$title);
+        if($user->id == $id){
+            $name = $user->name;
+            $email = $user->email;
+            return view('cliente.users.edit')->with('user', $user)->with('name',$name)->with('email',$email);
+        }
     }
 
 
@@ -57,6 +57,6 @@ class ClienteController extends Controller
         $user->save();
         Flash::warning('Tú perfil ha sido editado con exito '. $user->name . ' !');
         
-        return redirect()->route('Cliente.index');
+        return redirect()->route('cliente.index');
     }
 }
