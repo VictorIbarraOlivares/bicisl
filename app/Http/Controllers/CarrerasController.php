@@ -6,6 +6,7 @@ use DB;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;//para validar
 
 use App\Carrera;
 use App\User;
@@ -13,6 +14,7 @@ use App\User;
 use App\Http\Requests;
 
 use Laracasts\Flash\Flash;
+
 
 class CarrerasController extends Controller
 {
@@ -25,7 +27,22 @@ class CarrerasController extends Controller
     public function store(Request $request)
     {
     	//dd($request-> all());
+        $datos = $request->all();
+        $reglas = array(
+            'name'     => 'min:8|max:35|unique:carreras|required|string',
+            'codigo_carrera' => 'digits_between:4,7|unique:carreras|required|numeric'
+        );
+        
+        $v = Validator::make($datos, $reglas);
+
+        if($v->fails())
+        {
+            return redirect()->back()->withErrors($v->errors())->withInput($request->all());
+            //withInput($request->except('password')) devuelve todos los inputs, excepto el password
+        }
     	$carrera = new Carrera($request -> all());
+        $carrera->name = preg_replace('/[0-9]+/', '', $carrera->name);//elimina números
+        $carrera->name = preg_replace('([^ A-Za-z0-9_-ñÑ])', '', $carrera->name);//elimina caracteres especiales
     	//dd($carrera);
     	$carrera->save();
 
@@ -60,14 +77,41 @@ class CarrerasController extends Controller
     public function update(Request $request, $id)
     {
     	//dd($request->all());
+        $carrera = Carrera::find($id);
+        //solo si se cambia algo se ingresa
+        if($carrera->name != $request->name || $carrera->codigo_carrera != $request->codigo_carrera){
+            $datos = $request->all();
+            $reglas = array(
+                'name'     => 'min:8|max:35|unique:carreras|required|string',
+                'codigo_carrera' => 'digits_between:4,7|unique:carreras|required|numeric'
+            );
+            
+            if($carrera->name == $request->name){
+                $reglas['name'] = 'min:8|max:35|required|string';
+            }
+            if($carrera->codigo_carrera == $request->codigo_carrera){
+                $reglas['codigo_carrera'] = 'digits_between:4,7|required|numeric';
+            }
 
-    	$carrera = Carrera::find($id);
-    	$carrera->name = $request->name;
-    	$carrera->codigo_carrera = $request->codigo_carrera;
-    	$carrera->save();
+            $v = Validator::make($datos, $reglas);
 
-    	Flash::warning('La carrera  '. $carrera->name . ' ha sido editada con exito!');
-    	return redirect()->route('admin.carreras.index');
+            if($v->fails())
+            {
+                return redirect()->back()->withErrors($v->errors())->withInput($request->all());
+                //withInput($request->except('password')) devuelve todos los inputs, excepto el password
+            }
+
+            $carrera = Carrera::find($id);
+            $carrera->name = $request->name;
+            $carrera->name = preg_replace('/[0-9]+/', '', $carrera->name);//elimina números
+            $carrera->name = preg_replace('([^ A-Za-z0-9_-ñÑ])', '', $carrera->name);//elimina caracteres especiales
+            $carrera->codigo_carrera = $request->codigo_carrera;
+            $carrera->save();
+
+            Flash::warning('La carrera  '. $carrera->name . ' ha sido editada con exito!');
+            return redirect()->route('admin.carreras.index');
+        }
+        
 
     }
 

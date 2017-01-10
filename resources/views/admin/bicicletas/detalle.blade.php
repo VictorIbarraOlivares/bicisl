@@ -22,51 +22,79 @@ function formato_y_m_d($fecha)
 @extends('admin.template.main')
 
 
-@section('title','Detalles bicicleta del dueño : '. $user->name)
+@section('title','Detalles bicicleta de : '. $user->name)
 
 @section('head')
 
 @endsection
 
 @section('content')
-		<div class="form-group">
-			{!! Form::label('descripcion', 'Descripcion simple de la Bicicleta') !!}
-			{!! Form::text('descripcion', $bike->descripcion ,['class' => 'form-control', 'readonly' => 'readonly' ,'required']) !!}
-		</div>
-		@if($bike->nota != "")
-			<div class="form-group">
-				{!! Form::label('nota', 'Nota de la bicicleta') !!}
-				{!! Form::text('nota', $bike->nota ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
+		<div class="row">
+			<div class="col-md-3">
+				<div class="form-group">
+					{!! Form::label('descripcion', 'Descripcion') !!}
+					{!! Form::text('descripcion', $bike->descripcion ,['class' => 'form-control', 'readonly' => 'readonly' ,'required']) !!}
+				</div>
 			</div>
-		@endif
-		<div class="form-group">
-			{!! Form::label('fecha_a', 'Fecha del último ingreso a la Universidad de la bicicleta') !!}
-			{!! Form::text('fecha_a', formato_y_m_d($bike->fecha_a) ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
+			<div class="col-md-4">
+				@if($bike->nota != "")
+					<div class="form-group">
+						{!! Form::label('nota', 'Nota') !!}
+						{!! Form::text('nota', $bike->nota ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
+					</div>
+				@endif
+			</div>
 		</div>
-		<div class="form-group" >
-			{!! Form::label('hora_a', 'Hora del último ingreso a la Universidad de la bicicleta') !!}
-			{!! Form::text('hora_a', $bike->hora_a ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
-		</div>
-		<div class="form-group" >
-			{!! Form::label('encargado_a', 'Encargado del último ingreso a la Universidad de la bicicleta') !!}
-			{!! Form::text('encargado_activa', $encargadoLLegada->name ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
+		<hr>
+
+		<!--ACÁ DEBERIA IR EL DETALLE, TERMINAR CUANDO ESTE LISTO LO DEL CLIENTE -->
+		<h5 class="form-section"><strong>Detalles último Ingreso a la Universidad<strong></h5>
+		<div class="row">
+			<div class="col-md-4">
+				<div class="form-group">
+					{!! Form::label('fecha_a', 'Fecha') !!}
+					{!! Form::text('fecha_a', formato_y_m_d($bike->fecha_a) ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group" >
+					{!! Form::label('hora_a', 'Hora') !!}
+					{!! Form::text('hora_a', $bike->hora_a ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group" >
+					{!! Form::label('encargado_a', 'Encargado ') !!}
+					{!! Form::text('encargado_activa', $encargadoLLegada->name ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
+				</div>
+			</div>
+			
 		</div>
 		<hr>
 		@if($bike->fecha_s != "0000-00-00")
-			<div class="form-group">
-					{!! Form::label('fecha_s', 'Fecha última salida de la Universidad de la bicicleta') !!}
-					{!! Form::text('fecha_salida', formato_y_m_d($bike->fecha_s) ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
-			</div>
-			<div class="form-group"  >
-				{!! Form::label('hora_s', 'Hora última salida de la Universidad de la bicicleta') !!}
-				{!! Form::text('hora_salida', $bike->hora_s ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
-			</div>
-
-			<div class="form-group" id='encargado_salida' style="display: show;">
-				{!! Form::label('encargado_s', 'Encargado de la última salida de la Universidad de la bicicleta') !!}
-				{!! Form::text('encargado_salida', $encargadoSalida->name ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
+			<h5 class="form-section"><strong>Detalles última Salida de la Universidad<strong></h5>
+			
+			<div class="row">
+				
+				<div class="col-md-4">
+					<div class="form-group">
+						{!! Form::label('fecha_s', 'Fecha') !!}
+						{!! Form::text('fecha_salida', formato_y_m_d($bike->fecha_s) ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group"  >
+						{!! Form::label('hora_s', 'Hora') !!}
+						{!! Form::text('hora_salida', $bike->hora_s ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group" id='encargado_salida' style="display: show;">
+						{!! Form::label('encargado_s', 'Encargado') !!}
+						{!! Form::text('encargado_salida', $encargadoSalida->name ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
+					</div>
+				</div>
 			</div>
 		@endif
-	
 	<a href="{{ url()->previous() }}" class=" pull-right btn btn-primary" title="Volver">Volver</a>
 @endsection

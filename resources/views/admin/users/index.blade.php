@@ -30,7 +30,13 @@
 						@endif
 					</td>
 					<td>{{ $user->name }}</td>
-					<td>{{ $user->email }}</td>
+					<td>
+						@if($user->type_id == 1)
+							---------------
+						@else
+							{{ $user->email }}
+						@endif
+					</td>
 					<td>
 						@if($user->type_id == "4")
 							<span class="label label-primary">Alumno</span>

@@ -18,7 +18,9 @@ use Illuminate\Support\Facades\Auth; /*para poder usar el Auth:: ...*/
 
 
 use Laracasts\Flash\Flash;
-use App\Http\Requests\UserRequest;
+use App\Http\Requests\UserRequest;//eliminar esto,todo, el request y todo 
+
+use Illuminate\Support\Facades\Validator;//para validar
 
 
 class UsersController extends Controller
@@ -51,26 +53,65 @@ class UsersController extends Controller
         return view('admin.home')->with('bikes', $bikes);
     }
 
-    public function store(UserRequest $request)
+    public function store(Request $request) // se cambia UserRequest por Request
     {
-    	//dd($request-> all());
-    	$user = new User($request -> all());
-        if($user->type_id == 2 || $user->type_id == 3){//si el tipo de usuario es administrador o funcionario
-            $user->carrera_id="16";
+        $datos = $request->all();
+        /*SE MODIFICAN REGLAS SEGUN TIPO DE USUARIO*/
+        $reglas = array(
+            'nombre'     => 'min:4|max:15|required|alpha',
+            'apellido' => 'min:3|max:15|required|alpha',
+            'rut'      => 'digits_between:7,8|unique:users|required|numeric',
+            'tipo'  => 'required|in:Visita,Administrador,Funcionario,Alumno',//pueden ser esos 4 tipos
+            'email'    => 'min:4|max:250|unique:users|required_if:tipo,Administrador,Funcionario,Alumno|email',//se requiere si no es visita
+            'password' => 'min:4|max:120|required_if:tipo,Administrador,Funcionario',//se requiere si el tipo es admin o func
+            'carrera' => 'required_if:tipo,Alumno'//se requiere si el tipo es cliente,alumno
+        );
+
+        $v = Validator::make($datos, $reglas);
+
+        if($v->fails())
+        {
+            return redirect()->back()->withErrors($v->errors())->withInput($request->except('password'));
+            //withInput($request->except('password')) devuelve todos los inputs, excepto el password
+        }
+        $nombre=ucfirst(strtolower($request->nombre));
+        $apellido=ucfirst(strtolower($request->apellido));
+    	$user = new User();
+        if($request->tipo == "Administrador" || $request->tipo == "Funcionario"){//si el tipo de usuario es administrador o funcionario
+            $user->carrera_id = "16";
             $user->password = bcrypt($request->password);
-        }elseif($user->type_id == 1){//visita
+            $user->email = $request->email;
+            if($request->tipo == "Administrador"){
+                $user->type_id = 2;
+            }else{
+                $user->type_id = 3;
+            }
+        }elseif($request->tipo == "Visita"){//visita
             $user->carrera_id="17";
-            $user->email= $user->rut."_".$user->carrera_id."VISITA@soyvisita.cls";
-        }elseif($user->type_id == 4){//"cliente"
+            $user->type_id = 1;
+            $user->email= $request->rut."_".$user->carrera_id."VISITA@soyvisita.cls";//el mail no puede ser nulo
+            $user->rut = $request->rut;
+            $user->name = $nombre." ".$apellido;
+            $user->save();
+            Flash::success('Se ha registrado '. $user->name .' de forma exitosa!');
+            return redirect()->route('admin.bicicletas.create', $user->id);
+        }elseif($request->tipo == "Alumno"){//Alumno
             $user->password = bcrypt($request->rut);
+            $user->type_id = 4;
+            $user->email = $request->email;
+            $user->name = $nombre." ".$apellido;
+            $user->rut = $request->rut;
+            $user->carrera_id = $request->carrera;
             $user->save();
             Flash::success('Se ha registrado '. $user->name .' de forma exitosa!');
             return redirect()->route('admin.bicicletas.create', $user->id);
         }
-    	//dd($user);
+        
+        $user->rut = $request->rut;
+        $user->name = $nombre." ".$apellido;
     	$user->save();
 
-        Flash::success('Se ha registrado '. $user->name .' de forma exitosa!');
+        Flash::success('Se ha registrado '.  $user->name .' de forma exitosa!');
     	return redirect()->route('admin.users.index');
     }
 
@@ -122,7 +163,17 @@ class UsersController extends Controller
             $title = "usuario ". $user->name;
         }
 
-        return view('admin.users.edit')->with('user', $user)->with('types',$types)->with('auxId',$auxId)->with('auxName',$auxName)->with('carreras',$carreras)->with('auxNameCarrera',$auxNameCarrera)->with('auxIdCarrera',$auxIdCarrera)->with('title',$title);
+        $particiones = explode(" ",$user->name);
+        if(count($particiones) == 2){
+            $nombre = $particiones[0];
+            $apellido = $particiones[1];
+        }else{
+            $nombre = $particiones[0];
+            $apellido = "";
+        }
+        
+
+        return view('admin.users.edit')->with('user', $user)->with('types',$types)->with('auxId',$auxId)->with('auxName',$auxName)->with('carreras',$carreras)->with('auxNameCarrera',$auxNameCarrera)->with('auxIdCarrera',$auxIdCarrera)->with('title',$title)->with('nombre',$nombre)->with('apellido',$apellido);
     }
 
 
@@ -155,16 +206,61 @@ class UsersController extends Controller
     public function update(Request $request, $id)
     {
         //dd($request->all());
-        
         $user = User::find($id);
-        $user->name = $request->name;
-        $user->email= $request->email;
-        $user->type_id = $request->type_id;
-        $user->carrera_id = $request->carrera_id;
-        if($user->type_id == 2 || $user->type_id == 3){//si el tipo de usuario es administrador o funcionario
-            $user->carrera_id="16";
+        $datos = $request->all();
+
+        /*SE MODIFICAN REGLAS SEGUN TIPO DE USUARIO*/
+        $reglas = array(
+            'nombre'     => 'min:4|max:15|required|alpha',
+            'apellido' => 'min:3|max:15|required|alpha',
+            'rut'      => 'digits_between:7,8|unique:users|required|numeric',
+            'tipo'  => 'required|in:Visita,Administrador,Funcionario,Alumno',//pueden ser esos 4 tipos
+            'email'    => 'min:4|max:250|unique:users|required_if:tipo,Administrador,Funcionario,Alumno|email',//se requiere si no es visita
+            'carrera' => 'required_if:tipo,Alumno'//se requiere si el tipo es cliente,alumno
+        );
+
+        /*INICIO MODIFICACION REGLAS*/
+        //si no se modifica ni rut ni email
+        if($user->rut == $request->rut && $user->email == $request->email){
+            $reglas['rut'] = 'digits_between:7,8|required|numeric';
+            $reglas['email'] = 'min:4|max:250|required_if:tipo,Administrador,Funcionario,Alumno|email';
         }
-        //dd($user);
+        //si no se modifica el rut
+        if($user->rut == $request->rut){
+            $reglas['rut'] = 'digits_between:7,8|required|numeric';
+        }
+        //si no se modifica el mail
+        if($user->email == $request->email){
+            $reglas['email'] = 'min:4|max:250|required_if:tipo,Administrador,Funcionario,Alumno|email';
+        }
+        /*FIN MODIFICACION REGLAS*/
+
+        $v = Validator::make($datos, $reglas);
+
+        if($v->fails())
+        {
+            return redirect()->back()->withErrors($v->errors())->withInput($request->except('password'));
+            //withInput($request->except('password')) devuelve todos los inputs, excepto el password
+        }
+        
+        //dd($request->all());
+        $user = User::find($id);
+        $user->name = $request->nombre." ".$request->apellido;
+        $user->email= $request->email;
+        if($request->tipo == "Administrador" || $request->tipo == "Funcionario"){//si el tipo de usuario ah sido cambiado a admin o func
+            $user->carrera_id="16";
+            if($request->tipo == "Administrador"){
+                $aux=2;//administrador
+            }else{
+                $aux=3;//funcionario
+            }
+            if($user->type_id != $aux){
+                $user->type_id = $aux;
+            }
+        }else{
+            $user->carrera_id = $request->carrera;
+        }
+        //dd($user,$request->all());
         $user->save();
         $encargado = Auth::user();
         if($encargado->id == $user->id){
@@ -173,7 +269,6 @@ class UsersController extends Controller
             Flash::warning('El usuario '. $user->name . ' ha sido editado con exito!');
         }
 
-        //flash('El usuario '. $user->name . ' ha sido editado con exito!', 'warning');
         
         return redirect()->route('admin.users.index');
     }

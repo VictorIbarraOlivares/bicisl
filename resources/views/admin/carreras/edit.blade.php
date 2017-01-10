@@ -5,15 +5,24 @@
 @section('content')
 	{!! Form::open(['route' => ['admin.carreras.update',$carrera ] , 'method' => 'PUT']) !!}
 
-		<div class="form-group">
-			{!! Form::label('name', 'Nombre') !!}
-			{!! Form::text('name',  $carrera->name ,['class' => 'form-control', 'placeholder' => 'Ingrese nombre' ,'required']) !!}
+		<div class="row">
+			<div class="col-md-8">
+				<div class="form-group">
+					{!! Form::label('name', 'Nombre') !!}
+					{!! Form::text('name',  $carrera->name ,['class' => 'form-control', 'placeholder' => 'Ingrese nombre' ,'required']) !!}
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="form-group">
+					{!! Form::label('codigo_carrera', 'Código Carrera') !!}
+					{!! Form::number('codigo_carrera', $carrera->codigo_carrera ,['class' => 'form-control', 'placeholder' => 'Ingrese código carrera' ,'required']) !!}
+				</div>
+			</div>
+			
 		</div>
+		
 
-		<div class="form-group">
-			{!! Form::label('codigo_carrera', 'Código Carrera') !!}
-			{!! Form::number('codigo_carrera', $carrera->codigo_carrera ,['class' => 'form-control', 'placeholder' => 'Ingrese código carrera' ,'required']) !!}
-		</div>
+		
 
 		<div class="form-group">
 			{!! Form::submit('Editar', ['class' => 'btn btn-primary']) !!}
