@@ -162,7 +162,8 @@ return [
         Cviebrock\EloquentSluggable\ServiceProvider::class,
         /*laracasts/flash*/
         Laracasts\Flash\FlashServiceProvider::class,
-
+        /*CHILEAN BUNDLE, validar rut*/
+            Freshwork\ChileanBundle\Laravel\ChileanBundleServiceProvider::class,
     ],
 
     /*
@@ -213,7 +214,8 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'Flash' => Laracasts\Flash\Flash::class,
-
+        /*CHILEAN BUNDLE, validar rut*/
+            'Rut'   => Freshwork\ChileanBundle\Laravel\Facades\Rut::class,
     ],
 
 ];

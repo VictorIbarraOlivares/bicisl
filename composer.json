@@ -10,7 +10,9 @@
         "laravel/framework": "5.2.*",
         "laravelcollective/html": "^5.1.6",
         "cviebrock/eloquent-sluggable": "4.1",
-        "laracasts/flash": "^2.0"
+        "laracasts/flash": "^2.0",
+        "freshwork/chilean-bundle": "^2.0",
+        "doctrine/dbal": "^2.5"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -20,6 +22,9 @@
         "symfony/dom-crawler": "2.8.*|3.0.*"
     },
     "autoload": {
+        "files": [
+            "app/Http/Helpers.php"
+        ],
         "classmap": [
             "database"
         ],

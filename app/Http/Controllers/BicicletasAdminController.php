@@ -73,7 +73,7 @@ class BicicletasAdminController extends Controller
     	$bike->save();
 
     	Flash::success('Se ha registrado la bicicleta de '.$user->name.' de forma exitosa');
-    	return redirect()->route('admin.bicicletas.index');
+    	return redirect()->route('admin.home');
 
 
     }

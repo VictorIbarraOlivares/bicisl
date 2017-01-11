@@ -11,13 +11,6 @@ if($bike->encargado_s != 0)
 {
     $encargadoSalida = 0;
 }
-
-function formato_y_m_d($fecha)
-{
-	$particiones = explode("-", $fecha);
-	$fecha = $particiones[2]."-".$particiones[1]."-".$particiones[0];
- 	return $fecha;
-}
 @endphp
 @extends('admin.template.main')
 

@@ -1,11 +1,5 @@
 @php 
 use App\User;
-function formato_y_m_d($fecha)
-{
-	$particiones = explode("-", $fecha);
-	$fecha = $particiones[2]."-".$particiones[1]."-".$particiones[0];
- 	return $fecha;
-}
 @endphp
 @extends('admin.template.main')
 
@@ -16,22 +10,31 @@ function formato_y_m_d($fecha)
 @endsection
 
 @section('content')
-		<!--Buscador de "clientes" -->
-		{!! Form::open(['route' => 'admin.bicicletas.ingreso', 'method' => 'get']) !!}
-				{{ Form::text('q','',['id' => 'q','placeholder' => 'Buscar Cliente...','required']) }}
-				<input type="hidden" name="valor" id="valor" autocomplete="on">
-				{!! Form::submit('Ingresar llegada' ,['class' => 'btn btn-danger']) !!}
-		{!! Form::close() !!}
-		<!--Fin del buscador -->
-		<br><br>
-		<!-- prueba fancybox -->
-		<!--
-		 <a class="single-image" href="{{ asset('images/UTEM.png') }}" ><img src="{{ asset('images/UTEM.png') }}" style="width: 10%;height: 14%"></a>
-		 -->
-		<!-- fin prueba -->
+	<div class="row">
+		<div class="col-md-3">
+			<!--Buscador de "clientes" -->
+			{!! Form::open(['route' => 'admin.bicicletas.ingreso', 'method' => 'get']) !!}
+					{{ Form::text('q','',['id' => 'q','placeholder' => 'Buscar Cliente...','required']) }}
+					<input type="hidden" name="valor" id="valor" autocomplete="on">
+					{!! Form::submit('Ingresar llegada' ,['class' => 'btn btn-danger']) !!}
+			{!! Form::close() !!}
+			<!--Fin del buscador -->
+		</div>
+		<div class="col-md-5">
+			<a href="{{ route('admin.users.create') }}" class="btn btn-success">Registrar nuevo Usuario e Ingresar Bicicleta</a>
+		</div>
 		
-		<hr>
-		<table class="table" width="100%" cellpadding="0" cellspacing="0" id="datatable_bike_u">
+	</div>
+	
+	<br><br>
+	<!-- prueba fancybox -->
+	<!--
+	 <a class="single-image" href="{{ asset('images/UTEM.png') }}" ><img src="{{ asset('images/UTEM.png') }}" style="width: 10%;height: 14%"></a>
+	 -->
+	<!-- fin prueba -->
+	
+	<hr>
+	<table class="table" width="100%" cellpadding="0" cellspacing="0" id="datatable_bike_u">
 		<thead>
 			<th>Dueño</th>
 			<th>Activa</th>
