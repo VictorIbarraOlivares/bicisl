@@ -96,6 +96,13 @@ class UsersController extends Controller
             }
         }
         /*fin formato rut*/
+        /*FILTRO PARA QUE NO SE DUPLIQUEN LOS RUT*/
+        $contador= DB::table('users')->where('rut','=', $rut)->count();
+        if($contador != 0){
+            Flash::warning('El rut ingresado ya esta en la base de datos!');
+            return redirect()->back()->withInput($request->except('password'));
+        }
+        /*FIN FILTRO PARA QUE NO SE DUPLIQUEN LOS RUT*/
         $user = new User();
         if($request->tipo == "Administrador" || $request->tipo == "Funcionario"){//si el tipo de usuario es administrador o funcionario
             $user->carrera_id = "16";
