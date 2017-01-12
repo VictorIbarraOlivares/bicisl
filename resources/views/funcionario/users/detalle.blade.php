@@ -1,11 +1,5 @@
 @php
 	use App\User;
-	function formato_y_m_d($fecha)
-	{
-	$particiones = explode("-", $fecha);
-	$fecha = $particiones[2]."-".$particiones[1]."-".$particiones[0];
- 	return $fecha;
-	}
 @endphp
 
 @extends('funcionario.template.main')

@@ -15,8 +15,15 @@ use App\Carrera;
 
 use Illuminate\Support\Facades\Auth; /*para poder usar el Auth:: ...*/
 
+
+
 use Laracasts\Flash\Flash;
-use App\Http\Requests\UserRequest;
+use App\Http\Requests\UserRequest;//eliminar esto,todo, el request y todo 
+
+use Illuminate\Support\Facades\Validator;//para validar
+
+use Rut;
+
 
 class FuncionarioController extends Controller
 {
@@ -50,10 +57,85 @@ class FuncionarioController extends Controller
 
     public function store(UserRequest $request)
     {
-        //dd($request-> all());
-        $user = new User($request -> all());
-        $user->password = bcrypt($request->password);
-        //dd($user);
+        $datos = $request->all();
+        $mensajes = array(
+         'cl_rut' => 'Ingrese rut valido porfavor',
+         );
+        /*SE MODIFICAN REGLAS SEGUN TIPO DE USUARIO*/
+        $reglas = array(
+            'nombre'     => 'min:4|max:15|required|alpha',
+            'apellido' => 'min:3|max:15|required|alpha',
+            'rut'      => 'between:7,12|unique:users|required|string|cl_rut',
+            'tipo'  => 'required|in:Visita,Administrador,Funcionario,Alumno',//pueden ser esos 4 tipos
+            'email'    => 'min:4|max:250|unique:users|required_if:tipo,Administrador,Funcionario,Alumno|email',//se requiere si no es visita
+            'password' => 'min:4|max:120|required_if:tipo,Administrador,Funcionario',//se requiere si el tipo es admin o func
+            'carrera' => 'required_if:tipo,Alumno'//se requiere si el tipo es cliente,alumno
+        );
+
+        $v = Validator::make($datos, $reglas,$mensajes);
+
+        if($v->fails())
+        {
+            return redirect()->back()->withErrors($v->errors())->withInput($request->except('password'));
+            //withInput($request->except('password')) devuelve todos los inputs, excepto el password
+        }
+        $nombre=ucfirst(strtolower($request->nombre));//se da formato al nombre
+        $apellido=ucfirst(strtolower($request->apellido));//se da formato al apellido
+        /*formato rut ,para guardar en la base de datos, se guarda sin puntos ni guion y se guarda k*/
+        $rut="";
+        $aux=$request->rut;
+        for ($i=0; $i<strlen($aux); $i++) {
+            if (is_numeric($aux[$i]))
+            {
+                $rut.=$aux[$i];
+            }
+            if($i == (strlen($aux)-1) && $aux[$i] == "k")
+            {
+
+                $rut.=$aux[$i];
+            }
+        }
+        /*fin formato rut*/
+        /*FILTRO PARA QUE NO SE DUPLIQUEN LOS RUT*/
+        $contador= DB::table('users')->where('rut','=', $rut)->count();
+        if($contador != 0){
+            Flash::warning('El rut ingresado ya esta en la base de datos!');
+            return redirect()->back()->withInput($request->except('password'));
+        }
+        /*FIN FILTRO PARA QUE NO SE DUPLIQUEN LOS RUT*/
+        $user = new User();
+        if($request->tipo == "Administrador" || $request->tipo == "Funcionario"){//si el tipo de usuario es administrador o funcionario
+            $user->carrera_id = "16";
+            $user->password = bcrypt($request->password);
+            $user->email = $request->email;
+            if($request->tipo == "Administrador"){
+                $user->type_id = 2;
+            }else{
+                $user->type_id = 3;
+            }
+        }elseif($request->tipo == "Visita"){//visita
+            $user->carrera_id="17";
+            $user->type_id = 1;
+            $user->email= $rut."_".$user->carrera_id."VISITA@soyvisita.cls";//el mail no puede ser nulo
+            $user->rut = $rut;
+            $user->name = $nombre." ".$apellido;
+            $user->save();
+            Flash::success('Se ha registrado '. $user->name .' de forma exitosa!');
+            return redirect()->route('funcionario.bicicletas.create', $user->id);
+        }elseif($request->tipo == "Alumno"){//Alumno
+            $user->password = bcrypt($request->rut);
+            $user->type_id = 4;
+            $user->email = $request->email;
+            $user->name = $nombre." ".$apellido;
+            $user->rut = $rut;
+            $user->carrera_id = $request->carrera;
+            $user->save();
+            Flash::success('Se ha registrado '. $user->name .' de forma exitosa!');
+            return redirect()->route('funcionario.bicicletas.create', $user->id);
+        }
+        
+        $user->rut = $rut;
+        $user->name = $nombre." ".$apellido;
         $user->save();
 
         Flash::success('Se ha registrado '. $user->name .' de forma exitosa!');
@@ -71,25 +153,42 @@ class FuncionarioController extends Controller
 
     public function edit($id)
     {
-        $user = User::find($id);
-        //$user = User::where('type_id',"=",3)->get();
         $encargado = Auth::user();
-        if($encargado->id == $id){
-            $name = $encargado->name;
-            $rut = $encargado->rut;
-            $correo = $encargado->email;
-            return view('funcionario.users.edit')->with('user', $user)->with('name',$name)->with('rut',$rut);
+        $user = User::find($id);
+        if($user->type_id == 1 || $user->type_id == 4){
+            //$user = User::where('type_id',"=",3)->get();
+            $title = "usuario ". $user->name;
+
+            $particiones = explode(" ",$user->name);
+            if(count($particiones) == 2){
+                $nombre = $particiones[0];
+                $apellido = $particiones[1];
+            }else{
+                $nombre = $particiones[0];
+                $apellido = "";
+            }
+            
+            //dd($user);
+
+            return view('funcionario.users.edit')->with('user', $user)->with('title',$title)->with('nombre',$nombre)->with('apellido',$apellido);
         }
-        if($user->type_id == 2 || $user->type_id == 3){
-            Flash::warning('Funcionario no tienes permiso para realizar esta acción ! ');
-            return redirect()->route('funcionario.users.index');
+        if($encargado->id == $user->id){
+            $title = "mi Perfil";
+            $particiones = explode(" ",$user->name);
+            if(count($particiones) == 2){
+                $nombre = $particiones[0];
+                $apellido = $particiones[1];
+            }else{
+                $nombre = $particiones[0];
+                $apellido = "";
+            }
+
+            return view('funcionario.users.edit')->with('user', $user)->with('title',$title)->with('nombre',$nombre)->with('apellido',$apellido);
         }
         else{
-            $name = User::find($user->name);
-            $rut = User::find($user->rut);
-            return view('funcionario.users.edit')->with('user', $user)->with('name',$name)->with('rut',$rut);
+            Flash::warning('No tienes permiso para realizar esta acción');
+            return redirect()->route('funcionario.users.index');
         }
-        
 
     }
 
@@ -124,14 +223,83 @@ class FuncionarioController extends Controller
     {
         //dd($request->all());
         $user = User::find($id);
-        $user->name = $request->name;
-        $user->rut= $request->rut;
-        $user->email= $request->email;
-        $user->save();
+        $datos = $request->all();
+        $mensajes = array(
+         'cl_rut' => 'Ingrese rut valido porfavor',
+         );
 
-        //flash('El usuario '. $user->name . ' ha sido editado con exito!', 'warning');
-        Flash::warning('El usuario '. $user->name . ' ha sido editado con exito!');
+        /*SE MODIFICAN REGLAS SEGUN TIPO DE USUARIO*/
+        $reglas = array(
+            'nombre'     => 'min:4|max:15|required|alpha',
+            'apellido' => 'min:3|max:15|required|alpha',
+            'rut'      => 'between:7,12|unique:users|required|string|cl_rut',
+            'email'    => 'min:4|max:250|unique:users|required_if:tipo,Administrador,Funcionario,Alumno|email',//se requiere si no es visita
+        );
+        /*formato rut ,para guardar en la base de datos, se guarda sin puntos ni guion y se guarda k*/
+        $rut="";
+        $aux=$request->rut;
+        for ($i=0; $i<strlen($aux); $i++) {
+            if (is_numeric($aux[$i]))
+            {
+                $rut.=$aux[$i];
+            }
+            if($i == (strlen($aux)-1) && $aux[$i] == "k")
+            {
+
+                $rut.=$aux[$i];
+            }
+        }
+        /*fin formato rut*/
+
+        /*INICIO MODIFICACION REGLAS*/
+        //si no se modifica ni rut ni email
+        if($user->rut == $rut && $user->email == $request->email){
+            $reglas['rut'] = 'between:7,12|required|string|cl_rut';
+            $reglas['email'] = 'min:4|max:250|required_if:tipo,Administrador,Funcionario,Alumno|email';
+        }
+        //si no se modifica el rut
+        if($user->rut == $rut){
+            $reglas['rut'] = 'between:7,12|required|string|cl_rut';
+        }
+        //si no se modifica el mail
+        if($user->email == $request->email){
+            $reglas['email'] = 'min:4|max:250|required_if:tipo,Administrador,Funcionario,Alumno|email';
+        }
+        /*FIN MODIFICACION REGLAS*/
+
+        $v = Validator::make($datos, $reglas,$mensajes);
+
+        if($v->fails())
+        {
+            return redirect()->back()->withErrors($v->errors())->withInput($request->except('password'));
+            //withInput($request->except('password')) devuelve todos los inputs, excepto el password
+        }
+        $nombre=ucfirst(strtolower($request->nombre));//se da formato al nombre
+        $apellido=ucfirst(strtolower($request->apellido));//se da formato al apellido
+        
+        //dd($request->all());
+        $user = User::find($id);
+        $user->name = $nombre." ".$apellido;
+        $user->email= $request->email;
+        $user->rut = $rut;
+        //dd($user,$request->all());
+        /*FILTRO PARA QUE NO SE DUPLIQUEN LOS RUT*/
+        $contador= DB::table('users')->where('rut','=', $user->rut)->where('id','<>',$user->id)->count();
+        if($contador != 0){
+            Flash::warning('El rut ingresado ya esta en la base de datos!');
+            return redirect()->back()->withInput($request->except('password'));
+        }
+        /*FIN FILTRO PARA QUE NO SE DUPLIQUEN LOS RUT*/
+        $user->save();
+        $encargado = Auth::user();
+        if($encargado->id == $user->id){
+            Flash::warning('Tú perfil ha sido editado con exito '. $user->name . ' !');
+        }else{
+            Flash::warning('El usuario '. $user->name . ' ha sido editado con exito!');
+        }
+
         return redirect()->route('funcionario.users.index');
+
     }
 
     public function autocomplete(Request $request)
