@@ -11,19 +11,20 @@ use App\User;
 
 @section('content')
 	<div class="row">
-		<div class="col-md-3">
 			<!--Buscador de "clientes" -->
 			{!! Form::open(['route' => 'admin.bicicletas.ingreso', 'method' => 'get']) !!}
-					{{ Form::text('q','',['id' => 'q','placeholder' => 'Buscar Cliente...','required']) }}
-					<input type="hidden" name="valor" id="valor" autocomplete="on">
-					{!! Form::submit('Ingresar llegada' ,['class' => 'btn btn-danger']) !!}
-			{!! Form::close() !!}
-			<!--Fin del buscador -->
+			<input type="hidden" name="valor" id="valor" autocomplete="on">
+	    <div class="col-md-3">			
+			{{ Form::text('q','',['id' => 'q','placeholder' => 'Buscar Cliente...','required','class' => 'form-control']) }}
 		</div>
-		<div class="col-md-5">
+		<div class="col-md-2">
+			{!! Form::submit('Ingresar llegada' ,['class' => 'btn btn-danger']) !!}
+		</div>
+			{!! Form::close() !!}
+				<!--Fin del buscador -->
+		<div class="col-md-4">
 			<a href="{{ route('admin.users.create') }}" class="btn btn-success">Registrar nuevo Usuario e Ingresar Bicicleta</a>
 		</div>
-		
 	</div>
 	
 	<br><br>
@@ -158,6 +159,7 @@ $(function(){
 });
 $(document).ready(function(){
     $('#datatable_bike_u').DataTable({
+    	responsive: true,
     	"order": false,
     	"ordering": false,
     	dom: 'Bfrtip',

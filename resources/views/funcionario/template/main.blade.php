@@ -17,6 +17,9 @@
 	<!-- Fancybox -->
 	<link rel="stylesheet" href="{{ asset('plugins/fancyBox/source/jquery.fancybox.css') }}">
 	<!-- Fin Fancybox-->
+	<!--Font-awesome -->
+	<link rel="stylesheet" href="{{ asset('plugins/font-awesome-4.7.0/css/font-awesome.min.css') }}">
+	<!--Fin Font-awesome -->
 
 	@yield('head')
 </head>
