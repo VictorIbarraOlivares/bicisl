@@ -123,7 +123,7 @@ class UsersController extends Controller
             Flash::success('Se ha registrado '. $user->name .' de forma exitosa!');
             return redirect()->route('admin.bicicletas.create', $user->id);
         }elseif($request->tipo == "Alumno"){//Alumno
-            $user->password = bcrypt($request->rut);
+            $user->password = bcrypt("Alumno123");
             $user->type_id = 4;
             $user->email = $request->email;
             $user->name = $nombre." ".$apellido;

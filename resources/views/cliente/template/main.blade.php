@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>@yield('title', 'Default') | Panel de Cliente</title>
+	<title>@yield('title', 'Default') | Panel de Administración</title>
 	<link rel="stylesheet" href="{{ asset('plugins/bootstrap/css/bootstrap.css') }}">
 	<!-- DATATABLES -->
 	<link rel="stylesheet" href="{{ asset('plugins/datatables/Bootsrap-3.3.7/css/bootstrap.min.css') }}"><!--BORRAR A VER SI SIGUE FUNCIONANDO -->
@@ -37,7 +37,20 @@
 				        {{ Session::get('flash_notification.message') }}
 				    </div>
 				@endif
+				@php/*ERRORES DEL VALIDATOR*/@endphp
+				@if(count($errors) > 0)
+					<div class="alert alert-danger" role="alert">
+						<p><strong>Por favor corrige los errores</strong></p>
+						<ul>
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+							@foreach($errors->all() as $error)
+								<li>{{ $error }} </li>
+							@endforeach
+						</ul>
+					</div>
+				@endif
 				@yield('content')
+				
 			</div>
 		</div>
 

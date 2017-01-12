@@ -7,32 +7,51 @@
 @section('title','Detalles ' . $title)
 
 @section('content')
-
-		<div class="form-group">
-			{!! Form::label('name', 'Nombre') !!}
-			{!! Form::text('name',  $user->name ,['class' => 'form-control' ,'readonly'=>'readonly']) !!}
-		</div>
-
-		<div class="form-group">
-			{!! Form::label('rut', 'Rut') !!}
-			{!! Form::text('rut', $user->rut ,['class' => 'form-control','readonly'=>'readonly']) !!}
-		</div>
-
-		<div class="form-group">
-			{!! Form::label('email', 'Correo Electronico') !!}
-			{!! Form::text('email', $user->email ,['class' => 'form-control' ,'readonly'=>'readonly']) !!} <!-- No deberia ser requerido para los funcionarios -->
-		</div>
-
-		<div class="form-group">
-			{!! Form::label('type_name','Tipo') !!}
-			{!! Form::text('type_name',  $user->nomTipo ,['class' => 'form-control' ,'readonly'=>'readonly']) !!}
-		</div>
-		@if($user->tipo == 4)
-			<div class="form-group">
-				{!! Form::label('carera_id','Carrera') !!}
-				{!! Form::text('carrera_name',  $user->nomCarrera ,['class' => 'form-control' ,'readonly'=>'readonly']) !!}
+		
+		<div class="row">
+			<div class="col-md-3">
+				<div class="form-group">
+					{!! Form::label('name', 'Nombre') !!}
+					{!! Form::text('name',  $user->name ,['class' => 'form-control' ,'readonly'=>'readonly']) !!}
+				</div>
 			</div>
-		@endif
+			<div class="col-md-3">
+				<div class="form-group">
+					{!! Form::label('rut', 'Rut') !!}
+					{!! Form::text('rut', formato_rut($user->rut),['class' => 'form-control','readonly'=>'readonly']) !!}
+				</div>
+			</div>
+				<div class="col-md-4">
+					<div class="form-group">
+				@if($user->nomTipo != "Visita")
+					{!! Form::label('email', 'Correo Electronico') !!}
+					{!! Form::text('email', $user->email ,['class' => 'form-control' ,'readonly'=>'readonly']) !!}
+				@endif
+				</div>
+			</div>
+			
+		</div>
+
+		
+
+		
+		<div class="row">
+			<div class="col-md-3">
+				<div class="form-group">
+					{!! Form::label('type_name','Tipo') !!}
+					{!! Form::text('type_name',  $user->nomTipo ,['class' => 'form-control' ,'readonly'=>'readonly']) !!}
+				</div>
+			</div>
+			<div class="col-md-5">
+				@if($user->tipo == 4)
+					<div class="form-group">
+						{!! Form::label('carera_id','Carrera') !!}
+						{!! Form::text('carrera_name',  $user->nomCarrera ,['class' => 'form-control' ,'readonly'=>'readonly']) !!}
+					</div>
+				@endif
+			</div>
+		</div>
+		
 		<hr>
 		<br>
 		@if($bikes == null)
