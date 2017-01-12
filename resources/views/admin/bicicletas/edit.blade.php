@@ -232,7 +232,7 @@ function datos(id,valor){
 			</div>
 
 			<!--CODIGO PARA NO ACTIVA -->
-			<h5 class="form-section" id="titleS"><strong>Detalles nueva Salida de la Universidad<strong></h5>
+			<h5 class="form-section" id="titleS" style="display: none;"><strong>Detalles nueva Salida de la Universidad<strong></h5>
 			<div class="row">
 				<div class="col-md-4">
 					<div class="form-group" id='fecha_salidaN' style="display: none;">

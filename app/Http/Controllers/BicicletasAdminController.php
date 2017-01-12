@@ -48,7 +48,8 @@ class BicicletasAdminController extends Controller
     	//dd($request->all());
         $datos = $request->all();
         $reglas = array(
-            'descripcion'     => 'min:8|max:30|required|string',
+            'color'     => 'min:4|max:10|required|alpha',
+            'tipo' => 'min:5|max:10|required|alpha',
             'nota' => 'min:4|max:30|string'
         );
         
@@ -59,20 +60,26 @@ class BicicletasAdminController extends Controller
             return redirect()->back()->withErrors($v->errors())->withInput($request->all());
             //withInput($request->except('password')) devuelve todos los inputs, excepto el password
         }
+
+        $color=ucfirst(strtolower($request->color));//se da formato al nombre
+        $tipo=ucfirst(strtolower($request->tipo));//se da formato al apellido
+
     	$user = User::find($request->user_id);
-    	$bike = new Bike($request->all());
-        $bike->descripcion = preg_replace('/[0-9]+/', '', $bike->descripcion);//elimina números
-        $bike->descripcion = preg_replace('([^ A-Za-z0-9_-ñÑ])', '', $bike->descripcion);//elimina caracteres especiales
-        $bike->nota = preg_replace('/[0-9]+/', '', $bike->nota);//elimina números
-        $bike->nota = preg_replace('([^ A-Za-z0-9_-ñÑ])', '', $bike->nota);//elimina caracteres especiales
-    	//dd($bike);
-    	if($bike->fecha_a != ""){
-    		$bike->fecha_a = date("Y-m-d");
-    	}
+    	$bike = new Bike();
+        $diaActual = date("Y-m-d");
+
+        $bike->descripcion= $color." - ".$tipo;
+        $bike->nota = $request->nota;
+        $bike->fecha_a = $diaActual;
+        $bike->hora_a = $request->hora_a;
+        $bike->encargado_a = $request->encargado_a;
+        $bike->activa = 1;
+        $bike->user_id = $user->id;
+    	//dd($request->all(),$bike);
 
     	$bike->save();
 
-    	Flash::success('Se ha registrado la bicicleta de '.$user->name.' de forma exitosa');
+    	Flash::success('Se ha registrado la bicicleta de '.$user->name. ' de forma exitosa');
     	return redirect()->route('admin.home');
 
 

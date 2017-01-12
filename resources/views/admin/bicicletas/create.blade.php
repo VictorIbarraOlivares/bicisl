@@ -26,37 +26,63 @@ function datos(id){
 
 @section('content')
 	{!! Form::open(['route' => 'admin.bicicletas.store', 'method' => 'POST' , 'name' => 'creando']) !!}
-
-		<div class="form-group">
-			{!! Form::label('descripcion', 'Descripcion simple de la Bicicleta') !!}
-			{!! Form::text('descripcion', null ,['class' => 'form-control', 'placeholder' => 'Descripcion simple ,ejemplo : Color - Tipo de bicicleta' ,'required']) !!}
+		<h5 class="form-section"><strong>Descripcion para Bicicleta<strong></h5>
+		<div class="row">
+			<div class="col-md-2">
+				<div class="form-group">
+					{!! Form::label('color', 'Color') !!}
+					{!! Form::text('color', null ,['class' => 'form-control', 'placeholder' => 'Ingrese Color' ,'required']) !!}
+				</div>
+			</div>
+			<div class="col-md-2">
+				<div class="form-group">
+					{!! Form::label('tipo','Tipo') !!}
+					{!! Form::text('tipo',null,['class' => 'form-control','placeholder' => 'ej:montaña','required']) !!}
+				</div>
+			</div>
+			<div class="col-md-5">
+				<div class="form-group" id='notas' ">
+					{!! Form::label('nota', 'Nota para Bicicleta') !!}
+					{!! Form::text('nota', null ,['class' => 'form-control', 'placeholder' => 'Nota para bicicleta en caso que sea necesario']) !!}
+				</div>
+			</div>
+			
 		</div>
-
+		<br>
+		<hr>
 		<div class="form-group">
-			<p>Opcion :</p>
+			<p><strong>Opcion : </strong></p>
 			<input name='activa' type='radio' value='1' checked="checked"  title="Significa que la bicicleta esta en la Universidad" >Bicicleta Activa</input>
 		</div>
 
-		<div class="form-group" id='notas' ">
-			{!! Form::label('nota', 'Nota para Bicicleta') !!}
-			{!! Form::text('nota', null ,['class' => 'form-control', 'placeholder' => 'Ingrese alguna nota sobre la bicicleta en caso que sea necesario']) !!}
+		<h5 class="form-section"><strong>Detalles Ingreso a la Universidad<strong></h5>
+		<div class="row">
+			<div class="col-md-4">
+				<div class="form-group" id='fecha_activa' ">
+					{!! Form::label('fecha_a', 'Fecha') !!}
+					{!! Form::text('fecha_a', date("d-m-Y") ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group" id='hora_activa' " >
+					{!! Form::label('hora_a', 'Hora') !!}
+					{!! Form::text('hora_a', date("H:i:s",time()) ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group" id='encargado_activa' ">
+					{!! Form::label('encargado_a', 'Encargado del ingreso') !!}
+					{!! Form::text('encargado_activa', $encargado->name ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
+					{!! Form::text('encargado_a', $encargado->id ,['class' => 'form-control', 'style' => 'display:none']) !!}
+				</div>
+			</div>
+			
 		</div>
+		
 
-		<div class="form-group" id='fecha_activa' ">
-			{!! Form::label('fecha_a', 'Fecha de ingreso a la Universidad de la bicicleta') !!}
-			{!! Form::text('fecha_a', date("d-m-Y") ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
-		</div>
+		
 
-		<div class="form-group" id='hora_activa' " >
-			{!! Form::label('hora_a', 'Hora de ingreso a la Universidad de la bicicleta') !!}
-			{!! Form::text('hora_a', date("H:i:s",time()) ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
-		</div>
-
-		<div class="form-group" id='encargado_activa' ">
-			{!! Form::label('encargado_a', 'Encargado del ingreso a la Universidad de la bicicleta') !!}
-			{!! Form::text('encargado_activa', $encargado->name ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
-			{!! Form::text('encargado_a', $encargado->id ,['class' => 'form-control', 'style' => 'display:none']) !!}
-		</div>
+		
 
 		<div class="form-group" style="display: none;">
 		{!! Form::label('user_id', 'Le pertenece a ') !!}
