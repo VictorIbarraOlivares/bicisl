@@ -113,16 +113,7 @@ $(document).ready(function() {
     },
 	});
 });
-$(function(){
-	$("#q").autocomplete({
-		source: "{{ route('cliente.users.autocomplete') }}",
-		minLength: 2,
-		select: function(event, ui){
-			$('#q').val(ui.item.value);
-			$('#valor').val(ui.item.id);
-		}
-	});
-});
+
 $(document).ready(function(){
     $('#datatable_bike_u').DataTable({
     	"order": false,

@@ -140,13 +140,13 @@ Route::group(['prefix' => 'funcionario', 'middleware' => ['auth','is_funcionario
 	
 });
 
-Route::group(['prefix' => 'Cliente', 'middleware' => ['auth','is_cliente']],function(){
+Route::group(['prefix' => 'cliente', 'middleware' => ['auth','is_cliente']],function(){
 	Route::resource('users','ClienteController');
 	Route::get('home',[
 		'uses' => 'ClienteController@home',
 		'as' => 'cliente.home'
 	]);
-	Route::get('users',[
+	Route::get('user/{id}',[
 		'uses' => 'ClienteController@show',
 		'as' => 'cliente.detalle'
 	]);
