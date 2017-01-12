@@ -4,16 +4,23 @@
 
 @section('content')
 
-		<div class="form-group">
-			{!! Form::label('name', 'Nombre') !!}
-			{!! Form::text('name',  $carrera->name ,['class' => 'form-control' ,'readonly'=>'readonly']) !!}
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group">
+					{!! Form::label('name', 'Nombre') !!}
+					{!! Form::text('name',  $carrera->name ,['class' => 'form-control' ,'readonly'=>'readonly']) !!}
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="form-group">
+					{!! Form::label('codigo_carrera', 'Código Carrera') !!}
+					{!! Form::text('codigo_carrera', $carrera->codigo_carrera ,['class' => 'form-control','readonly'=>'readonly']) !!}
+				</div>
+			</div>
 		</div>
 
-		<div class="form-group">
-			{!! Form::label('codigo_carrera', 'Código Carrera') !!}
-			{!! Form::text('codigo_carrera', $carrera->codigo_carrera ,['class' => 'form-control','readonly'=>'readonly']) !!}
-		</div>
 		<p style="font-weight:bold;">Total de personas que pertenecen a esta carrera : {{$contador}} </p>
+		<hr>
 
 		<!-- Inicio de tabla de los usuarios -->
 		<table class="table" width="100%" cellpadding="0" cellspacing="0" id="datatable_usuarios">
@@ -34,7 +41,7 @@
 						@if($user->type_id == "4")
 							<span class="label label-primary">Alumno</span>
 						@elseif($user->type_id == "2")
-							<span class="label label-danger">funcionarioistrador</span>
+							<span class="label label-danger">Administrador</span>
 						@elseif($user->type_id == "3")
 							<span class="label label-info">Funcionario</span>
 						@else

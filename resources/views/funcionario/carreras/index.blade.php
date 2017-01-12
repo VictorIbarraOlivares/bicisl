@@ -13,7 +13,7 @@
 			@foreach($carreras as $carrera)
 				<tr>
 					<td>{{ $carrera->name }}</td>
-					<?php $contador = DB::table('users')->where('carrera_id','=',$carrera->id)->count(); ?>
+					@php $contador = DB::table('users')->where('carrera_id','=',$carrera->id)->count(); @endphp
 					<td align="center"> {{ $contador }} </td>
 					<td align="center">{{ $carrera->codigo_carrera }}</td>
 					<td>

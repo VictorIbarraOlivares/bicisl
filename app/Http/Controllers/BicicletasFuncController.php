@@ -6,10 +6,10 @@ use DB;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;//para validar
 
 use App\Http\Requests;
 use Mail;
-use Session;
 use App\User;
 use App\Type;
 use App\Carrera;
@@ -49,8 +49,25 @@ class BicicletasFuncController extends Controller
     public function store(Request $request)
     {
         //dd($request->all());
+        $datos = $request->all();
+        $reglas = array(
+            'descripcion'     => 'min:8|max:30|required|string',
+            'nota' => 'min:4|max:30|string'
+        );
+        
+        $v = Validator::make($datos, $reglas);
+
+        if($v->fails())
+        {
+            return redirect()->back()->withErrors($v->errors())->withInput($request->all());
+            //withInput($request->except('password')) devuelve todos los inputs, excepto el password
+        }
         $user = User::find($request->user_id);
         $bike = new Bike($request->all());
+        $bike->descripcion = preg_replace('/[0-9]+/', '', $bike->descripcion);//elimina números
+        $bike->descripcion = preg_replace('([^ A-Za-z0-9_-ñÑ])', '', $bike->descripcion);//elimina caracteres especiales
+        $bike->nota = preg_replace('/[0-9]+/', '', $bike->nota);//elimina números
+        $bike->nota = preg_replace('([^ A-Za-z0-9_-ñÑ])', '', $bike->nota);//elimina caracteres especiales
         //dd($bike);
         if($bike->fecha_a != ""){
             $bike->fecha_a = date("Y-m-d");
@@ -59,7 +76,7 @@ class BicicletasFuncController extends Controller
         $bike->save();
 
         Flash::success('Se ha registrado la bicicleta de '.$user->name.' de forma exitosa');
-        return redirect()->route('funcionario.bicicletas.index');
+        return redirect()->route('funcionario.home');
 
 
     }
@@ -89,20 +106,40 @@ class BicicletasFuncController extends Controller
     public function update(Request $request,$id)
     {
         //dd($request->all());
+        $datos = $request->all();
+        $reglas = array(
+            'descripcion' => 'min:8|max:30|required|string',
+            'nota' => 'min:4|max:30|string'
+        );
+        
+        $v = Validator::make($datos, $reglas);
+
+        if($v->fails())
+        {
+            return redirect()->back()->withErrors($v->errors())->withInput($request->all());
+            //withInput($request->except('password')) devuelve todos los inputs, excepto el password
+        }
+        $request->descripcion = preg_replace('/[0-9]+/', '', $request->descripcion);//elimina números
+        $request->descripcion = preg_replace('([^ A-Za-z0-9_-ñÑ])', '', $request->descripcion);//elimina caracteres especiales
+        $request->nota = preg_replace('/[0-9]+/', '', $request->nota);//elimina números
+        $request->nota = preg_replace('([^ A-Za-z0-9_-ñÑ])', '', $request->nota);//elimina caracteres especiales
+
         $encargado = Auth::user();
         $bike = Bike::find($id);
         $user = User::find($bike->user_id);
-        if ($request->activa != $bike->activa){
+        if ($request->activa != $bike->activa || $bike->descripcion != $request->descripcion || $bike->nota != $request->nota){
             if($request->activa == 0){
                 $bike->encargado_s = $encargado->id;
                 $bike->fecha_s = date("Y-m-d");
                 $bike->activa = $request->activa;
+                $bike->descripcion = $request->descripcion;
                 $bike->nota = "";//se borra la nota, ya que esta pensada para la llegada de la bicicleta
                 $bike->hora_s = date("H:i:s",time());
             }else{
                 $bike->encargado_a = $encargado->id;
                 $bike->fecha_a = date("Y-m-d");
                 $bike->activa = $request->activa;
+                $bike->descripcion = $request->descripcion;
                 $bike->nota = $request->nota;
                 $bike->hora_a = date("H:i:s",time());
             }
@@ -159,11 +196,12 @@ class BicicletasFuncController extends Controller
             $bike->hora_s = date("H:i:s",time());
             Flash::warning('Se retiro la bicicleta de '. $user->name . ' !');
 
-            Mail::send('mensaje',['user' => $user],function($msje) use ($user){
-                $msje->subject('SALIDA BICICLETA');             
-                $msje->to($user->email);
-            });
-
+            if($user->type_id != 1){
+                Mail::send('mensaje',['user' => $user],function($msje) use ($user){
+                    $msje->subject('SALIDA BICICLETA');             
+                    $msje->to($user->email);
+                });
+            }
         }else{
             $bike->encargado_a = $encargado->id;
             $bike->fecha_a = date("Y-m-d");
