@@ -148,7 +148,15 @@ Route::group(['prefix' => 'cliente', 'middleware' => ['auth','is_cliente']],func
 	]);
 	Route::get('user/{id}',[
 		'uses' => 'ClienteController@show',
-		'as' => 'cliente.detalle'
+		'as' => 'cliente.users.detalle'
 	]);
 
+	Route::get('user{id}/editBicicleta',[
+		'uses' => 'ClienteController@editBicicleta',
+		'as' => 'cliente.bicicletas.edit'
+	]);
+	Route::put('user/updateBicicleta',[
+		'uses' => 'ClienteController@updateBicicleta',
+		'as' => 'cliente.bicicletas.updateBicicleta'
+	]);
 });

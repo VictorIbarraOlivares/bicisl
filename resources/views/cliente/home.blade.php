@@ -16,15 +16,11 @@ use App\User;
 		<table class="table" width="100%" cellpadding="0" cellspacing="0" id="datatable_bike_u">
 		<thead>
 			<th>Dueño</th>
-			<th>Activa</th>
 			<th>Descripcion</th>
 			<th>Hora Llegada</th>
 			<th>Fecha Llegada</th>
-			<th>Encargado Llegada</th>
 			<th>Hora Salida</th>
 			<th>Fecha Salida</th>
-			<th>Encargado Salida</th>
-			<th>Acción</th>
 		</thead>
 		<tbody>
 			@foreach($bikes as $bike)
@@ -46,11 +42,9 @@ use App\User;
 			@php	}
 				@endphp
 					<td>{{ $bike->dueño }}</td>
-					<td>{{ $bike->activa }}</td>
 					<td>{{ $bike->descripcion }}</td>
 					<td>{{ $bike->hora_a }}</td>
 					<td>{{ formato_y_m_d($bike->fecha_a) }}</td>
-					<td>{{ $encargadoLLegada->name }}</td> 
 					<td>
 						@if($bike->fecha_s != $hoy)
 							--:--:--
@@ -63,17 +57,6 @@ use App\User;
 							xx-xx-xxxx
 						@else
 							{{ formato_y_m_d($bike->fecha_s) }}
-						@endif
-					</td>
-					<td>
-						@if($bike->fecha_s != $hoy)
-							No registra retiro hoy
-						@else
-							@if($aux == 1)
-						  	{{ $encargadoSalida->name }}
-							@else
-								No registra salida
-							@endif
 						@endif
 					</td>
 				</tr>
