@@ -107,13 +107,50 @@ use App\User;
 							<a href="{{ route('admin.bicicletas.cambiar', $bike->id) }}" class="btn btn-success" onclick="return confirm('¿Seguro quieres retirar la bicicleta? \n Esto Enviara un mail al dueño')" title="Retirar"><span class="glyphicon glyphicon-upload" aria-hidden="true" title="Retirar"></span></a>
 						@endif
 						@if($bike->nota != "")
+							<!--CODIGO QUE SIRVE PARA LA IMAGEN -->
+							<!--
                     		<a href="{{ route('admin.bicicletas.note', $bike->id) }}" class="btn btn-info fancybox fancybox.ajax" title="Ver nota"><span class="glyphicon glyphicon-file" title="Ver nota"></span></a>
+                    		-->
+                    		<!--FIN CODIGO QUE SIRVE PARA LA IMAGEN -->
+                    		<a id="sample_editable_1_new" title="Ver Nota" data-role="1" class="btn btn-info option-data" data-toggle="modal" data-target="#miModalNota" >
+                    		<span class="glyphicon glyphicon-file" title="Ver nota"></span>
+                    		</a>
 						@endif
+
 					</td>
 				</tr>
 			@endforeach
 		</tbody>
 	</table>
+
+	<!-- INICIO MODAL NOTA -->
+	<div class="modal fade" id="miModalNota" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" title="Cerrar" class="close" data-dismiss="modal" aria-hidden="true"><strong>x</strong></button>
+					<h4 class="modal-title">Nota de Bicicleta</h4>
+		                <div class="row">
+		                <hr>
+		                    <div class="modal-body">
+		                        <div class="form-group">
+		                            <div class="col-md-12">
+		                                <div class="form-group">
+										{!! Form::text('nota', $bike->nota ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
+										</div>
+		                            </div>
+		                        </div>
+		                    </div>
+		                </div>
+		                <div class="modal-footer">
+		                    <button class="btn btn-warning" title="Volver" data-dismiss="modal" aria-hidden="true"><i class="fa fa-reply" aria-hidden="true"></i>Volver</button>
+		                </div>
+
+				</div>
+			</div>
+		</div>
+	 </div>
+	 <!-- FIN MODAL NOTA -->
 @endsection
 @section('script')
 <script type="text/javascript">

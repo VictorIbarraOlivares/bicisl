@@ -89,7 +89,7 @@ class UsersController extends Controller
             {
                 $rut.=$aux[$i];
             }
-            if($i == (strlen($aux)-1) && $aux[$i] == "k")
+            if($i == (strlen($aux)-1) && $aux[$i] == "K")
             {
 
                 $rut.=$aux[$i];
@@ -252,14 +252,14 @@ class UsersController extends Controller
         /*formato rut ,para guardar en la base de datos, se guarda sin puntos ni guion y se guarda k*/
         $rut="";
         $aux=$request->rut;
+        //dd($aux);
         for ($i=0; $i<strlen($aux); $i++) {
             if (is_numeric($aux[$i]))
             {
                 $rut.=$aux[$i];
             }
-            if($i == (strlen($aux)-1) && $aux[$i] == "k")
+            if($i == (strlen($aux)-1) && $aux[$i] == "K")
             {
-
                 $rut.=$aux[$i];
             }
         }

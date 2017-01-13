@@ -118,7 +118,7 @@
 		@endif
 
 
-		<a href="{{ url()->previous() }}" class="btn btn-primary" title="Volver"><span class="fa fa-btn fa-sign-in" aria-hidden="true" title="Volver">Volver</span></a>
+		<a href="{{ url()->previous() }}" class="btn btn-primary" title="Volver"><i class="fa fa-reply" aria-hidden="true"></i>Volver</a>
 
 @endsection
 @section('script')
