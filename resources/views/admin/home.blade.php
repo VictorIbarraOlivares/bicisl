@@ -104,7 +104,7 @@ use App\User;
 							<a href="{{ route('admin.bicicletas.cambiar', $bike->id) }}" class="btn btn-danger" onclick="return confirm('¿Seguro quieres voler a ingresar la bicicleta? \n Esto afectara al registro de Bicicletas en la Universidad')" title="Ingresar"><span class="glyphicon glyphicon-download" aria-hidden="true" title="Ingresar"></span></a>
 							-->
 						@else
-							<a href="{{ route('admin.bicicletas.cambiar', $bike->id) }}" class="btn btn-success" onclick="return confirm('¿Seguro quieres retirar la bicicleta? \n Esto Enviara un mail al dueño')" title="Retirar"><span class="glyphicon glyphicon-upload" aria-hidden="true" title="Retirar"></span></a>
+							<a href="{{ route('admin.bicicletas.cambiar', $bike->id) }}" class="btn btn-danger" onclick="return confirm('¿Seguro quieres retirar la bicicleta? \n Esto Enviara un mail al dueño')" title="Retirar"><i class="fa fa-bicycle fa-2x"  aria-hidden="true" style="color:black;" title="Retirar"></i>&nbsp; Retirar</a>
 						@endif
 						@if($bike->nota != "")
 							<!--CODIGO QUE SIRVE PARA LA IMAGEN -->
@@ -113,7 +113,7 @@ use App\User;
                     		-->
                     		<!--FIN CODIGO QUE SIRVE PARA LA IMAGEN -->
                     		<a id="sample_editable_1_new" title="Ver Nota" data-role="1" class="btn btn-info option-data" data-toggle="modal" data-target="#miModalNota" >
-                    		<span class="glyphicon glyphicon-file" title="Ver nota"></span>
+                    		<i class="fa fa-comment fa-2x" aria-hidden="true" title="Ver nota"></i>&nbsp; Nota
                     		</a>
 						@endif
 
@@ -136,14 +136,14 @@ use App\User;
 		                        <div class="form-group">
 		                            <div class="col-md-12">
 		                                <div class="form-group">
-										{!! Form::text('nota', $bike->nota ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
+										{!! Form::text('nota', @$bike->nota ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
 										</div>
 		                            </div>
 		                        </div>
 		                    </div>
 		                </div>
 		                <div class="modal-footer">
-		                    <button class="btn btn-warning" title="Volver" data-dismiss="modal" aria-hidden="true"><i class="fa fa-reply" aria-hidden="true"></i>Volver</button>
+		                    <button class="btn btn-warning" title="Volver" data-dismiss="modal" aria-hidden="true"><i class="fa fa-reply" aria-hidden="true"></i>&nbsp; Volver</button>
 		                </div>
 
 				</div>
