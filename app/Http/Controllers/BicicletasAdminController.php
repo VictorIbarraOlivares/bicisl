@@ -20,6 +20,38 @@ use Laracasts\Flash\Flash;
 
 class BicicletasAdminController extends Controller
 {
+    public function detallehoy()
+    {
+        $dia= date("Y-m-d");
+        $bikes = DB::table('bikes')->where("fecha_a","=",$dia)
+                ->join('users','users.id','=','bikes.user_id')
+                ->select('bikes.id','bikes.activa','bikes.descripcion','bikes.hora_a','bikes.fecha_a','hora_s','fecha_s','bikes.encargado_s','bikes.encargado_a','users.name as dueño','bikes.nota')
+                ->orderby("hora_a","asc")->get();
+
+        return view('admin.bicicletas.hoy')->with('bikes', $bikes);
+    }
+
+    public function retiro($id)
+    {
+        //dd("estas en el controlador retiro");
+        $bike = Bike::find($id);
+        return view('admin.bicicletas.modalretiro')->with('bike',$bike);    
+    }
+
+    public function mostrar($id)
+    {
+        $hoy = date("Y-m-d");
+        $bike = Bike::find($id);
+        $dueño = User::find($bike->user_id);
+        $carrera = Carrera::find($dueño->carrera_id);
+        $encargadoLLegada = User::find($bike->encargado_a);
+        if($bike->encargado_s != 0){
+            $encargadoSalida = User::find($bike->encargado_s);
+        }else{
+            $encargadoSalida = "";
+        }
+        return view('admin.bicicletas.modaldetalle')->with('bike',$bike)->with('dueño',$dueño)->with('encargadoLLegada',$encargadoLLegada)->with('encargadoSalida',$encargadoSalida)->with('carrera',$carrera)->with('hoy',$hoy);
+    }
     
 	//el id es del usuario
     public function create($id)

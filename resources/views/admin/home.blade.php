@@ -25,6 +25,10 @@ use App\User;
 		<div class="col-md-4">
 			<a href="{{ route('admin.users.create') }}" class="btn btn-success">Registrar nuevo Usuario e Ingresar Bicicleta</a>
 		</div>
+
+		<div class="col-md-3">
+			<a href="{{ route('admin.bicicletas.hoy') }}" class="btn btn-info" >Detalle De Hoy</a>
+		</div>
 	</div>
 	
 	<br><br>
@@ -35,31 +39,19 @@ use App\User;
 	<!-- fin prueba -->
 	
 	<hr>
-	<table class="table" width="100%" cellpadding="0" cellspacing="0" id="datatable_bike_u">
+	<table class="table display" width="100%" cellpadding="0" cellspacing="0" id="datatable_bike_u">
 		<thead>
 			<th>Dueño</th>
-			<th>Activa</th>
-			<th>Descripcion</th>
-			<th>Hora Llegada</th>
-			<th>Fecha Llegada</th>
-			<th>Encargado Llegada</th>
-			<th>Hora Salida</th>
-			<th>Fecha Salida</th>
-			<th>Encargado Salida</th>
-			<th>Acción</th>
+			<th style="width: 5%;text-align: center;">Activa</th>
+			<th style="width: 15%;" >Descripcion</th>
+			<th style="width: 12%;text-align: center;">Hora Llegada</th>
+			<th style="width: 12%;text-align: center;">Hora Salida</th>
+			<th style="width: 40%;">Acción</th>
 		</thead>
 		<tbody>
 			@foreach($bikes as $bike)
 			@php
 					$hoy = date("Y-m-d");
-					$encargadoLLegada = User::find($bike->encargado_a);
-					if($bike->encargado_s != 0){
-						$encargadoSalida = User::find($bike->encargado_s);
-						$aux=1;
-					}else{
-						$aux=0;
-					}
-
 					if($bike->activa == 0){
 			@endphp
 						<tr style="background-color: #069993;" >
@@ -68,12 +60,16 @@ use App\User;
 			@php	}
 				@endphp
 					<td>{{ $bike->dueño }}</td>
-					<td>{{ $bike->activa }}</td>
+					<td style="text-align: center;">
+						@if($bike->activa == 1)
+						Si
+						@else
+						No
+						@endif
+					</td>
 					<td>{{ $bike->descripcion }}</td>
-					<td>{{ $bike->hora_a }}</td>
-					<td>{{ formato_y_m_d($bike->fecha_a) }}</td>
-					<td>{{ $encargadoLLegada->name }}</td> 
-					<td>
+					<td style="text-align: center;">{{ $bike->hora_a }}</td> 
+					<td style="text-align: center;">
 						@if($bike->fecha_s != $hoy)
 							--:--:--
 						@else
@@ -81,30 +77,15 @@ use App\User;
 						@endif
 					</td>
 					<td>
-						@if($bike->fecha_s != $hoy)
-							xx-xx-xxxx
-						@else
-							{{ formato_y_m_d($bike->fecha_s) }}
-						@endif
-					</td>
-					<td>
-						@if($bike->fecha_s != $hoy)
-							No registra retiro hoy
-						@else
-							@if($aux == 1)
-						  	{{ $encargadoSalida->name }}
-							@else
-								No registra salida
-							@endif
-						@endif
-					</td>
-					<td>
+					<a  title="Detalles" data-role="{{ $bike->id }}" class="btn btn-success detalles-data" data-target="#miModalDetalle" style="color:black;">
+                    <i class="fa fa-address-card-o fa-2x" aria-hidden="true" title="Detalles" style="color:black;" ></i>&nbsp; Detalles</a>
 						@if($bike->activa == 0)
 						<!-- SE QUITA ESTO, SOLO SE PUEDE INGRESAR MEDIANTE EL BOTON DE INGRESO
 							<a href="{{ route('admin.bicicletas.cambiar', $bike->id) }}" class="btn btn-danger" onclick="return confirm('¿Seguro quieres voler a ingresar la bicicleta? \n Esto afectara al registro de Bicicletas en la Universidad')" title="Ingresar"><span class="glyphicon glyphicon-download" aria-hidden="true" title="Ingresar"></span></a>
 							-->
 						@else
-							<a href="{{ route('admin.bicicletas.cambiar', $bike->id) }}" class="btn btn-danger" onclick="return confirm('¿Seguro quieres retirar la bicicleta? \n Esto Enviara un mail al dueño')" title="Retirar"><i class="fa fa-bicycle fa-2x"  aria-hidden="true" style="color:black;" title="Retirar"></i>&nbsp; Retirar</a>
+							<a  title="Retirar" data-role="{{ $bike->id }}" class="btn btn-danger optionretiro-data" data-target="#miModalRetiro" style="color:black;">
+                    		<i class="fa fa-bicycle fa-2x" aria-hidden="true" title="Retirar" style="color:black;" ></i>&nbsp; Retirar</a>
 						@endif
 						@if($bike->nota != "")
 							<!--CODIGO QUE SIRVE PARA LA IMAGEN -->
@@ -112,8 +93,8 @@ use App\User;
                     		<a href="{{ route('admin.bicicletas.note', $bike->id) }}" class="btn btn-info fancybox fancybox.ajax" title="Ver nota"><span class="glyphicon glyphicon-file" title="Ver nota"></span></a>
                     		-->
                     		<!--FIN CODIGO QUE SIRVE PARA LA IMAGEN -->
-                    		<a id="sample_editable_1_new" title="Ver Nota" data-role="1" class="btn btn-info option-data" data-toggle="modal" data-target="#miModalNota" >
-                    		<i class="fa fa-comment fa-2x" aria-hidden="true" title="Ver nota"></i>&nbsp; Nota
+                    		<a id="sample_editable_1_new" title="Ver Nota" data-role="1" class="btn btn-info option-data" data-toggle="modal" data-target="#miModalNota" style="color:black;" >
+                    		<i class="fa fa-comment fa-2x" aria-hidden="true" style="color:black;" title="Ver nota"></i>&nbsp; Nota
                     		</a>
 						@endif
 
@@ -123,34 +104,36 @@ use App\User;
 		</tbody>
 	</table>
 
-	<!-- INICIO MODAL NOTA -->
-	<div class="modal fade" id="miModalNota" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true">
-		<div class="modal-dialog modal-sm">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" title="Cerrar" class="close" data-dismiss="modal" aria-hidden="true"><strong>x</strong></button>
-					<h4 class="modal-title">Nota de Bicicleta</h4>
-		                <div class="row">
-		                <hr>
-		                    <div class="modal-body">
-		                        <div class="form-group">
-		                            <div class="col-md-12">
-		                                <div class="form-group">
-										{!! Form::text('nota', @$bike->nota ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
-										</div>
-		                            </div>
-		                        </div>
-		                    </div>
-		                </div>
-		                <div class="modal-footer">
-		                    <button class="btn btn-warning" title="Volver" data-dismiss="modal" aria-hidden="true"><i class="fa fa-reply" aria-hidden="true"></i>&nbsp; Volver</button>
-		                </div>
+<!-- INICIO MODAL NOTA -->
+<div class="modal fade" id="miModalNota" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" title="Cerrar" class="close" data-dismiss="modal" aria-hidden="true"><strong>x</strong></button>
+				<h4 class="modal-title">Nota de Bicicleta</h4>
+	                <div class="row">
+	                <hr>
+	                    <div class="modal-body">
+	                        <div class="form-group">
+	                            <div class="col-md-12">
+	                                <div class="form-group">
+									{!! Form::text('nota', @$bike->nota ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
+									</div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	                <div class="modal-footer">
+	                    <button class="btn btn-warning" title="Volver" data-dismiss="modal" aria-hidden="true"><i class="fa fa-reply" aria-hidden="true"></i>&nbsp; Volver</button>
+	                </div>
 
-				</div>
 			</div>
 		</div>
-	 </div>
-	 <!-- FIN MODAL NOTA -->
+	</div>
+ </div>
+ <!-- FIN MODAL NOTA -->
+	 
+<div id="modal"></div>
 @endsection
 @section('script')
 <script type="text/javascript">
@@ -172,6 +155,27 @@ $(".single-image").fancybox({
 });
 */
 $(document).ready(function() {
+
+	$(".optionretiro-data").click(function(){
+            var data = $(this).data("role");
+            $.get( "bicicletas/retiro/" + data, function( data ) {            	
+                $( "#modal" ).html( data );
+                //$("#miModalRetiro").modal("hide");
+                //$("#miModalRetiro").modal("toggle");
+                $( "#miModalRetiro" ).modal();
+            });
+        });
+
+	$(".detalles-data").click(function(){
+            var data = $(this).data("role");
+            $.get( "bicicletas/mostrar/" + data, function( data ) {            	
+                $( "#modal" ).html( data );
+                //$("#miModalRetiro").modal("hide");
+                //$("#miModalRetiro").modal("toggle");
+                $( "#miModalDetalle" ).modal();
+            });
+        });
+
 	$(".fancybox").fancybox({
 		openEffect: 'elastic',
 		closeEffect: 'elastic',

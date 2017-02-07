@@ -54,6 +54,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','is_admin']],function
 	]);
 	/*Bicicletas*/
 	Route::resource('bicicletas', 'BicicletasAdminController');
+	Route::get('bicicletas/retiro/{id}',[
+		'uses' => 'BicicletasAdminController@retiro',
+		'as' => 'admin.bicicletas.retiro'
+	]);
+	Route::get('bicicletas/mostrar/{id}',[
+		'uses' => 'BicicletasAdminController@mostrar',
+		'as' => 'admin.bicicletas.mostrar'
+	]);
 	Route::get('bicicletas/{id}/create',[
 		'uses' => 'BicicletasAdminController@create',
 		'as' => 'admin.bicicletas.create'
@@ -81,6 +89,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','is_admin']],function
 	Route::get('bicicletas/ingresa/bike',[
 		'uses' => 'BicicletasAdminController@ingresa',
 		'as' => 'admin.bicicletas.ingresa'
+	]);
+	Route::get('bicicletas/detalle/hoy',[
+		'uses' => 'BicicletasAdminController@detallehoy',
+		'as' => 'admin.bicicletas.hoy'
 	]);
 
 });

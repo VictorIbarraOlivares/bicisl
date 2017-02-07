@@ -14,9 +14,9 @@ class Bike extends Model
     ];
 
     //una bicicleta puede tener un usuario
-    public function user()
+    public function dueño()
     {
-    	return $this->belongsTo('App\User');
+    	return $this->belongsTo('App\User', 'user_id');
     }
 
     //una bicicleta puede tener una imagen
