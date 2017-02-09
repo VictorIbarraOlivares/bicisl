@@ -26,7 +26,7 @@
 		<hr>
 
 		<!-- Inicio de tabla de los usuarios -->
-		<table class="table" width="100%" cellpadding="0" cellspacing="0" id="datatable_usuarios">
+		<table class="table display" width="100%" cellpadding="0" cellspacing="0" id="datatable_usuarios">
 		<thead>
 			<th>Rut</th>
 			<th>Nombre</th>
@@ -37,7 +37,7 @@
 		<tbody>
 			@foreach($users as $user)
 				<tr>
-					<td>{{ $user->rut }}</td>
+					<td>{{ formato_rut($user->rut) }}</td>
 					<td>{{ $user->name }}</td>
 					<td>{{ $user->email }}</td>
 					<td>
@@ -54,12 +54,12 @@
 					<td>
 						 <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-warning" title="Editar"><span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Editar"></span></a>
 						 @if(Auth::user()->id != $user->id)
-								<a href="{{ route('admin.users.destroy', $user->id) }}" onclick="return confirm('¿Seguro que deseas eliminarlo? \n Esto borrara toda la informacion asociada al usuario')" class="btn btn-danger" title="Eliminar"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true" title="Eliminar"></span></a>
+								<a title="Eliminar" data-role="{{ $user->id }}" class="btn btn-danger eliminar-data" data-target="#miModalEliminar" ><i class="fa fa-trash" aria-hidden="true" title="Eliminar"></i></a>
 						@endif
 						<a href="{{ route('admin.users.detalle', $user->id) }}" class="btn btn-success" title="Detalles"><span class="glyphicon glyphicon-eye-open" aria-hidden="true" title="Detalles"></span></a>
 
 						@if($user->type_id != "2" && $user->type_id != "3")
-							<a href="{{ route('admin.bicicletas.create', $user->id) }}" class="btn btn-primary" title="Añadir Bicicleta"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true" title="Añadir Bicicleta"></span></a>
+							<a title="Añadir Bicicleta" data-role="{{ $user->id }}" class="btn btn-primary agregar-data" data-target="#miModalAgregar" ><i class="fa fa-bicycle" aria-hidden="true" title="Añadir Bicicleta"></i></a>
 						@endif
 
 					</td>
@@ -72,11 +72,29 @@
 		<a href="{{ url()->previous() }}" class=" pull-right btn btn-primary" title="Volver">Volver</a>
 
 
-	
+<div id="modal"></div>
 @endsection
 @section('script')
 <script type="text/javascript">
 $(document).ready(function(){
+	$(".eliminar-data").click(function(){
+            var data = $(this).data("role");
+            $.get( "../users/eliminar/" + data, function( data ) {            	
+                $( "#modal" ).html( data );
+                //$("#miModalRetiro").modal("hide");
+                //$("#miModalRetiro").modal("toggle");
+                $( "#miModalEliminar" ).modal();
+            });
+        });
+	$(".agregar-data").click(function(){
+            var data = $(this).data("role");
+            $.get( "../users/agregar/" + data, function( data ) {            	
+                $( "#modal" ).html( data );
+                //$("#miModalRetiro").modal("hide");
+                //$("#miModalRetiro").modal("toggle");
+                $( "#miModalAgregar" ).modal();
+            });
+        });
     $('#datatable_usuarios').DataTable({
     	
     });

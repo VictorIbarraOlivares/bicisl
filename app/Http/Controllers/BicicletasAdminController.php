@@ -31,11 +31,23 @@ class BicicletasAdminController extends Controller
         return view('admin.bicicletas.hoy')->with('bikes', $bikes);
     }
 
+    public function editar($id)
+    {
+        $bike = Bike::find($id);
+        return view('admin.bicicletas.modaleditar')->with('bike',$bike);
+    }
+
     public function retiro($id)
     {
         //dd("estas en el controlador retiro");
         $bike = Bike::find($id);
         return view('admin.bicicletas.modalretiro')->with('bike',$bike);    
+    }
+
+    public function nota($id)
+    {
+        $bike = Bike::find($id);
+        return view('admin.bicicletas.modalnota')->with('bike',$bike);
     }
 
     public function mostrar($id)
@@ -191,6 +203,12 @@ class BicicletasAdminController extends Controller
         return redirect()->route('admin.bicicletas.index');
     }
 
+    public function eliminar($id)
+    {
+        $bike = Bike::find($id);
+        return view('admin.bicicletas.modaleliminar')->with('bike',$bike);
+    }
+
     public function destroy($id)
     {
         $bike = Bike::find($id);
@@ -234,10 +252,12 @@ class BicicletasAdminController extends Controller
             $bike->hora_s = date("H:i:s",time());
             Flash::warning('Se retiro la bicicleta de '. $user->name . ' !');
             if($user->type_id != 1){
+                /*
                 Mail::send('mensaje',['user' => $user],function($msje) use ($user){
                     $msje->subject('SALIDA BICICLETA');             
                     $msje->to($user->email);
                 });
+                */
             }
             
 

@@ -90,11 +90,11 @@ function datos(id){
 		</div>
 
 		<div class="form-group">
-			{!! Form::submit('Listo', ['class' => 'btn btn-primary', 'onclick' => 'return confirm("¿Seguro quieres Crear la Bicicleta? \n Esto afectara al registro de bicicletas en la Universidad")' ]) !!}
+			{!! Form::submit('Listo', ['class' => 'btn btn-success' ]) !!}
 		</div>
 
 	{!! Form::close() !!}
 
 	
-	<a href="{{ url()->previous() }}" class=" pull-right btn btn-primary" title="Volver">Cancelar</a>
+	<a href="{{ url()->previous() }}" class=" pull-right btn btn-danger" title="Volver">Cancelar</a>
 @endsection

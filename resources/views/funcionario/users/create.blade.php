@@ -87,13 +87,12 @@ function mostrar(id){//no se pedira clave para los "alumnos"
 		</div>
 		
 		<div class="row">
-			<div class="col-md-6">
+			<div class="col-md-12">
 				<div class="form-group" id="carre" style="display: none;">
 					{!! Form::label('carrera_id','Carrera  (en caso de no ser estudiante seleccione la opción)') !!}
-					
-
-					<select class="form-control" id="carrera" name="carrera" required >
-						<option selected="selected" value="">Seleccione la carrera a la que pertenece el Alumno</option>
+					<br>
+                    <select class="form-control" id="carrera" name="carrera" required style="width: 75%">
+						<option  value="">Seleccione la carrera a la que pertenece el Alumno</option>
 						@foreach($carreras as $carrera)
 							@if($carrera->id != 16 && $carrera->id != 17)
 								<option value="{{$carrera->id }}">{{ $carrera->name }}</option>

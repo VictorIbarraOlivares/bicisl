@@ -20,6 +20,9 @@
 	<!--Font-awesome -->
 	<link rel="stylesheet" href="{{ asset('plugins/font-awesome-4.7.0/css/font-awesome.min.css') }}">
 	<!--Fin Font-awesome -->
+	<!--Select2-->
+	<link rel="stylesheet" href="{{ asset('plugins/select2/select2.css') }}">
+	<!--Fin Select2-->
 
 	@yield('head')
 </head>
@@ -87,6 +90,12 @@
 <!-- Fancybox -->
 <script src="{{ asset('plugins/fancyBox/source/jquery.fancybox.pack.js') }}" ></script>
 <!-- Fin Fancybox-->
+<!--Select2-->
+<script src="{{ asset('plugins/select2/select2.js') }}" ></script>
+<!--Fin Select2-->
+<script type="text/javascript">
+  $('select').select2();
+</script>
 @yield('script')
 
 	

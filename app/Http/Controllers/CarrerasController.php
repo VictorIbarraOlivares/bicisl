@@ -115,6 +115,11 @@ class CarrerasController extends Controller
 
     }
 
+    public function eliminar($id)
+    {
+        $carrera = Carrera::find($id);
+        return view('admin.carreras.modaleliminar')->with('carrera',$carrera);
+    }
     public function destroy($id)
     {
     	$carrera = Carrera::find($id);

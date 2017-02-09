@@ -151,13 +151,24 @@ class UsersController extends Controller
         return view('admin.users.index')->with('users',$users)->with('carreras' , $carreras);
     }
 
+    public function eliminar($id)
+    {
+        $user = User::find($id);
+        return view('admin.users.modaleliminar')->with('user',$user);
+    }
+    public function agregar($id)
+    {
+        $user = User::find($id);
+        return view('admin.users.modalagregar')->with('user',$user);
+    }
     public function destroy($id)
     {
         $user = User::find($id);
         $user->delete();
 
         Flash::error('El usuario '. $user->name . ' ha sido eliminado de forma exitosa!');
-        return redirect()->route('admin.users.index');
+        //return redirect()->route('admin.users.index');
+        return redirect()->back();
     }
 
     public function edit($id)

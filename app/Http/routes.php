@@ -26,6 +26,14 @@ Route::get('/home', 'HomeController@index');
 Route::group(['prefix' => 'admin', 'middleware' => ['auth','is_admin']],function(){
 	/*Usuarios*/
 	Route::resource('users','UsersController');
+	Route::get('users/eliminar/{id}',[
+		'uses' => 'UsersController@eliminar',
+		'as' => 'admin.users.eliminar'
+	]);
+	Route::get('users/agregar/{id}',[
+		'uses' => 'UsersController@agregar',
+		'as' => 'admin.users.agregar'
+	]);
 	Route::get('users/{id}/destroy',[
 		'uses' => 'UsersController@destroy',
 		'as' => 'admin.users.destroy'
@@ -44,6 +52,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','is_admin']],function
 	]);
 	/*Carreras*/
 	Route::resource('carreras', 'CarrerasController');
+	Route::get('carreras/eliminar/{id}',[
+		'uses' => 'CarrerasController@eliminar',
+		'as' => 'admin.carreras.eliminar'
+	]);
 	Route::get('carreras/{id}',[
 		'uses' => 'CarrerasController@show',
 		'as' => 'admin.carreras.detalle'
@@ -54,6 +66,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','is_admin']],function
 	]);
 	/*Bicicletas*/
 	Route::resource('bicicletas', 'BicicletasAdminController');
+	Route::get('bicicletas/editar/{id}',[
+		'uses' => 'BicicletasAdminController@editar',
+		'as' => 'admin.bicicletas.editar'
+	]);
+	Route::get('bicicletas/eliminar/{id}',[
+		'uses' => 'BicicletasAdminController@eliminar',
+		'as' => 'admin.bicicletas.eliminar'
+	]);
 	Route::get('bicicletas/retiro/{id}',[
 		'uses' => 'BicicletasAdminController@retiro',
 		'as' => 'admin.bicicletas.retiro'
@@ -61,6 +81,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','is_admin']],function
 	Route::get('bicicletas/mostrar/{id}',[
 		'uses' => 'BicicletasAdminController@mostrar',
 		'as' => 'admin.bicicletas.mostrar'
+	]);
+	Route::get('bicicletas/nota/{id}',[
+		'uses' => 'BicicletasAdminController@nota',
+		'as' => 'admin.bicicletas.nota'
 	]);
 	Route::get('bicicletas/{id}/create',[
 		'uses' => 'BicicletasAdminController@create',
