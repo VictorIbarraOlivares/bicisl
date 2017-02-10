@@ -2,7 +2,7 @@
 
 @section('title','Lista de Carreras')
 @section('content')
-	<table class="table" width="100%" cellpadding="0" cellspacing="0" id="datatable_carreras">
+	<table class="table display" width="100%" cellpadding="0" cellspacing="0" id="datatable_carreras">
 		<thead>
 			<th>Nombre</th>
 			<th>Total Integrantes</th>

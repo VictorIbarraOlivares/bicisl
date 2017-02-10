@@ -1,6 +1,4 @@
-@php 
-use App\User;
-@endphp
+
 @extends('admin.template.main')
 
 @section('title','Bicicletas en la Universidad')
@@ -43,7 +41,7 @@ use App\User;
 		<thead>
 			<th>Dueño</th>
 			<th style="width: 5%;text-align: center;">Activa</th>
-			<th style="width: 15%;" >Descripcion</th>
+			<th style="width: 15%;">Descripcion</th>
 			<th style="width: 12%;text-align: center;">Hora Llegada</th>
 			<th style="width: 12%;text-align: center;">Hora Salida</th>
 			<th style="width: 40%;">Acción</th>
@@ -77,20 +75,17 @@ use App\User;
 						@endif
 					</td>
 					<td>
-					<a  title="Detalles" data-role="{{ $bike->id }}" class="btn btn-success detalles-data" data-target="#miModalDetalle" style="color:black;">
-                    <i class="fa fa-address-card-o fa-2x" aria-hidden="true" title="Detalles" style="color:black;" ></i>&nbsp; Detalles</a>
-							<a  title="Retirar" data-role="{{ $bike->id }}" class="btn btn-danger optionretiro-data" data-target="#miModalRetiro" style="color:black;">
-                    		<i class="fa fa-bicycle fa-2x" aria-hidden="true" title="Retirar" style="color:black;" ></i>&nbsp; Retirar</a>
-						
+						<a  title="Detalles" data-role="{{ $bike->id }}" class="btn btn-success detalles-data" data-target="#miModalDetalle" style="color:black;"><i class="fa fa-address-card-o fa-2x" aria-hidden="true" title="Detalles" style="color:black;" ></i>&nbsp; Detalles</a>
+						@if($bike->activa == 1)
+							<a  title="Retirar" data-role="{{ $bike->id }}" class="btn btn-danger optionretiro-data" data-target="#miModalRetiro" style="color:black;"><i class="fa fa-bicycle fa-2x" aria-hidden="true" title="Retirar" style="color:black;" ></i>&nbsp; Retirar</a>
+						@endif
 						@if($bike->nota != "")
 							<!--CODIGO QUE SIRVE PARA LA IMAGEN -->
 							<!--
                     		<a href="{{ route('admin.bicicletas.note', $bike->id) }}" class="btn btn-info fancybox fancybox.ajax" title="Ver nota"><span class="glyphicon glyphicon-file" title="Ver nota"></span></a>
                     		-->
                     		<!--FIN CODIGO QUE SIRVE PARA LA IMAGEN -->
-                    		<a title="Ver Nota" data-role="{{ $bike->id }}" class="btn btn-info nota-data"  data-target="#miModalNota" style="color:black;" >
-                    		<i class="fa fa-comment fa-2x" aria-hidden="true" style="color:black;" title="Ver nota"></i>&nbsp; Nota
-                    		</a>
+                    		<a title="Ver Nota" data-role="{{ $bike->id }}" class="btn btn-info nota-data"  data-target="#miModalNota" style="color:black;" ><i class="fa fa-comment fa-2x" aria-hidden="true" style="color:black;" title="Ver nota"></i>&nbsp; Nota</a>
 						@endif
 
 					</td>

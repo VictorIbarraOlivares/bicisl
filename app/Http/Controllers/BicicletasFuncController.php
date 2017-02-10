@@ -23,6 +23,36 @@ use Laracasts\Flash\Flash;
 
 class BicicletasFuncController extends Controller
 {
+
+    public function detallehoy()
+    {
+        $dia= date("Y-m-d");
+        $bikes = DB::table('bikes')->where("fecha_a","=",$dia)
+                ->join('users','users.id','=','bikes.user_id')
+                ->select('bikes.id','bikes.activa','bikes.descripcion','bikes.hora_a','bikes.fecha_a','hora_s','fecha_s','bikes.encargado_s','bikes.encargado_a','users.name as dueño','bikes.nota')
+                ->orderby("hora_a","asc")->get();
+
+        return view('funcionario.bicicletas.hoy')->with('bikes', $bikes);
+    }
+
+    public function editar($id)
+    {
+        $bike = Bike::find($id);
+        return view('funcionario.bicicletas.modaleditar')->with('bike',$bike);
+    }
+
+    public function retiro($id)
+    {
+        //dd("estas en el controlador retiro");
+        $bike = Bike::find($id);
+        return view('funcionario.bicicletas.modalretiro')->with('bike',$bike);    
+    }
+
+    public function nota($id)
+    {
+        $bike = Bike::find($id);
+        return view('funcionario.bicicletas.modalnota')->with('bike',$bike);
+    }
     
     //el id es del usuario
     public function create($id)
@@ -163,6 +193,20 @@ class BicicletasFuncController extends Controller
         return redirect()->route('funcionario.bicicletas.index');
     }
 
+    public function mostrar($id)
+    {
+        $hoy = date("Y-m-d");
+        $bike = Bike::find($id);
+        $dueño = User::find($bike->user_id);
+        $carrera = Carrera::find($dueño->carrera_id);
+        $encargadoLLegada = User::find($bike->encargado_a);
+        if($bike->encargado_s != 0){
+            $encargadoSalida = User::find($bike->encargado_s);
+        }else{
+            $encargadoSalida = "";
+        }
+        return view('funcionario.bicicletas.modaldetalle')->with('bike',$bike)->with('dueño',$dueño)->with('encargadoLLegada',$encargadoLLegada)->with('encargadoSalida',$encargadoSalida)->with('carrera',$carrera)->with('hoy',$hoy);
+    }
     
 
     public function show($id)
@@ -197,10 +241,12 @@ class BicicletasFuncController extends Controller
             Flash::warning('Se retiro la bicicleta de '. $user->name . ' !');
 
             if($user->type_id != 1){
+                /*
                 Mail::send('mensaje',['user' => $user],function($msje) use ($user){
                     $msje->subject('SALIDA BICICLETA');             
                     $msje->to($user->email);
                 });
+                */
             }
         }else{
             $bike->encargado_a = $encargado->id;

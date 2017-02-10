@@ -23,7 +23,7 @@
 		<hr>
 
 		<!-- Inicio de tabla de los usuarios -->
-		<table class="table" width="100%" cellpadding="0" cellspacing="0" id="datatable_usuarios">
+		<table class="table display" width="100%" cellpadding="0" cellspacing="0" id="datatable_usuarios">
 		<thead>
 			<th>Rut</th>
 			<th>Nombre</th>
@@ -52,7 +52,7 @@
 						 <a href="{{ route('funcionario.users.edit', $user->id) }}" class="btn btn-warning" title="Editar"><span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Editar"></span></a>
 						<a href="{{ route('funcionario.users.detalle', $user->id) }}" class="btn btn-success" title="Detalles"><span class="glyphicon glyphicon-eye-open" aria-hidden="true" title="Detalles"></span></a>
 						@if($user->type_id != "2" && $user->type_id != "3")
-							<a href="{{ route('funcionario.bicicletas.create', $user->id) }}" class="btn btn-primary" title="Añadir Bicicleta"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true" title="Añadir Bicicleta"></span></a>
+							<a title="Añadir Bicicleta" data-role="{{ $user->id }}" class="btn btn-primary agregar-data" data-target="#miModalAgregar" ><i class="fa fa-bicycle" aria-hidden="true" title="Añadir Bicicleta"></i></a>
 						@endif
 
 					</td>
@@ -65,11 +65,20 @@
 		<a href="{{ url()->previous() }}" class=" pull-right btn btn-primary" title="Volver">Volver</a>
 
 
-	
+<div id="modal"></div>	
 @endsection
 @section('script')
 <script type="text/javascript">
 $(document).ready(function(){
+	$(".agregar-data").click(function(){
+            var data = $(this).data("role");
+            $.get( "../users/agregar/" + data, function( data ) {            	
+                $( "#modal" ).html( data );
+                //$("#miModalRetiro").modal("hide");
+                //$("#miModalRetiro").modal("toggle");
+                $( "#miModalAgregar" ).modal();
+            });
+        });
     $('#datatable_usuarios').DataTable({
     	
     });

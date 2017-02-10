@@ -156,11 +156,13 @@ class UsersController extends Controller
         $user = User::find($id);
         return view('admin.users.modaleliminar')->with('user',$user);
     }
+
     public function agregar($id)
     {
         $user = User::find($id);
         return view('admin.users.modalagregar')->with('user',$user);
     }
+    
     public function destroy($id)
     {
         $user = User::find($id);

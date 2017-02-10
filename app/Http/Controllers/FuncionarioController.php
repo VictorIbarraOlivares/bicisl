@@ -55,6 +55,12 @@ class FuncionarioController extends Controller
         return view('funcionario.home')->with('bikes',$bikes);
     }
 
+    public function agregar($id)
+    {
+        $user = User::find($id);
+        return view('funcionario.users.modalagregar')->with('user',$user);
+    }
+
     public function store(UserRequest $request)
     {
         $datos = $request->all();

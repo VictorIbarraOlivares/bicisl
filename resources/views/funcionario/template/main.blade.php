@@ -94,7 +94,9 @@
 <script src="{{ asset('plugins/select2/select2.js') }}" ></script>
 <!--Fin Select2-->
 <script type="text/javascript">
-  $('select').select2();
+  $('select').select2({
+  	theme: "classic"
+  });
 </script>
 @yield('script')
 
