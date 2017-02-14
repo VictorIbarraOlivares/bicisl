@@ -53,7 +53,13 @@ use App\User;
 			@php	}
 				@endphp
 					<td>{{ $bike->dueño }}</td>
-					<td>{{ $bike->activa }}</td>
+					<td>
+						@if($bike->activa == 1)
+							Si
+						@else
+							No
+						@endif
+					</td>
 					<td>{{ $bike->descripcion }}</td>
 					<td>{{ $bike->hora_a }}</td>
 					<td>{{ formato_y_m_d($bike->fecha_a) }}</td>
@@ -127,7 +133,11 @@ $(document).ready(function(){
     	"bPaginate": false,
     	"order": false,
     	"ordering": false,
-    	"bFilter": false
+    	"bFilter": false,
+    	dom: 'Bfrtip',
+        buttons: [
+            'excel'
+        ]
     });
 });
 

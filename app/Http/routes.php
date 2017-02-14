@@ -193,6 +193,10 @@ Route::group(['prefix' => 'funcionario', 'middleware' => ['auth','is_funcionario
 		'uses' => 'BicicletasFuncController@ingreso',
 		'as' => 'funcionario.bicicletas.ingreso'
 	]);
+	Route::get('bicicletas/ingresa/bike',[
+		'uses' => 'BicicletasFuncController@ingresa',
+		'as' => 'funcionario.bicicletas.ingresa'
+	]);
 	Route::get('bicicletas/detalle/hoy',[
 		'uses' => 'BicicletasFuncController@detallehoy',
 		'as' => 'funcionario.bicicletas.hoy'

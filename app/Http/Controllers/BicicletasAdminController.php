@@ -105,8 +105,8 @@ class BicicletasAdminController extends Controller
             //withInput($request->except('password')) devuelve todos los inputs, excepto el password
         }
 
-        $color=ucfirst(strtolower($request->color));//se da formato al nombre
-        $tipo=ucfirst(strtolower($request->tipo));//se da formato al apellido
+        $color=ucfirst(strtolower($request->color));//se da formato al color
+        $tipo=ucfirst(strtolower($request->tipo));//se da formato al tipo
 
     	$user = User::find($request->user_id);
     	$bike = new Bike();
@@ -131,11 +131,13 @@ class BicicletasAdminController extends Controller
 
     public function index()
     {
-        $bikes = DB::table('bikes')->orderBy('created_at','desc')->get();
-    	$users = User::all();
+        $bikes = DB::table('bikes')
+                ->join('users','users.id','=','bikes.user_id')
+                ->select('users.id as usuario','users.name as dueño','bikes.activa','bikes.descripcion','bikes.id')
+                ->orderBy('bikes.created_at','desc')->get();
     	//dd($bikes);
 
-    	return view('admin.bicicletas.index')->with('bikes', $bikes)->with('users', $users);
+    	return view('admin.bicicletas.index')->with('bikes', $bikes);
     }
 
     public function edit($id)
@@ -148,9 +150,8 @@ class BicicletasAdminController extends Controller
     	{
     		$encargado = User::find($bike->encargado_s);
     	}
-
-
-    	return view('admin.bicicletas.edit')->with('bike',$bike)->with('user' ,$user)->with('encargado',$encargado);
+        $descripcion = explode("-", $bike->descripcion);
+    	return view('admin.bicicletas.edit')->with('bike',$bike)->with('user' ,$user)->with('encargado',$encargado)->with('descripcion',$descripcion);
     }
 
     public function update(Request $request,$id)
@@ -158,7 +159,8 @@ class BicicletasAdminController extends Controller
         //dd($request->all());
         $datos = $request->all();
         $reglas = array(
-            'descripcion' => 'min:8|max:30|required|string',
+            'color' => 'min:4|max:10|required|alpha',
+            'tipo' => 'min:5|max:10|required|alpha',
             'nota' => 'min:4|max:30|string'
         );
         
@@ -169,33 +171,58 @@ class BicicletasAdminController extends Controller
             return redirect()->back()->withErrors($v->errors())->withInput($request->all());
             //withInput($request->except('password')) devuelve todos los inputs, excepto el password
         }
+        /*
         $request->descripcion = preg_replace('/[0-9]+/', '', $request->descripcion);//elimina números
         $request->descripcion = preg_replace('([^ A-Za-z0-9_-ñÑ])', '', $request->descripcion);//elimina caracteres especiales
+        */
         $request->nota = preg_replace('/[0-9]+/', '', $request->nota);//elimina números
         $request->nota = preg_replace('([^ A-Za-z0-9_-ñÑ])', '', $request->nota);//elimina caracteres especiales
+        $request->notaNueva = preg_replace('/[0-9]+/', '', $request->notaNueva);//elimina números
+        $request->notaNueva = preg_replace('([^ A-Za-z0-9_-ñÑ])', '', $request->notaNueva);//elimina caracteres especiales
+        $color=ucfirst(strtolower($request->color));//se da formato al color
+        $tipo=ucfirst(strtolower($request->tipo));//se da formato al tipo
+        $descripcion= $color." - ".$tipo;
 
         $encargado = Auth::user();
         $bike = Bike::find($id);
         $user = User::find($bike->user_id);
-        if ($request->activa != $bike->activa || $bike->descripcion != $request->descripcion || $bike->nota != $request->nota){
+        
+        $aux = 0;//aux para mensaje de editar
+        //solo si cambia el activa
+        if ($request->activa != $bike->activa){
             if($request->activa == 0){
                 $bike->encargado_s = $encargado->id;
                 $bike->fecha_s = date("Y-m-d");
                 $bike->activa = $request->activa;
-                $bike->descripcion = $request->descripcion;
+                $bike->descripcion = $descripcion;
                 $bike->nota = "";//se borra la nota, ya que esta pensada para la llegada de la bicicleta
                 $bike->hora_s = date("H:i:s",time());
+                
             }else{
                 $bike->encargado_a = $encargado->id;
                 $bike->fecha_a = date("Y-m-d");
                 $bike->activa = $request->activa;
-                $bike->descripcion = $request->descripcion;
-                $bike->nota = $request->nota;
+                $bike->descripcion = $descripcion;
+                $bike->nota = $request->notaNueva;
                 $bike->hora_a = date("H:i:s",time());
+
             }
         }else{
-            Flash::warning('No se ha editado nada de la Bicicleta del dueño '. $user->name . ' !');
-            return redirect()->route('admin.bicicletas.index');
+            //si se edita la nota
+            if($bike->nota != $request->nota){
+                $bike->nota = $request->nota;
+                $aux++;
+            }
+            //si se edita la descripcion
+            if($bike->descripcion != $descripcion){
+                $bike->descripcion = $descripcion;
+                $aux++;
+            }
+            if($aux == 0){
+               Flash::warning('No se ha editado nada de la Bicicleta del dueño '. $user->name . ' !');
+                return redirect()->route('admin.bicicletas.index'); 
+            }
+            
         }
         $bike->save();
 
@@ -285,8 +312,15 @@ class BicicletasAdminController extends Controller
         //dd($user);
         if($user != null)
         {
-            $bikes = DB::table('bikes')->where('user_id','=',$valor)->where('activa','=','0')->get();
+            $bikes = DB::table('bikes')->where('user_id','=',$valor)//->where('activa','=','0')
+                     ->get();
             if($bikes != null){
+                foreach($bikes as $bike){
+                    if($bike->activa == 1){
+                        Flash::error('Ya hay bicicleta activa del dueño '.$user->name);
+                        return redirect()->route('admin.home');
+                    }
+                }
                 return view('admin.bicicletas.ingreso')->with('user',$user)->with('bikes',$bikes)->with('encargado',$encargado);
             }else{
                 Flash::error('No hay bicicletas para ingresar del dueño '.$user->name);

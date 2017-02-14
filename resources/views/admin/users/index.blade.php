@@ -5,56 +5,44 @@
 <a href="{{ route('admin.users.create') }}" class="btn btn-info">Registrar nuevo Usuario</a><br><br><br>
 	<table class="table display" width="100%" cellpadding="0" cellspacing="0" id="datatable_usuarios">
 		<thead>
-			<th>Código Carrera</th>
+			<th class="text-center">Carrera</th>
 			<th>Nombre</th>
 			<th>Email</th>
-			<th>Tipo</th>
+			<th class="text-center">Tipo</th>
 			<th>Acción</th>
 		</thead>
 		<tbody>
 			@foreach($users as $user)
 				<tr>
-					<td align="center">
-						@if( $user->type_id == 2 || $user->type_id == 3)
-								<a href="#" style="color: black;"  title="Funcionarios">Funcionarios</a>
+					<td class="text-center" >
+					<strong>
+						@if( $user->tipo == 2 || $user->tipo == 3)
+								<a href="#" style="color: #080266;font: bold;"  title="Funcionarios">Funcionarios</a>
 						@else
-							@foreach($carreras as $carrera)
-								@if($carrera->id == $user->carrera_id)
-									@if($carrera->id == 15 || $carrera->id == 16 || $carrera->id == 17)
-										<a href="{{ route('admin.carreras.detalle', $carrera->id ) }}" style="color: black;"  title="{{ $carrera->name }}">{{ $carrera->name }}</a>
-									@else
-										<a href="{{ route('admin.carreras.detalle', $carrera->id ) }}" style="color: black;"  title="{{ $carrera->name }}">{{ $carrera->codigo_carrera }}</a>
-									@endif
-								@endif
-							@endforeach
+							@if($user->carrera == 15 || $user->carrera == 16 || $user->carrera == 17)
+								<a href="{{ route('admin.carreras.detalle', $user->carrera ) }}" style="color: #080266;"  title="{{ $user->nomCarrera }}">{{ $user->nomCarrera }}</a>
+							@else
+								<a href="{{ route('admin.carreras.detalle', $user->carrera ) }}" style="color: #080266;"  title="{{ $user->nomCarrera }}">{{ $user->codigo_carrera }}</a>
+							@endif
 						@endif
+					</strong>
 					</td>
 					<td>{{ $user->name }}</td>
 					<td>
-						@if($user->type_id == 1)
+						@if($user->tipo == 1)
 							---------------
 						@else
 							{{ $user->email }}
 						@endif
 					</td>
-					<td>
-						@if($user->type_id == "4")
-							<span class="label label-primary">Alumno</span>
-						@elseif($user->type_id == "2")
-							<span class="label label-danger">Administrador</span>
-						@elseif($user->type_id == "3")
-							<span class="label label-info">Funcionario</span>
-						@else
-							<span class="label label-success">Visita</span>
-						@endif
-					</td>
-					<td>
+					<td class="text-center">{{ $user->nomTipo }}</td>
+					<td >
 						 <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-warning" title="Editar"><span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Editar"></span></a>
 						 @if(Auth::user()->id != $user->id)
 								<a title="Eliminar" data-role="{{ $user->id }}" class="btn btn-danger eliminar-data" data-target="#miModalEliminar" ><i class="fa fa-trash" aria-hidden="true" title="Eliminar"></i></a>
 						@endif
 						<a href="{{ route('admin.users.detalle', $user->id) }}" class="btn btn-success" title="Detalles"><span class="glyphicon glyphicon-eye-open" aria-hidden="true" title="Detalles"></span></a>
-						@if($user->type_id != "2" && $user->type_id != "3")
+						@if($user->tipo != "2" && $user->tipo != "3")
 							<a title="Añadir Bicicleta" data-role="{{ $user->id }}" class="btn btn-primary agregar-data" data-target="#miModalAgregar" ><i class="fa fa-bicycle" aria-hidden="true" title="Añadir Bicicleta"></i></a>
 						@endif
 

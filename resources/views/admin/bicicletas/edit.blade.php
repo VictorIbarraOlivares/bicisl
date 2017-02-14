@@ -108,26 +108,35 @@ function datos(id,valor){
 
 @section('content')
 	{!! Form::open(['route' => ['admin.bicicletas.update',$bike ], 'method' => 'PUT' ]) !!}
-		<div class="row">
-			<div class="col-md-3">
-				<div class="form-group">
-					{!! Form::label('descripcion', 'Descripcion') !!}
-					{!! Form::text('descripcion', $bike->descripcion ,['class' => 'form-control', 'placeholder' => 'Descripcion simple ejemplo : color y tipo' ,'required']) !!}
-				</div>
+	<h5 class="form-section"><strong>Descripcion para Bicicleta<strong></h5>
+	<div class="row">
+		<div class="col-md-2">
+			<div class="form-group">
+				{!! Form::label('color', 'Color') !!}
+				{!! Form::text('color', trim($descripcion[0]) ,['class' => 'form-control', 'placeholder' => 'Ingrese Color' ,'required']) !!}
 			</div>
-			@if($bike->activa == 1)
-			<div class="col-md-4">
-				<div class="form-group" id='notas' style="display: show;">
-					{!! Form::label('nota', 'Nota para Bicicleta') !!}
-					{!! Form::text('nota', $bike->nota ,['class' => 'form-control', 'placeholder' => 'Ingrese alguna nota sobre la bicicleta en caso que sea necesario']) !!}
-				</div>
-			</div>
-			@endif
 		</div>
+		<div class="col-md-2">
+			<div class="form-group">
+				{!! Form::label('tipo','Tipo') !!}
+				{!! Form::text('tipo',trim($descripcion[1]),['class' => 'form-control','placeholder' => 'ej:montaña','required']) !!}
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		@if($bike->activa == 1)
+		<div class="col-md-4">
+			<div class="form-group" id='notas' style="display: show;">
+				{!! Form::label('nota', 'Nota para Bicicleta') !!}
+				{!! Form::text('nota', $bike->nota ,['class' => 'form-control', 'placeholder' => 'Ingrese nota en caso que sea necesario']) !!}
+			</div>
+		</div>
+		@endif
+	</div>
 		
 
 		
-		<p><strong>Eliga una opcion :</strong> </p>
+		<p><strong>Elija una opcion :</strong> </p>
 			
 		
 		<div class="form-group">
@@ -206,7 +215,7 @@ function datos(id,valor){
 				<div class="col-md-5">
 					<div class="form-group" id='notasN' style="display: none;">
 						{!! Form::label('nota', 'Nueva Nota') !!}
-						{!! Form::text('nota', null ,['class' => 'form-control', 'placeholder' => 'Ingrese nota en caso que sea necesario']) !!}
+						{!! Form::text('notaNueva', null ,['class' => 'form-control', 'placeholder' => 'Ingrese nota en caso que sea necesario']) !!}
 					</div>
 				</div>
 			</div>
@@ -258,7 +267,7 @@ function datos(id,valor){
 		<!--FIN CODIGO CAMBIO DE ESTADO-->
 
 		<div class="form-group">
-			{!! Form::submit('Listo', ['class' => 'btn btn-primary']) !!}
+			{!! Form::submit('Listo', ['class' => 'btn btn-success pull-left']) !!}
 		</div>
 
 	{!! Form::close() !!}

@@ -40,15 +40,15 @@ function datos(id){
 					{!! Form::text('tipo',null,['class' => 'form-control','placeholder' => 'ej:montaña','required']) !!}
 				</div>
 			</div>
+		</div>
+		<div class="row">
 			<div class="col-md-5">
 				<div class="form-group" id='notas' ">
 					{!! Form::label('nota', 'Nota para Bicicleta') !!}
 					{!! Form::text('nota', null ,['class' => 'form-control', 'placeholder' => 'Nota para bicicleta en caso que sea necesario']) !!}
 				</div>
 			</div>
-			
 		</div>
-		<br>
 		<hr>
 		<div class="form-group">
 			<p><strong>Opcion : </strong></p>
@@ -90,7 +90,7 @@ function datos(id){
 		</div>
 
 		<div class="form-group">
-			{!! Form::submit('Listo', ['class' => 'btn btn-success' ]) !!}
+			{!! Form::submit('Listo', ['class' => 'btn btn-success pull-left' ]) !!}
 		</div>
 
 	{!! Form::close() !!}

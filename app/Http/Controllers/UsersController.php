@@ -144,11 +144,14 @@ class UsersController extends Controller
 
     public function index()
     {
-        $users = DB::table('users')->orderBy('created_at','desc')->get();
-        $types = Type::all();
-        $carreras = Carrera::all();
+        $users = DB::table('users')
+                ->join('types','types.id','=','users.type_id')
+                ->join('carreras','carreras.id','=','users.carrera_id')
+                ->select('users.id','users.name','users.rut','users.email','types.name as nomTipo','types.id as tipo','carreras.name as nomCarrera','carreras.id as carrera','carreras.codigo_carrera')
+                ->orderBy('users.created_at','desc')
+                ->get();
 
-        return view('admin.users.index')->with('users',$users)->with('carreras' , $carreras);
+        return view('admin.users.index')->with('users',$users);
     }
 
     public function eliminar($id)

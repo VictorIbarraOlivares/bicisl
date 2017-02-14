@@ -60,7 +60,7 @@
 		@else
 			<li style="font-weight:bold;list-style:none;"><span class="glyphicon glyphicon-eye-open " style="color: #FF0000" aria-hidden="true"></span> Bicicletas :</li>
 			<br>
-			<table class="table" width="100%" cellpadding="0" cellspacing="0" id="datatable_bicicletas">
+			<table class="table display" width="100%" cellpadding="0" cellspacing="0" id="datatable_bicicletas">
 			<thead>
 				<th>¿Está en la Universidad ?</th>
 				<th>Descripcion</th>
@@ -118,7 +118,7 @@
 		@endif
 
 
-		<a href="{{ url()->previous() }}" class="btn btn-primary" title="Volver"><span class="fa fa-btn fa-sign-in" aria-hidden="true" title="Volver">Volver</span></a>
+		<a href="{{ url()->previous() }}" class="btn btn-primary" title="Volver"><i class="fa fa-reply" aria-hidden="true"></i>&nbsp;Volver</a>
 
 @endsection
 @section('script')

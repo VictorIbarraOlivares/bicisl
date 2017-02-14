@@ -10,39 +10,79 @@
 
 @section('content')
 	{!! Form::open(['route' => ['admin.bicicletas.ingresa' ] , 'method' => 'get']) !!}
-	<p>Elija una bicicleta :</p>
-	@foreach($bikes as $bike)
-		<input type='radio' value='{{ $bike->id }}' name="bike" required="required"  checked="true" title="{{$bike->descripcion}}" >{{ $bike->descripcion }}</input>
-		@if($bike->fecha_a == date("Y-m-d"))
-			<br>
-			<li style="font-weight:bold;list-style:none;"><span class="glyphicon glyphicon-eye-open " style="color: #FF0000" aria-hidden="true"></span>  Está bicicleta registra ingreso el día de hoy</li>
-		@endif
-		<br>
-	@endforeach
-	<div class="form-group" >
-		{!! Form::label('nota', 'Nueva Nota para Bicicleta') !!}
-		{!! Form::text('nota', '' ,['class' => 'form-control', 'placeholder' => 'Ingrese alguna nota sobre la bicicleta, en caso que sea necesario']) !!}
-	</div>
+	<p><strong>Elija una bicicleta :</strong></p>
+	<table class="table display" width="100%" cellpadding="0" cellspacing="0" id="bicicletas_ingreso">
+		<thead>
+			<th>Descripción</th>
+			<th class="text-center">Ingresar</th>
+			<th>Extra</th>
+		</thead>
+		<tbody>
+			@foreach($bikes as $bike)
+			<tr>
+				<td>{{ $bike->descripcion }}</td>
+				<td class="text-center">
+					<input type='radio' value='{{ $bike->id }}' name="bike" required="required"  checked="true" ></input>
+				</td>
+				<td>
+				@if($bike->fecha_a == date("Y-m-d"))
+					<p style="font-weight:bold;"><span class="glyphicon glyphicon-eye-open " style="color: #FF0000" aria-hidden="true"></span>  Está bicicleta registra ingreso el día de hoy</p>
+				@else
 
-	<div class="form-group" >
-		{!! Form::label('fecha_a', 'Nueva Fecha de ingreso a la Universidad de la bicicleta') !!}
-		{!! Form::text('fecha_a', date("d-m-Y") ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
+				@endif
+				</td>
+			</tr>
+			@endforeach
+		</tbody>
+	</table>
+	<hr>
+	<h5 class="form-section" style="color: #080266"><strong>Detalles nuevo Ingreso a la Universidad<strong></h5>
+	<div class="row">
+		<div class="col-md-5">
+			<div class="form-group" >
+				{!! Form::label('nota', 'Nueva Nota') !!}
+				{!! Form::text('nota', '' ,['class' => 'form-control', 'placeholder' => 'Ingrese nota en caso que sea necesario']) !!}
+			</div>
+		</div>
 	</div>
-
-	<div class="form-group"  >
-		{!! Form::label('hora_a', 'Nueva Hora de ingreso a la Universidad de la bicicleta') !!}
-		{!! Form::text('hora_a',date("H:i:s",time()) ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
-	</div>
-
-	<div class="form-group" >
-		{!! Form::label('encargado_a', 'Nuevo Encargado del ingreso a la Universidad de la bicicleta') !!}
-		{!! Form::text('encargado_a', $encargado->name ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
+	<div class="row">
+		<div class="col-md-4">
+			<div class="form-group" >
+				{!! Form::label('fecha_a', 'Nueva Fecha') !!}
+				{!! Form::text('fecha_a', date("d-m-Y") ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="form-group"  >
+				{!! Form::label('hora_a', 'Nueva Hora') !!}
+				{!! Form::text('hora_a',date("H:i:s",time()) ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="form-group" >
+				{!! Form::label('encargado_a', 'Nuevo Encargado') !!}
+				{!! Form::text('encargado_a', $encargado->name ,['class' => 'form-control', 'readonly' => 'readonly']) !!}
+			</div>
+		</div>
 	</div>
 
 	<div class="form-group">
-			{!! Form::submit('Ingresar', ['class' => 'btn btn-danger']) !!}
-		</div>
+		{!! Form::submit('Ingresar', ['class' => 'btn btn-danger pull-left']) !!}
+	</div>
 	{!! Form::close() !!}
 
 	<a href="{{ url()->previous() }}" class=" pull-right btn btn-primary" title="Cancelar">Cancelar</a>
+@endsection
+@section('script')
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#bicicletas_ingreso').DataTable({
+    	"bFilter": false,
+    	"paging":   false,
+        "ordering": false,
+        "info":     false,
+    });
+});
+
+</script>
 @endsection

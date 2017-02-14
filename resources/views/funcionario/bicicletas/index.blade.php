@@ -12,14 +12,16 @@
 		<tbody>
 			@foreach($bikes as $bike)
 				<tr>
-					@foreach($users as $user)
-						@if($user->id == $bike->user_id)
-							<td>
-								<a href="{{ route('funcionario.users.detalle', $user->id ) }}" style="color: black;"  title="{{ $user->name }}">{{ $user->name }}</a>
-							</td>
+					<td>
+						<a href="{{ route('funcionario.users.detalle', $bike->usuario ) }}" style="color: black;"  title="{{ $bike->dueño }}">{{ $bike->dueño }}</a>
+					</td>
+					<td>
+						@if($bike->activa == 1)
+							<p style="color: #B9121B">Si</p>
+						@else
+							<p>No</p>
 						@endif
-					@endforeach
-					<td>{{ $bike->activa }}</td>
+					</td>
 					<td>{{ $bike->descripcion }}</td>
 					<td>
 						<a title="Editar" data-role="{{ $bike->id }}" class="btn btn-warning editar-data" data-target="#miModalEditar" ><i class="fa fa-pencil" aria-hidden="true" title="Editar"></i></a>
