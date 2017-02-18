@@ -19,7 +19,6 @@
         <li><a href="#">Contacto</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Link</a></li>
         @if (Auth::guest())
             <li><a href="{{ url('/login') }}">Ingresar</a></li>
             <!--<li><a href="{{ url('/register') }}">Crear Cuenta</a></li> -->

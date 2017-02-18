@@ -14,6 +14,9 @@
 	<link rel="stylesheet" href="{{ asset('plugins/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('plugins/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.theme.min.css') }}">
 	<!-- FIN Para autocompletar -->
+	<!--Font-awesome -->
+	<link rel="stylesheet" href="{{ asset('plugins/font-awesome-4.7.0/css/font-awesome.min.css') }}">
+	<!--Fin Font-awesome -->
 	<!-- Fancybox -->
 	<link rel="stylesheet" href="{{ asset('plugins/fancyBox/source/jquery.fancybox.css') }}">
 	<!-- Fin Fancybox-->

@@ -21,6 +21,7 @@ Route::get('/', function () {
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
+Route::get('', 'HomeController@index');/*Con eso no aparece el login si uno esta con session iniciada*/
 
 //grupo de rutas para la administracion
 Route::group(['prefix' => 'admin', 'middleware' => ['auth','is_admin']],function(){
