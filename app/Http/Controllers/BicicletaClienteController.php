@@ -40,20 +40,13 @@ class BicicletaClienteController extends Controller
 
     public function update(Request $request)
     {
-         //dd($request->all());
-        $datos = $request->all();
-        $reglas = array(
-            'detalle' => 'min:4|max:30|string',
-            'image' => 'mimes:jpeg,png'
+        $imageName = str_random(3) . '.' .
+        Input::file('image')->getClientOriginalExtension();
+        Request::file('image')->move(
+        base_path() . '/public/images/', $imageName
         );
+         //dd($request->all());
         
-        $v = Validator::make($datos, $reglas);
-
-        if($v->fails())
-        {
-            return redirect()->back()->withErrors($v->errors())->withInput($request->all());
-            //withInput($request->except('password')) devuelve todos los inputs, excepto el password
-        }
 
         $user = Auth::user();
         $bikes = Bike::all();

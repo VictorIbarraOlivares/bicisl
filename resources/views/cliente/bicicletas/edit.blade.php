@@ -15,14 +15,15 @@
 		<div class="row">
 			<div class="col-md-3">
 				<div class="form-group">
-					{!! Form::label('detalle', 'Detalles') !!}
-					{!! Form::textArea('detalle', $bike->detalle ,['class' => 'form-control', 'placeholder' => 'Detalles de la bicicleta : modelo, numero de serie, etc']) !!}
+						{!! Form::label('image', 'Imagen de Bicicleta') !!}
+						<img src="/images/default.jpg" class="img-resposive">
+		    			{!! Form::file('image') !!}
 				</div>
 			</div>
-			<div class="col-md-3">
+			<div class="col-md-10">
 				<div class="form-group">
-						{!! Form::label('image', 'Imagen de Bicicleta') !!}
-		    			{!! Form::file('image', null) !!}
+					{!! Form::label('detalle', 'Detalles') !!}
+					{!! Form::textArea('detalle', $bike->detalle ,['class' => 'form-control', 'placeholder' => 'Detalles de la bicicleta : modelo, numero de serie, etc']) !!}
 				</div>
 			</div>
 		</div>
