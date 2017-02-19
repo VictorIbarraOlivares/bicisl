@@ -37,9 +37,8 @@
 					</td>
 					<td class="text-center">{{ $user->nomTipo }}</td>
 					<td >
-						 <a href="{{ route('funcionario.users.edit', $user->id) }}" class="btn btn-warning" title="Editar"><span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Editar"></span></a>
-						 @if(Auth::user()->id != $user->id)
-								<a title="Eliminar" data-role="{{ $user->id }}" class="btn btn-danger eliminar-data" data-target="#miModalEliminar" ><i class="fa fa-trash" aria-hidden="true" title="Eliminar"></i></a>
+						 @if($user->tipo == 1 || $user->tipo== 4 )
+						 	<a href="{{ route('funcionario.users.edit', $user->id) }}" class="btn btn-warning" title="Editar"><span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Editar"></span></a>
 						@endif
 						<a href="{{ route('funcionario.users.detalle', $user->id) }}" class="btn btn-success" title="Detalles"><span class="glyphicon glyphicon-eye-open" aria-hidden="true" title="Detalles"></span></a>
 						@if($user->tipo != "2" && $user->tipo != "3")

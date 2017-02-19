@@ -133,53 +133,5 @@ class ClienteController extends Controller
 
         return redirect()->route('cliente.users.index');
     }
-
-     public function editBicicleta($id)
-    {
-        $user = Auth::user();
-        $bikes = Bike::all();
-        foreach($bikes as $bike){
-            if($bike->user_id == $user->id){
-                return view('cliente.bicicletas.edit')->with('bike',$bike)->with('user' ,$user);
-            }
-        }
-    }
-
-    public function updateBicicleta(Request $request)
-    {
-        //dd($request->all());
-        $datos = $request->all();
-        $reglas = array(
-            'descripcion' => 'min:8|max:30|required|string',
-        );
-        
-        $v = Validator::make($datos, $reglas);
-
-        if($v->fails())
-        {
-            return redirect()->back()->withErrors($v->errors())->withInput($request->all());
-            //withInput($request->except('password')) devuelve todos los inputs, excepto el password
-        }
-        $request->descripcion = preg_replace('/[0-9]+/', '', $request->descripcion);//elimina números
-        $request->descripcion = preg_replace('([^ A-Za-z0-9_-ñÑ])', '', $request->descripcion);//elimina caracteres especiales
-
-        $user = Auth::user();
-        $bikes = Bike::all();
-        foreach($bikes as $bike){
-            if($bike->user_id == $user->id){
-                if($bike->activa == 1){
-                    Flash::warning($user->name . ' no puedes editar la bicicleta mientras esté en el sistema!');
-                    return redirect()->route('cliente.home');
-                }
-                else{
-                    $bike->descripcion = $request->descripcion;
-                    $bike->save();
-
-                    Flash::warning('La bicicleta del dueño '. $user->name . ' ha sido editada con exito !');
-                    return redirect()->route('cliente.home');
-                }
-            }
-        }
-    }
-
+    
 }

@@ -11,16 +11,23 @@
 @endsection
 
 @section('content')
-	{!! Form::open(['route' => ['cliente.bicicletas.updateBicicleta',$bike ], 'method' => 'PUT' ]) !!}
+	{!! Form::open(['route' => ['cliente.bicicletas.update',$bike ], 'method' => 'PUT' ]) !!}
 		<div class="row">
 			<div class="col-md-3">
 				<div class="form-group">
-					{!! Form::label('descripcion', 'Descripcion') !!}
-					{!! Form::text('descripcion', $bike->descripcion ,['class' => 'form-control', 'placeholder' => 'Descripcion simple ejemplo : color y tipo' ,'required']) !!}
+					{!! Form::label('detalle', 'Detalles') !!}
+					{!! Form::textArea('detalle', $bike->detalle ,['class' => 'form-control', 'placeholder' => 'Detalles de la bicicleta : modelo, numero de serie, etc']) !!}
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="form-group">
+						{!! Form::label('image', 'Imagen de Bicicleta') !!}
+		    			{!! Form::file('image', null) !!}
 				</div>
 			</div>
 		</div>
-
+		<br>
+		<hr>
 		<div class="form-group">
 			{!! Form::submit('Listo', ['class' => 'btn btn-primary']) !!}
 		</div>
