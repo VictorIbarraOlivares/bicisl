@@ -106,11 +106,11 @@ function mostrar(id){//no se pedira clave para los "alumnos"
 		
 
 		<div class="form-group">
-			{!! Form::submit('Registrar', ['class' => 'btn btn-primary']) !!}
+			{!! Form::submit('Registrar', ['class' => 'btn btn-success pull-left']) !!}
 		</div>
 
 	{!! Form::close() !!}
-	<a href="{{ url()->previous() }}" class=" pull-right btn btn-primary" title="Cancelar">Cancelar</a>
+	<a href="{{ url()->previous() }}" class=" pull-right btn btn-danger" title="Cancelar">Cancelar</a>
 @endsection
 @section('script')
 <script type="text/javascript">

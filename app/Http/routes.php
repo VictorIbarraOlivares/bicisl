@@ -51,6 +51,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','is_admin']],function
 		'uses' => 'UsersController@autocomplete',
 		'as' => 'admin.users.autocomplete'
 	]);
+	Route::get('users/password/edit/{id}',[
+		'uses' => 'UsersController@password',
+		'as' => 'admin.users.password'
+	]);
+	Route::post('users/password/edit/{id}',[
+		'uses' => 'UsersController@cambiopassword',
+		'as' => 'admin.users.cambiopassword'
+	]);
 	/*Carreras*/
 	Route::resource('carreras', 'CarrerasController');
 	Route::get('carreras/eliminar/{id}',[
@@ -144,6 +152,14 @@ Route::group(['prefix' => 'funcionario', 'middleware' => ['auth','is_funcionario
 		'uses' => 'FuncionarioController@show',
 		'as' => 'funcionario.users.detalle'
 	]);
+	Route::get('users/password/edit/{id}',[
+		'uses' => 'FuncionarioController@password',
+		'as' => 'funcionario.users.password'
+	]);
+	Route::post('users/password/edit/{id}',[
+		'uses' => 'FuncionarioController@cambiopassword',
+		'as' => 'funcionario.users.cambiopassword'
+	]);
 
 	/*CARRERAS*/
 	Route::resource('carreras', 'CarrerasFuncionarioController');
@@ -213,6 +229,14 @@ Route::group(['prefix' => 'cliente', 'middleware' => ['auth','is_cliente']],func
 	Route::get('user/{id}',[
 		'uses' => 'ClienteController@show',
 		'as' => 'cliente.users.detalle'
+	]);
+	Route::get('users/password/edit/{id}',[
+		'uses' => 'ClienteController@password',
+		'as' => 'cliente.users.password'
+	]);
+	Route::post('users/password/edit/{id}',[
+		'uses' => 'ClienteController@cambiopassword',
+		'as' => 'cliente.users.cambiopassword'
 	]);
 
 	/*BICICLETAS*/

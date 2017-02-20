@@ -88,10 +88,6 @@
 											@endif
 											</td>
 	                    				</tr>
-	                    				<tr>
-	                    					<td>Detalles :</td>
-	                    					<td>{{ $bike->detalle }}</td>
-	                    				</tr>
 	                    			</tbody>
 	                    		</table>
 	                    	</div>

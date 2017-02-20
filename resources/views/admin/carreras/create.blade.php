@@ -18,15 +18,12 @@
 					{!! Form::number('codigo_carrera', null ,['class' => 'form-control', 'placeholder' => 'Ingrese código de la carrera' ,'required']) !!}
 				</div>
 			</div>
-		</div>
-		
-
-		
-
+		</div>		
+		<hr>
 		<div class="form-group">
-			{!! Form::submit('Registrar', ['class' => 'btn btn-success btn-lg']) !!}
+			{!! Form::submit('Registrar', ['class' => 'btn btn-success pull-left']) !!}
 		</div>
-		<a href="{{ url()->previous() }}" class=" pull-right btn btn-primary" title="Volver">Volver</a>
+		<a href="{{ url()->previous() }}" class=" pull-right btn btn-danger" title="Volver">Volver</a>
 
 	{!! Form::close() !!}
 @endsection

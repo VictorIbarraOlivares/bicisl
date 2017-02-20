@@ -93,8 +93,8 @@ class BicicletasFuncController extends Controller
             return redirect()->back()->withErrors($v->errors())->withInput($request->all());
             //withInput($request->except('password')) devuelve todos los inputs, excepto el password
         }
-        $color=ucfirst(strtolower($request->color));//se da formato al color
-        $tipo=ucfirst(strtolower($request->tipo));//se da formato al tipo
+        $color=ucfirst(strtolower(htmlentities($request->color, ENT_QUOTES,'UTF-8')));//se da formato al color
+        $tipo=ucfirst(strtolower(htmlentities($request->tipo, ENT_QUOTES,'UTF-8')));//se da formato al tipo
 
         $user = User::find($request->user_id);
         $bike = new Bike();

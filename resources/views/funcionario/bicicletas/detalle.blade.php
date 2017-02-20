@@ -39,6 +39,15 @@ if($bike->encargado_s != 0)
 				@endif
 			</div>
 		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="form-group">
+				  <label for="comment">Detalles Bicicleta</label>
+				  <textarea class="form-control" rows="5" readonly>{{ $bike->detalle }}</textarea>
+				</div>
+			</div>
+		</div>
+		 
 		<hr>
 
 		<!--ACÁ DEBERIA IR EL DETALLE, TERMINAR CUANDO ESTE LISTO LO DEL CLIENTE -->

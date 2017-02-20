@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use DB;
+use Hash;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
@@ -132,6 +133,55 @@ class ClienteController extends Controller
         Flash::warning('Tú perfil ha sido editado con exito '. $user->name . ' !');
 
         return redirect()->route('cliente.users.index');
+    }
+
+    public function password()
+    {
+        $user = Auth::user();
+        //dd($user);
+        return view('cliente.users.password')->with('user',$user);
+    }
+
+    public function cambiopassword(Request $request,$id)
+    {   
+        if(Auth::user()->id != $id){
+            Flash::error('NO PUEDE CAMBIAR EL PASSWORD DE OTRO USUSARIO');
+            return redirect()->route('cliente.home');
+        }
+        $datos = $request->all();
+        $mensajes = array(
+         'cl_rut' => 'Ingrese rut valido porfavor',
+         );
+        $reglas = array(
+            'password' => 'min:4|max:120|required',
+            'nuevoPassword' => 'min:4|max:120|required',
+            'repitePassword' => 'min:4|max:120|required|same:nuevoPassword'
+        );
+
+        $v = Validator::make($datos, $reglas,$mensajes);
+
+        if($v->fails()){
+            return redirect()->back()->withErrors($v->errors())->withInput($request->except('password'));
+            //withInput($request->except('password')) devuelve todos los inputs, excepto el password
+        }else{
+            if (Hash::check($request->password, Auth::user()->password)){
+                $user = Auth::user();
+                $user->password = Hash::make($request->nuevoPassword);
+                $user->save();
+                if($user->save()){
+                    Flash::success('Nuevo password guardado correctamente');
+                    return redirect()->route('cliente.home');
+                }else{
+                    Flash::error('No se ha guardado el nuevo password');
+                    return redirect()->route('cliente.home');
+                }
+            }else{
+                $user = Auth::user();
+                Flash::error('El password actual no es correcto');
+                return view('cliente.users.password')->with('user',$user);
+            }
+
+        }
     }
     
 }

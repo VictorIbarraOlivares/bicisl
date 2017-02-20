@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>@yield('title', 'Default') | Panel de Administración</title>
+	<title>@yield('title', 'Default')</title>
 	<link rel="stylesheet" href="{{ asset('plugins/bootstrap/css/bootstrap.css') }}">
 	<!-- DATATABLES -->
 	<link rel="stylesheet" href="{{ asset('plugins/datatables/Bootsrap-3.3.7/css/bootstrap.min.css') }}"><!--BORRAR A VER SI SIGUE FUNCIONANDO -->
@@ -14,6 +14,9 @@
 	<link rel="stylesheet" href="{{ asset('plugins/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('plugins/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.theme.min.css') }}">
 	<!-- FIN Para autocompletar -->
+	<!--Font-awesome -->
+	<link rel="stylesheet" href="{{ asset('plugins/font-awesome-4.7.0/css/font-awesome.min.css') }}">
+	<!--Fin Font-awesome -->
 	<!-- Fancybox -->
 	<link rel="stylesheet" href="{{ asset('plugins/fancyBox/source/jquery.fancybox.css') }}">
 	<!-- Fin Fancybox-->

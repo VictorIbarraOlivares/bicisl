@@ -92,8 +92,8 @@ class BicicletasAdminController extends Controller
     	//dd($request->all());
         $datos = $request->all();
         $reglas = array(
-            'color'     => 'min:4|max:10|required|alpha',
-            'tipo' => 'min:5|max:10|required|alpha',
+            'color'     => 'min:4|max:10|required|string',
+            'tipo' => 'min:5|max:10|required|string',
             'nota' => 'min:4|max:30|string'
         );
         
@@ -105,8 +105,10 @@ class BicicletasAdminController extends Controller
             //withInput($request->except('password')) devuelve todos los inputs, excepto el password
         }
 
-        $color=ucfirst(strtolower($request->color));//se da formato al color
-        $tipo=ucfirst(strtolower($request->tipo));//se da formato al tipo
+        $color=ucfirst(strtolower(htmlentities($request->color, ENT_QUOTES,'UTF-8')));//se da formato al color
+        $tipo=ucfirst(strtolower(htmlentities($request->tipo, ENT_QUOTES,'UTF-8')));//se da formato al tipo
+        //$string = htmlentities($request->tipo, ENT_QUOTES,'UTF-8');
+        //dd($tipo,$request->tipo,ucfirst(strtolower($request->tipo)));
 
     	$user = User::find($request->user_id);
     	$bike = new Bike();

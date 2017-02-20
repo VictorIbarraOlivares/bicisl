@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use DB;
+use Hash;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
@@ -87,7 +88,7 @@ class FuncionarioController extends Controller
         }
         $nombre=ucfirst(strtolower($request->nombre));//se da formato al nombre
         $apellido=ucfirst(strtolower($request->apellido));//se da formato al apellido
-        /*formato rut ,para guardar en la base de datos, se guarda sin puntos ni guion y se guarda k*/
+        /*formato rut ,para guardar en la base de datos, se guarda sin puntos ni guion y se guarda K*/
         $rut="";
         $aux=$request->rut;
         for ($i=0; $i<strlen($aux); $i++) {
@@ -129,7 +130,7 @@ class FuncionarioController extends Controller
             Flash::success('Se ha registrado '. $user->name .' de forma exitosa!');
             return redirect()->route('funcionario.bicicletas.create', $user->id);
         }elseif($request->tipo == "Alumno"){//Alumno
-            $user->password = bcrypt($request->rut);
+            $user->password = bcrypt($rut);
             $user->type_id = 4;
             $user->email = $request->email;
             $user->name = $nombre." ".$apellido;
@@ -328,6 +329,55 @@ class FuncionarioController extends Controller
             }
 
             return json_encode($results);
+        }
+    }
+
+    public function password()
+    {
+        $user = Auth::user();
+        //dd($user);
+        return view('funcionario.users.password')->with('user',$user);
+    }
+
+    public function cambiopassword(Request $request,$id)
+    {   
+        if(Auth::user()->id != $id){
+            Flash::error('NO PUEDE CAMBIAR EL PASSWORD DE OTRO USUSARIO');
+            return redirect()->route('funcionario.home');
+        }
+        $datos = $request->all();
+        $mensajes = array(
+         'cl_rut' => 'Ingrese rut valido porfavor',
+         );
+        $reglas = array(
+            'password' => 'min:4|max:120|required',
+            'nuevoPassword' => 'min:4|max:120|required',
+            'repitePassword' => 'min:4|max:120|required|same:nuevoPassword'
+        );
+
+        $v = Validator::make($datos, $reglas,$mensajes);
+
+        if($v->fails()){
+            return redirect()->back()->withErrors($v->errors())->withInput($request->except('password'));
+            //withInput($request->except('password')) devuelve todos los inputs, excepto el password
+        }else{
+            if (Hash::check($request->password, Auth::user()->password)){
+                $user = Auth::user();
+                $user->password = Hash::make($request->nuevoPassword);
+                $user->save();
+                if($user->save()){
+                    Flash::success('Nuevo password guardado correctamente');
+                    return redirect()->route('funcionario.home');
+                }else{
+                    Flash::error('No se ha guardado el nuevo password');
+                    return redirect()->route('funcionario.home');
+                }
+            }else{
+                $user = Auth::user();
+                Flash::error('El password actual no es correcto');
+                return view('funcionario.users.password')->with('user',$user);
+            }
+
         }
     }
 }
