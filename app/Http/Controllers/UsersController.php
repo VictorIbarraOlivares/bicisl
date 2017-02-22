@@ -68,7 +68,7 @@ class UsersController extends Controller
             'apellido' => 'min:3|max:15|required|alpha',
             'rut'      => 'between:7,12|unique:users|required|string|cl_rut',
             'tipo'  => 'required|in:Visita,Administrador,Funcionario,Alumno',//pueden ser esos 4 tipos
-            'email'    => 'min:4|max:250|unique:users|required_if:tipo,Administrador,Funcionario,Alumno|email',//se requiere si no es visita
+            'email'    => 'min:6|max:250|unique:users|required_if:tipo,Administrador,Funcionario,Alumno|email',//se requiere si no es visita
             'password' => 'min:4|max:120|required_if:tipo,Administrador,Funcionario',//se requiere si el tipo es admin o func
             'carrera' => 'required_if:tipo,Alumno'//se requiere si el tipo es cliente,alumno
         );
