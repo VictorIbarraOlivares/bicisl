@@ -92,8 +92,8 @@ class BicicletasAdminController extends Controller
     	//dd($request->all());
         $datos = $request->all();
         $reglas = array(
-            'color'     => 'min:4|max:10|required|string',
-            'tipo' => 'min:5|max:10|required|string',
+            'color'     => 'min:4|max:10|required|alpha',
+            'tipo' => 'min:5|max:10|required|alpha',
             'nota' => 'min:4|max:30|string'
         );
         

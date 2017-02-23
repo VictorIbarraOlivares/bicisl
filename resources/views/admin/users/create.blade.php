@@ -28,6 +28,8 @@ function mostrar(id){//no se pedira clave para los "alumnos"
 	}
 	if( id == "Visita" || id == "Alumno"){//no se pedira clave para los "alumnos" y visita
 		$("#clave").hide();
+        $('#mensajePass1').attr("hidden","hidden");
+        $('#mensajePass2').attr("hidden","hidden");
 		$("#password").removeAttr("required");
 	}else{
 		$("#clave").show();
@@ -62,8 +64,8 @@ function mostrar(id){//no se pedira clave para los "alumnos"
                     <p hidden id="checkNombre"><i class="fa fa-check" aria-hidden="true" style="color: #5A956F;"></i></p>
                     <p hidden  id="timesNombre"><i class="fa fa-times" aria-hidden="true" style="color: #ED1723;"></i></p>
 				</div>
-                <p hidden id="mensajeNombre1" style="color: #ED1723;font-weight:bold;font-size: 75%"><i class="fa fa-exclamation" aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe tener mínimo 4 caracteres</p>
-                <p hidden id="mensajeNombre2" style="color: #ED1723;font-weight:bold;font-size: 75%"><i class="fa fa-exclamation" aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe tener máximo 15 caracteres</p>
+                <p hidden id="mensajeNombre1" style="color: #080266;font-weight:bold;font-size: 90%"><i class="fa  fa-exclamation-circle " aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe tener mínimo 4 caracteres</p>
+                <p hidden id="mensajeNombre2" style="color: #080266;font-weight:bold;font-size: 90%"><i class="fa fa-exclamation-circle" aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe tener máximo 15 caracteres</p>
 			</div>
 			<div class="col-md-4">
 				<div class="form-group form-inline">
@@ -72,8 +74,8 @@ function mostrar(id){//no se pedira clave para los "alumnos"
                     <p hidden id="checkApellido"><i class="fa fa-check" aria-hidden="true" style="color: #5A956F;"></i></p>
                     <p hidden  id="timesApellido"><i class="fa fa-times" aria-hidden="true" style="color: #ED1723;"></i></p>
 				</div>
-                <p hidden id="mensajeApellido1" style="color: #ED1723;font-weight:bold;font-size: 75%"><i class="fa fa-exclamation" aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe tener mínimo 3 caracteres</p>
-                <p hidden id="mensajeApellido2" style="color: #ED1723;font-weight:bold;font-size: 75%"><i class="fa fa-exclamation" aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe tener máximo 15 caracteres</p>
+                <p hidden id="mensajeApellido1" style="color: #080266;font-weight:bold;font-size: 90%"><i class="fa  fa-exclamation-circle " aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe tener mínimo 3 caracteres</p>
+                <p hidden id="mensajeApellido2" style="color: #080266;font-weight:bold;font-size: 90%"><i class="fa fa-exclamation-circle" aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe tener máximo 15 caracteres</p>
 			</div>
 			<div class="col-md-4">
 				<div class="form-group">
@@ -83,6 +85,7 @@ function mostrar(id){//no se pedira clave para los "alumnos"
 			</div>
 			
 		</div>
+
 		<br>
 		<div class="row">
             <div class="col-md-4">
@@ -92,15 +95,19 @@ function mostrar(id){//no se pedira clave para los "alumnos"
                     <p hidden id="checkEmail"><i class="fa fa-check" aria-hidden="true" style="color: #5A956F;"></i></p>
                     <p hidden  id="timesEmail"><i class="fa fa-times" aria-hidden="true" style="color: #ED1723;"></i></p> 
                 </div>
-                <p hidden id="mensajeEmail1" style="color: #ED1723;font-weight:bold;font-size: 75%"><i class="fa fa-exclamation" aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe tener mínimo 6 caracteres</p>
-                <p hidden id="mensajeEmail2" style="color: #ED1723;font-weight:bold;font-size: 75%"><i class="fa fa-exclamation" aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe tener máximo 250 caracteres</p>
-                <p hidden id="mensajeEmail3" style="color: #ED1723;font-weight:bold;font-size: 75%"><i class="fa fa-exclamation" aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe ser un email valido</p>
+                <p hidden id="mensajeEmail1" style="color: #080266;font-weight:bold;font-size: 90%"><i class="fa fa-exclamation-circle" aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe tener mínimo 6 caracteres</p>
+                <p hidden id="mensajeEmail2" style="color: #080266;font-weight:bold;font-size: 90%"><i class="fa fa-exclamation-circle" aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe tener máximo 30 caracteres</p>
+                <p hidden id="mensajeEmail3" style="color: #080266;font-weight:bold;font-size: 90%"><i class="fa fa-exclamation-circle" aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe ser un email valido</p>
             </div>
 			<div class="col-md-4">
-				<div class="form-group" id="clave">
+				<div class="form-group form-inline" id="clave">
 					{!! Form::label('password', 'Contraseña') !!}
-					{!! Form::password('password',['class' => 'form-control', 'placeholder' => 'Ingrese la contraseña para el usuario' ,'required']) !!}
+					{!! Form::password('password',['class' => 'form-control', 'placeholder' => 'Ingrese la contraseña para el usuario' ,'required' ,'style' => 'width:90%' , 'onkeyup' => 'validaPass();']) !!}
+                    <p hidden id="checkPass"><i class="fa fa-check" aria-hidden="true" style="color: #5A956F;"></i></p>
+                    <p hidden  id="timesPass"><i class="fa fa-times" aria-hidden="true" style="color: #ED1723;"></i></p>
 				</div>
+                <p hidden id="mensajePass1" style="color: #080266;font-weight:bold;font-size: 90%"><i class="fa fa-exclamation-circle" aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe tener mínimo 4 caracteres</p>
+                <p hidden id="mensajePass2" style="color: #080266;font-weight:bold;font-size: 90%"><i class="fa fa-exclamation-circle" aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe tener máximo 30 caracteres</p>
 			</div>
 		</div>
 		
@@ -158,9 +165,9 @@ $(document).ready(function(){
     });
     /*fin letras*/
     
-    validaNombre();
-    validaApellido();
-    validaEmail();
+    //validaNombre();
+    //validaApellido();
+    //validaEmail();
 });
 
 
@@ -369,7 +376,7 @@ function validaEmail(){
         $('#mensajeEmail1').removeAttr("hidden");
         $('#email').css("border-color","#ED1723");
         agregaIconosEmail();
-    }else if($("#email").val().length > 250){
+    }else if($("#email").val().length > 30){
         $('#mensajeEmail1').attr("hidden","hidden");
         $('#mensajeEmail2').removeAttr("hidden");
         $('#email').css("border-color","#ED1723");
@@ -404,5 +411,42 @@ function quitaIconosEmail()
     $('#timesEmail').css("display","none");
 }
 /*FIN FUNCION PARA VALIDAR EL EMAIL*/
+
+/*FUNCION PARA VALIDAR EL PASS*/
+function validaPass(){
+
+    if($("#password").val().length < 4) {  
+        $('#mensajePass2').attr("hidden","hidden");
+        $('#mensajePass1').removeAttr("hidden");
+        $('#password').css("border-color","#ED1723");
+        agregaIconosPass();
+    }else if($("#password").val().length > 30){
+        $('#mensajePass1').attr("hidden","hidden");
+        $('#mensajePass2').removeAttr("hidden");
+        $('#password').css("border-color","#ED1723");
+        agregaIconosPass();
+    }else{
+        $('#mensajePass1').attr("hidden","hidden");
+        $('#mensajePass2').attr("hidden","hidden");
+        $('#password').css("border-color","#5A956F");
+        quitaIconosPass();
+    }
+}
+function agregaIconosPass()
+{
+    $('#timesPass').removeAttr("hidden");
+    $('#timesPass').css("display","inline");
+    $('#checkPass').attr("hidden","hidden");
+    $('#checkPass').css("display","none");
+}
+
+function quitaIconosPass()
+{
+    $('#checkPass').removeAttr("hidden");
+    $('#checkPass').css("display","inline");
+    $('#timesPass').attr("hidden","hidden");
+    $('#timesPass').css("display","none");
+}
+/*FIN FUNCION PARA VALIDAR EL PAS*/
 </script>
 @endsection

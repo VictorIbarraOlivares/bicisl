@@ -27,35 +27,51 @@ function mostrar(id){
 	{!! Form::open(['route' => ['admin.users.update',$user ] , 'method' => 'PUT' , 'name' => 'form1' , 'id' => 'form1']) !!}
 
 		<div class="row">
-			<div class="col-md-2">
-				<div class="form-group">
+			<div class="col-md-4">
+				<div class="form-group form-inline">
 					{!! Form::label('nombre', 'Nombre') !!}
-					{!! Form::text('nombre',  $nombre ,['class' => 'form-control', 'placeholder' => 'Ingrese Nombre' ,'required']) !!}
+					{!! Form::text('nombre',  $nombre ,['class' => 'form-control letras', 'placeholder' => 'Ingrese Nombre' ,'required','style' => 'width: 90%' , 'onkeyup' => 'validaNombre();']) !!}
+                    <p hidden id="checkNombre"><i class="fa fa-check" aria-hidden="true" style="color: #5A956F;"></i></p>
+                    <p hidden  id="timesNombre"><i class="fa fa-times" aria-hidden="true" style="color: #ED1723;"></i></p>
 				</div>
+                <p hidden id="mensajeNombre1" style="color: #080266;font-weight:bold;font-size: 90%"><i class="fa  fa-exclamation-circle " aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe tener mínimo 4 caracteres</p>
+                <p hidden id="mensajeNombre2" style="color: #080266;font-weight:bold;font-size: 90%"><i class="fa fa-exclamation-circle" aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe tener máximo 15 caracteres</p>
 			</div>
-			<div class="col-md-2">
-				<div class="form-group">
+			<div class="col-md-4">
+				<div class="form-group form-inline">
 					{!! Form::label('apellido', 'Apellido') !!}
-					{!! Form::text('apellido',  $apellido ,['class' => 'form-control', 'placeholder' => 'Ingrese Apellido' ,'required']) !!}
+					{!! Form::text('apellido',  $apellido ,['class' => 'form-control', 'placeholder' => 'Ingrese Apellido' ,'required','style' => 'width: 90%' , 'onkeyup' => 'validaApellido();']) !!}
+                    <p hidden id="checkApellido"><i class="fa fa-check" aria-hidden="true" style="color: #5A956F;"></i></p>
+                    <p hidden  id="timesApellido"><i class="fa fa-times" aria-hidden="true" style="color: #ED1723;"></i></p>
 				</div>
+                <p hidden id="mensajeApellido1" style="color: #080266;font-weight:bold;font-size: 90%"><i class="fa  fa-exclamation-circle " aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe tener mínimo 3 caracteres</p>
+                <p hidden id="mensajeApellido2" style="color: #080266;font-weight:bold;font-size: 90%"><i class="fa fa-exclamation-circle" aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe tener máximo 15 caracteres</p>
 			</div>
-			<div class="col-md-2">
+			<div class="col-md-4">
 				<div class="form-group">
 					{!! Form::label('rut', 'Rut') !!}
 					{!! Form::text('rut', formato_rut($user->rut) ,['class' => 'form-control', 'placeholder' => 'Ingrese RUT' ,'required','onblur' => 'return Rut(form1.rut.value)']) !!}
 				</div>
 			</div>
-			<div class="col-md-4">
-				@if($user->type_id != 1)
-					<div class="form-group" id="mail" style="display: show;">
-				@else
-					<div class="form-group" id="mail" style="display: none;">
-				@endif
-					{!! Form::label('email', 'Correo Electronico') !!}
-					{!! Form::email('email', $user->email ,['class' => 'form-control', 'placeholder' => 'example@gmail.com' ]) !!} 
-				</div>
-			</div>
 		</div>
+        <br>
+        <div class="row">
+            <div class="col-md-4">
+                @if($user->type_id != 1)
+                    <div class="form-group form-inline" id="mail" style="display: show;">
+                @else
+                    <div class="form-group form-inline" id="mail" style="display: none;">
+                @endif
+                    {!! Form::label('email', 'Correo Electronico') !!}
+                    {!! Form::email('email', $user->email ,['class' => 'form-control', 'placeholder' => 'example@gmail.com' ,'style' => 'width:90%' , 'onkeyup' => 'validaEmail();']) !!}
+                    <p hidden id="checkEmail"><i class="fa fa-check" aria-hidden="true" style="color: #5A956F;"></i></p>
+                    <p hidden  id="timesEmail"><i class="fa fa-times" aria-hidden="true" style="color: #ED1723;"></i></p> 
+                    </div>
+                    <p hidden id="mensajeEmail1" style="color: #080266;font-weight:bold;font-size: 90%"><i class="fa fa-exclamation-circle" aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe tener mínimo 6 caracteres</p>
+                    <p hidden id="mensajeEmail2" style="color: #080266;font-weight:bold;font-size: 90%"><i class="fa fa-exclamation-circle" aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe tener máximo 30 caracteres</p>
+                    <p hidden id="mensajeEmail3" style="color: #080266;font-weight:bold;font-size: 90%"><i class="fa fa-exclamation-circle" aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe ser un email valido</p>
+            </div>
+        </div>
 		<div class="row">
 			<div class="col-md-3">
 				<div class="form-group">
@@ -108,13 +124,43 @@ function mostrar(id){
 @endsection
 @section('script')
 <script type="text/javascript">
+$(document).ready(function(){
+    /*Con esto no se deja ingresar nada que no sea letras*/
+    $(".letras").keypress(function (key) {
+            window.console.log(key.charCode)
+            if (
+                (key.charCode < 97 || key.charCode > 122)//letras mayusculas
+                && (key.charCode < 65 || key.charCode > 90) //letras minusculas
+                && (key.charCode != 0) //borrar
+                && (key.charCode != 241) //ñ
+                 && (key.charCode != 209) //Ñ
+                 && (key.charCode != 225) //á
+                 && (key.charCode != 233) //é
+                 && (key.charCode != 237) //í
+                 && (key.charCode != 243) //ó
+                 && (key.charCode != 250) //ú
+                 && (key.charCode != 193) //Á
+                 && (key.charCode != 201) //É
+                 && (key.charCode != 205) //Í
+                 && (key.charCode != 211) //Ó
+                 && (key.charCode != 218) //Ú
+                )
+                //console.log(key.charCode);
+                return false;
+    });
+    /*fin letras*/
+    
+    //validaNombre();
+    //validaApellido();
+    //validaEmail();
+});
 /*FUNCIONES PARA RUT*/
 function revisarDigito(dvr){    
   dv = dvr + ""    
   if( dv != '0' && dv != '1' && dv != '2' && dv != '3' && dv != '4' && dv != '5' && dv != '6' && dv != '7' && dv != '8' && dv != '9' && dv != 'k'  && dv != 'K'){        
     alert("Debe ingresar un digito verificador valido");        
-    document.form1.rut.focus();        
-    document.form1.rut.select();        
+    //document.form1.rut.focus();        
+    //document.form1.rut.select();        
     return false;    
   }    
   return true;
@@ -124,8 +170,8 @@ function revisarDigito2(crut){
   largo = crut.length;    
   if(largo<2){        
     alert("Debe ingresar el rut completo")        
-    document.form1.rut.focus();        
-    document.form1.rut.select();        
+    //document.form1.rut.focus();        
+    //document.form1.rut.select();        
     return false;    
   }    
   if(largo>2)        
@@ -161,8 +207,8 @@ function revisarDigito2(crut){
     if ( dvr != dv.toLowerCase() )    
     {        
         alert("EL rut es incorrecto")        
-        document.form1.rut.focus();        
-        document.form1.rut.select();        
+        //document.form1.rut.focus();        
+        //document.form1.rut.select();        
         return false    
     }
 
@@ -179,16 +225,16 @@ function Rut(texto){
 
     if ( largo < 2 ){        
         alert("Debe ingresar el rut completo")        
-        document.form1.rut.focus();        
-        document.form1.rut.select();        
+        //document.form1.rut.focus();        
+        //document.form1.rut.select();        
         return false;    
     }    
 
     for (i=0; i < largo ; i++ ){            
         if ( texto.charAt(i) !="0" && texto.charAt(i) != "1" && texto.charAt(i) !="2" && texto.charAt(i) != "3" && texto.charAt(i) != "4" && texto.charAt(i) !="5" && texto.charAt(i) != "6" && texto.charAt(i) != "7" && texto.charAt(i) !="8" && texto.charAt(i) != "9" && texto.charAt(i) !="k" && texto.charAt(i) != "K" ){            
             alert("El valor ingresado no corresponde a un R.U.T valido");            
-            document.form1.rut.focus();            
-            document.form1.rut.select();            
+            //document.form1.rut.focus();            
+            //document.form1.rut.select();            
             return false;        
         }    
     }    
@@ -225,5 +271,127 @@ function Rut(texto){
     return false; 
 }
 /*FIN FUNCIONES PARA RUT */
+
+/*FUNCION PARA VALIDAR EL NOMBRE*/
+function validaNombre(){
+
+    if($("#nombre").val().length < 4) {  
+        $('#mensajeNombre1').removeAttr("hidden");
+        $('#mensajeNombre2').attr("hidden","hidden");
+        $('#nombre').css("border-color","#ED1723");
+        agregaIconosNombre();
+    }else if($("#nombre").val().length > 15){
+        $('#mensajeNombre1').attr("hidden","hidden");
+        $('#mensajeNombre2').removeAttr("hidden");
+        $('#nombre').css("border-color","#ED1723");
+        agregaIconosNombre();
+    }else{
+        $('#mensajeNombre1').attr("hidden","hidden");
+        $('#mensajeNombre2').attr("hidden","hidden");
+        $('#nombre').css("border-color","#5A956F");
+        quitaIconosNombre();
+    }
+}
+function agregaIconosNombre()
+{
+    $('#timesNombre').removeAttr("hidden");
+    $('#timesNombre').css("display","inline");
+    $('#checkNombre').attr("hidden","hidden");
+    $('#checkNombre').css("display","none");
+}
+
+function quitaIconosNombre()
+{
+    $('#checkNombre').removeAttr("hidden");
+    $('#checkNombre').css("display","inline");
+    $('#timesNombre').attr("hidden","hidden");
+    $('#timesNombre').css("display","none");
+}
+/*FIN FUNCION PARA VALIDAR EL NOMBRE*/
+
+/*FUNCION PARA VALIDAR EL APELLIDO*/
+function validaApellido(){
+
+    if($("#apellido").val().length < 3) {  
+        $('#mensajeApellido2').attr("hidden","hidden");
+        $('#mensajeApellido1').removeAttr("hidden");
+        $('#apellido').css("border-color","#ED1723");
+        agregaIconosApellido();
+    }else if($("#apellido").val().length > 15){
+        $('#mensajeApellido1').attr("hidden","hidden");
+        $('#mensajeApellido2').removeAttr("hidden");
+        $('#apellido').css("border-color","#ED1723");
+        agregaIconosApellido();
+    }else{
+        $('#mensajeApellido1').attr("hidden","hidden");
+        $('#mensajeApellido2').attr("hidden","hidden");
+        $('#apellido').css("border-color","#5A956F");
+        quitaIconosApellido();
+    }
+}
+function agregaIconosApellido()
+{
+    $('#timesApellido').removeAttr("hidden");
+    $('#timesApellido').css("display","inline");
+    $('#checkApellido').attr("hidden","hidden");
+    $('#checkApellido').css("display","none");
+}
+
+function quitaIconosApellido()
+{
+    $('#checkApellido').removeAttr("hidden");
+    $('#checkApellido').css("display","inline");
+    $('#timesApellido').attr("hidden","hidden");
+    $('#timesApellido').css("display","none");
+}
+/*FIN FUNCION PARA VALIDAR EL APELLIDO*/
+/*FUNCION PARA VALIDAR EL EMAIL*/
+function validaEmail(){
+
+    /*inico validacion email*/
+    var re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    var valid = re.test($('#email').val());
+    /*fin para email*/
+    
+    if($("#email").val().length < 6) {  
+        $('#mensajeEmail2').attr("hidden","hidden");
+        $('#mensajeEmail1').removeAttr("hidden");
+        $('#email').css("border-color","#ED1723");
+        agregaIconosEmail();
+    }else if($("#email").val().length > 30){
+        $('#mensajeEmail1').attr("hidden","hidden");
+        $('#mensajeEmail2').removeAttr("hidden");
+        $('#email').css("border-color","#ED1723");
+        agregaIconosEmail();
+    }else if(!valid){//si no es valido
+        $('#mensajeEmail3').removeAttr("hidden");
+        $('#mensajeEmail1').attr("hidden","hidden");
+        $('#mensajeEmail2').attr("hidden","hidden");
+        $('#email').css("border-color","#ED1723");
+        agregaIconosEmail();
+    }else{
+        $('#mensajeEmail1').attr("hidden","hidden");
+        $('#mensajeEmail2').attr("hidden","hidden");
+        $('#mensajeEmail3').attr("hidden","hidden");
+        $('#email').css("border-color","#5A956F");
+        quitaIconosEmail();
+    }
+}
+function agregaIconosEmail()
+{
+    $('#timesEmail').removeAttr("hidden");
+    $('#timesEmail').css("display","inline");
+    $('#checkEmail').attr("hidden","hidden");
+    $('#checkEmail').css("display","none");
+}
+
+function quitaIconosEmail()
+{
+    $('#checkEmail').removeAttr("hidden");
+    $('#checkEmail').css("display","inline");
+    $('#timesEmail').attr("hidden","hidden");
+    $('#timesEmail').css("display","none");
+}
+/*FIN FUNCION PARA VALIDAR EL EMAIL*/
 </script>
 @endsection

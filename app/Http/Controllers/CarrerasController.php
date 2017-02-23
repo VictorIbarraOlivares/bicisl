@@ -28,21 +28,26 @@ class CarrerasController extends Controller
     {
     	//dd($request-> all());
         $datos = $request->all();
+        $mensajes = array(
+         'codigo_carrera' => 'Código Carrera',
+         );
         $reglas = array(
-            'name'     => 'min:8|max:35|unique:carreras|required|string',
+            'nombre'     => 'min:8|max:35|unique:carreras|required|string',
             'codigo_carrera' => 'digits_between:4,7|unique:carreras|required|numeric'
         );
         
-        $v = Validator::make($datos, $reglas);
+        $v = Validator::make($datos, $reglas,$mensajes);
 
         if($v->fails())
         {
             return redirect()->back()->withErrors($v->errors())->withInput($request->all());
             //withInput($request->except('password')) devuelve todos los inputs, excepto el password
         }
-    	$carrera = new Carrera($request -> all());
-        $carrera->name = preg_replace('/[0-9]+/', '', $carrera->name);//elimina números
-        $carrera->name = preg_replace('([^ A-Za-z0-9_-ñÑ])', '', $carrera->name);//elimina caracteres especiales
+    	$carrera = new Carrera();
+        $carrera->codigo_carrera = $request->codigo_carrera;
+        $request->nombre = preg_replace('/[0-9]+/', '', $request->nombre );//elimina números
+        $request->nombre = preg_replace('([^ A-Za-z0-9_-ñÑ])', '', $request->nombre );//elimina caracteres especiales
+        $carrera->name = $request->nombre;
     	//dd($carrera);
     	$carrera->save();
 
