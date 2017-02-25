@@ -15,4 +15,9 @@ class Image extends Model
     {
     	return $this->hasOne('App\Bike');
     }
+    public function sethPathAttribute($path){
+    	$this->attributes['path'] = Carbon::now()->second.$path->getClientOriginalName();
+    	$name = Carbon::now()->second.$path->getClientOriginalName();
+    	\Storage::disk('local')->put($name, \File::get($path));
+    }
 }

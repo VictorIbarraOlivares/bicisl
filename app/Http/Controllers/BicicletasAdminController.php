@@ -14,6 +14,7 @@ use App\User;
 use App\Type;
 use App\Carrera;
 use App\Bike;
+use App\Image;
 use Illuminate\Support\Facades\Auth; /*para poder usar el Auth:: ...*/
 
 use Laracasts\Flash\Flash;
@@ -122,8 +123,10 @@ class BicicletasAdminController extends Controller
         $bike->activa = 1;
         $bike->user_id = $user->id;
     	//dd($request->all(),$bike);
-
     	$bike->save();
+        $image = new Image();
+        $image->bike_id = $bike->id;
+        $image->save();
 
     	Flash::success('Se ha registrado la bicicleta de '.$user->name. ' de forma exitosa');
     	return redirect()->route('admin.home');

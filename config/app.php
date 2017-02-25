@@ -216,6 +216,7 @@ return [
         'Flash' => Laracasts\Flash\Flash::class,
         /*CHILEAN BUNDLE, validar rut*/
             'Rut'   => Freshwork\ChileanBundle\Laravel\Facades\Rut::class,
+        'Input' => Illuminate\Support\Facades\Input::class,
     ],
 
 ];

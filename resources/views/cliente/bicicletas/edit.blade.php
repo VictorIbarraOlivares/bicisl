@@ -11,13 +11,13 @@
 @endsection
 
 @section('content')
-	{!! Form::open(['route' => ['cliente.bicicletas.update',$bike ], 'method' => 'PUT' ]) !!}
+	{!! Form::open(['route' => ['cliente.bicicletas.update',$bike ], 'method' => 'PUT', 'files' => true ]) !!}
 		<div class="row">
 			<div class="col-md-3">
 				<div class="form-group">
 						{!! Form::label('image', 'Imagen de Bicicleta') !!}
-						<img src="/images/default.jpg" class="img-resposive">
-		    			{!! Form::file('image') !!}
+						<img src="{{ asset($image->name)}}" class="img-thumbnail" alt="Cinque Terre" width="304" height="236"> 
+		    			{!! Form::file('image', null, ['class' => 'form-control']) !!}
 				</div>
 			</div>
 			<div class="col-md-10">

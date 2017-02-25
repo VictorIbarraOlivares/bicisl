@@ -111,7 +111,10 @@ class BicicletasFuncController extends Controller
         $bike->nota = preg_replace('/[0-9]+/', '', $bike->nota);//elimina números
         $bike->nota = preg_replace('([^ A-Za-z0-9_-ñÑ])', '', $bike->nota);//elimina caracteres especiales
         */
-
+        $default = "/images/default.jpg";
+        $image->name = $default;
+        $image->bike_id = $bike->id;
+        $image->save();
         $bike->save();
 
         Flash::success('Se ha registrado la bicicleta de '.$user->name.' de forma exitosa');

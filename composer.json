@@ -12,7 +12,9 @@
         "cviebrock/eloquent-sluggable": "4.1",
         "laracasts/flash": "^2.0",
         "freshwork/chilean-bundle": "^2.0",
-        "doctrine/dbal": "^2.5"
+        "doctrine/dbal": "^2.5",
+        "league/flysystem": "^1.0",
+        "league/flysystem-aws-s3-v3": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -55,6 +57,7 @@
     },
     "config": {
         "preferred-install": "dist"
-    }
-
+    },
+    
+    "illuminate/html": "5.*"
 }
