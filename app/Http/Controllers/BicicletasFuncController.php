@@ -41,6 +41,12 @@ class BicicletasFuncController extends Controller
         return view('funcionario.bicicletas.modaleditar')->with('bike',$bike);
     }
 
+    public function imagen($id)
+    {
+        //acá buscar la imagen para luego mostrarla, el $id, es el id de la bicicleta
+        return view('funcionario.bicicletas.modalimagen');
+    }
+
     public function retiro($id)
     {
         //dd("estas en el controlador retiro");

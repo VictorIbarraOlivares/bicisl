@@ -38,6 +38,12 @@ class BicicletasAdminController extends Controller
         return view('admin.bicicletas.modaleditar')->with('bike',$bike);
     }
 
+    public function imagen($id)
+    {
+        //acá buscar la imagen para luego mostrarla, el $id, es el id de la bicicleta
+        return view('admin.bicicletas.modalimagen');
+    }
+
     public function retiro($id)
     {
         //dd("estas en el controlador retiro");

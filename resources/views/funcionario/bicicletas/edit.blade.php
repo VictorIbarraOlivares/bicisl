@@ -124,7 +124,7 @@ function datos(id,valor){
 				<div class="form-group form-inline">
 					{!! Form::label('tipo','Tipo') !!}
 					<br>
-					{!! Form::text('tipo',trim($descripcion[1]),['class' => 'form-control letras','placeholder' => 'ej:montaña','required','style' => 'width: 90%' , 'onkeyup' => 'validaTipo();']) !!}
+					{!! Form::text('tipo',trim($descripcion[1]),['class' => 'form-control letras','placeholder' => 'ej:montaña','required','style' => 'width: 90%' , 'onkeyup' => 'validaTipo();' ]) !!}
 					<p hidden id="checkTipo"><i class="fa fa-check" aria-hidden="true" style="color: #5A956F;"></i></p>
                 	<p hidden  id="timesTipo"><i class="fa fa-times" aria-hidden="true" style="color: #ED1723;"></i></p>
 				</div>

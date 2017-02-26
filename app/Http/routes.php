@@ -79,6 +79,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','is_admin']],function
 		'uses' => 'BicicletasAdminController@editar',
 		'as' => 'admin.bicicletas.editar'
 	]);
+	Route::get('bicicletas/imagen/{id}',[
+		'uses' => 'BicicletasAdminController@imagen',
+		'as' => 'admin.bicicletas.imagen'
+	]);
 	Route::get('bicicletas/eliminar/{id}',[
 		'uses' => 'BicicletasAdminController@eliminar',
 		'as' => 'admin.bicicletas.eliminar'
@@ -178,6 +182,10 @@ Route::group(['prefix' => 'funcionario', 'middleware' => ['auth','is_funcionario
 	Route::get('bicicletas/nota/{id}',[
 		'uses' => 'BicicletasFuncController@nota',
 		'as' => 'funcionario.bicicletas.nota'
+	]);
+	Route::get('bicicletas/imagen/{id}',[
+		'uses' => 'BicicletasFuncController@imagen',
+		'as' => 'funcionario.bicicletas.imagen'
 	]);
 	Route::get('bicicletas/mostrar/{id}',[
 		'uses' => 'BicicletasFuncController@mostrar',

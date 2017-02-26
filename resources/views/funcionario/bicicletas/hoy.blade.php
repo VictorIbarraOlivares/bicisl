@@ -113,19 +113,7 @@ $(".single-image").fancybox({
     padding:11
 });
 */
-$(document).ready(function() {
-	$(".fancybox").fancybox({
-		openEffect: 'elastic',
-		closeEffect: 'elastic',
-		openSpeed:'fast',
-		closeSpeed:'fasst',
-		helpers : {
-        overlay : {
-          closeClick : true  // if true, se cierra al hacer click fuera de la imagen
-        }
-    },
-	});
-});
+
 
 $(document).ready(function(){
     $('#datatable_bike_u').DataTable({

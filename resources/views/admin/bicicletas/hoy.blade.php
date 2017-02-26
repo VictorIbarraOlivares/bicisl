@@ -99,17 +99,7 @@ use App\User;
 <script type="text/javascript">
 
 $(document).ready(function() {
-	$(".fancybox").fancybox({
-		openEffect: 'elastic',
-		closeEffect: 'elastic',
-		openSpeed:'fast',
-		closeSpeed:'fasst',
-		helpers : {
-        overlay : {
-          closeClick : true  // if true, se cierra al hacer click fuera de la imagen
-        }
-    },
-	});
+	
 });
 
 $(document).ready(function(){

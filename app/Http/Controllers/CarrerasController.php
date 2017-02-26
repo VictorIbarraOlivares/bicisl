@@ -89,14 +89,14 @@ class CarrerasController extends Controller
     	//dd($request->all());
         $carrera = Carrera::find($id);
         //solo si se cambia algo se ingresa
-        if($carrera->name != $request->name || $carrera->codigo_carrera != $request->codigo_carrera){
+        if($carrera->name != $request->nombre || $carrera->codigo_carrera != $request->codigo_carrera){
             $datos = $request->all();
             $reglas = array(
-                'name'     => 'min:8|max:35|unique:carreras|required|string',
+                'nombre'     => 'min:8|max:35|unique:carreras|required|string',
                 'codigo_carrera' => 'digits_between:4,7|unique:carreras|required|numeric'
             );
             
-            if($carrera->name == $request->name){
+            if($carrera->name == $request->nombre){
                 $reglas['name'] = 'min:8|max:35|required|string';
             }
             if($carrera->codigo_carrera == $request->codigo_carrera){
@@ -112,7 +112,7 @@ class CarrerasController extends Controller
             }
 
             $carrera = Carrera::find($id);
-            $carrera->name = $request->name;
+            $carrera->name = $request->nombre;
             $carrera->name = preg_replace('/[0-9]+/', '', $carrera->name);//elimina números
             $carrera->name = preg_replace('([^ A-Za-z0-9_-ñÑ])', '', $carrera->name);//elimina caracteres especiales
             $carrera->codigo_carrera = $request->codigo_carrera;

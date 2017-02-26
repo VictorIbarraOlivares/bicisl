@@ -76,6 +76,8 @@
 					</td>
 					<td>
 						<a  title="Detalles" data-role="{{ $bike->id }}" class="btn btn-success detalles-data" data-target="#miModalDetalle" style="color:black;"><i class="fa fa-address-card-o fa-2x" aria-hidden="true" title="Detalles" style="color:black;" ></i>&nbsp; Detalles</a>
+
+						<a title="Imagen" data-role="{{ $bike->id }}" class="btn btn-warning imagen-data" data-target="#miModalImagen" style="color:black;"><i class="fa fa-picture-o fa-2x" aria-hidden="true" title="Imagen" style="color:black;"></i>&nbsp; Imagen</a>
 						@if($bike->activa == 1)
 							<a  title="Retirar" data-role="{{ $bike->id }}" class="btn btn-danger optionretiro-data" data-target="#miModalRetiro" style="color:black;"><i class="fa fa-bicycle fa-2x" aria-hidden="true" title="Retirar" style="color:black;" ></i>&nbsp; Retirar</a>
 						@endif
@@ -118,7 +120,14 @@ $(".single-image").fancybox({
 });
 */
 $(document).ready(function() {
-
+	$(".imagen-data").click(function(){
+            var data = $(this).data("role");
+            $.get( "bicicletas/imagen/" + data, function( data ) {            	
+                $( "#modal" ).html( data );
+                $( "#miModalImagen" ).modal();
+            });
+        });
+	
 	$(".optionretiro-data").click(function(){
             var data = $(this).data("role");
             $.get( "bicicletas/retiro/" + data, function( data ) {            	
@@ -149,17 +158,7 @@ $(document).ready(function() {
             });
         });
 
-	$(".fancybox").fancybox({
-		openEffect: 'elastic',
-		closeEffect: 'elastic',
-		openSpeed:'fast',
-		closeSpeed:'fasst',
-		helpers : {
-        overlay : {
-          closeClick : true  // if true, se cierra al hacer click fuera de la imagen
-        }
-    },
-	});
+	
 });
 $(function(){
 	$("#q").autocomplete({

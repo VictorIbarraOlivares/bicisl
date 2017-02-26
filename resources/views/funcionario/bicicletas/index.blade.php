@@ -27,6 +27,8 @@
 						<a title="Editar" data-role="{{ $bike->id }}" class="btn btn-warning editar-data" data-target="#miModalEditar" ><i class="fa fa-pencil" aria-hidden="true" title="Editar"></i></a>
 
 						<a href="{{ route('funcionario.bicicletas.detalle', $bike->id) }}" class="btn btn-info" title="Detalles"><span class="glyphicon glyphicon-eye-open" aria-hidden="true" title="Detalles"></span></a>
+
+						<a title="Imagen" data-role="{{ $bike->id }}" class="btn btn-success imagen-data" data-target="#miModalImagen" ><i class="fa fa-picture-o" aria-hidden="true" title="Imagen"></i></a>
 						@if($bike->activa == 0)
 							<a href="{{ route('funcionario.bicicletas.cambiar', $bike->id) }}" class="btn btn-primary" onclick="return confirm('¿Seguro quieres voler a ingresar la bicicleta? \n Esto afectara al registro de Bicicletas en la Universidad')" title="Ingresar"><span class="glyphicon glyphicon-download" aria-hidden="true" title="Ingresar"></span></a>
 						@else
@@ -44,6 +46,13 @@
 @section('script')
 <script type="text/javascript">
 $(document).ready(function(){
+	$(".imagen-data").click(function(){
+            var data = $(this).data("role");
+            $.get( "bicicletas/imagen/" + data, function( data ) {            	
+                $( "#modal" ).html( data );
+                $( "#miModalImagen" ).modal();
+            });
+        });
 	$(".editar-data").click(function(){
             var data = $(this).data("role");
             $.get( "bicicletas/editar/" + data, function( data ) {            	
