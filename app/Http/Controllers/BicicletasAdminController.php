@@ -166,6 +166,7 @@ class BicicletasAdminController extends Controller
         $reglas = array(
             'color' => 'min:4|max:10|required|alpha',
             'tipo' => 'min:5|max:10|required|alpha',
+            'notaNueva' => 'min:4|max:30|string',
             'nota' => 'min:4|max:30|string'
         );
         
@@ -184,8 +185,8 @@ class BicicletasAdminController extends Controller
         $request->nota = preg_replace('([^ A-Za-z0-9_-ñÑ])', '', $request->nota);//elimina caracteres especiales
         $request->notaNueva = preg_replace('/[0-9]+/', '', $request->notaNueva);//elimina números
         $request->notaNueva = preg_replace('([^ A-Za-z0-9_-ñÑ])', '', $request->notaNueva);//elimina caracteres especiales
-        $color=ucfirst(strtolower($request->color));//se da formato al color
-        $tipo=ucfirst(strtolower($request->tipo));//se da formato al tipo
+        $color=ucfirst(strtolower(htmlentities($request->color, ENT_QUOTES,'UTF-8')));//se da formato al color
+        $tipo=ucfirst(strtolower(htmlentities($request->tipo, ENT_QUOTES,'UTF-8')));//se da formato al tipo
         $descripcion= $color." - ".$tipo;
 
         $encargado = Auth::user();

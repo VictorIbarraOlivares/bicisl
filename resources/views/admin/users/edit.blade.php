@@ -40,7 +40,7 @@ function mostrar(id){
 			<div class="col-md-4">
 				<div class="form-group form-inline">
 					{!! Form::label('apellido', 'Apellido') !!}
-					{!! Form::text('apellido',  $apellido ,['class' => 'form-control', 'placeholder' => 'Ingrese Apellido' ,'required','style' => 'width: 90%' , 'onkeyup' => 'validaApellido();']) !!}
+					{!! Form::text('apellido',  $apellido ,['class' => 'form-control letras', 'placeholder' => 'Ingrese Apellido' ,'required','style' => 'width: 90%' , 'onkeyup' => 'validaApellido();']) !!}
                     <p hidden id="checkApellido"><i class="fa fa-check" aria-hidden="true" style="color: #5A956F;"></i></p>
                     <p hidden  id="timesApellido"><i class="fa fa-times" aria-hidden="true" style="color: #ED1723;"></i></p>
 				</div>

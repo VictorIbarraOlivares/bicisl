@@ -23,7 +23,6 @@ function mostrar(id){//no se pedira clave para los "alumnos"
 		$("#email").removeAttr("required");
 	}else{
 		$("#mail").show();
-        validaEmail();
 		$("#email").prop("required",true);
 	}
 	if( id == "Visita" || id == "Alumno"){//no se pedira clave para los "alumnos" y visita
@@ -89,7 +88,7 @@ function mostrar(id){//no se pedira clave para los "alumnos"
 		<br>
 		<div class="row">
             <div class="col-md-4">
-                <div class="form-group form-inline mail" id="mail">
+                <div class="form-group form-inline" id="mail">
                     {!! Form::label('email', 'Correo Electronico') !!}
                     {!! Form::email('email', NULL ,['class' => 'form-control', 'placeholder' => 'ejemplo@gmail.com' ,'style' => 'width:90%' , 'onkeyup' => 'validaEmail();']) !!}
                     <p hidden id="checkEmail"><i class="fa fa-check" aria-hidden="true" style="color: #5A956F;"></i></p>

@@ -121,8 +121,8 @@ class ClienteController extends Controller
             return redirect()->back()->withErrors($v->errors())->withInput($request->except('password'));
             //withInput($request->except('password')) devuelve todos los inputs, excepto el password
         }
-        $nombre=ucfirst(strtolower($request->nombre));//se da formato al nombre
-        $apellido=ucfirst(strtolower($request->apellido));//se da formato al apellido
+        $nombre=ucfirst(strtolower(htmlentities($request->nombre, ENT_QUOTES,'UTF-8')));//se da formato al nombre
+        $apellido=ucfirst(strtolower(htmlentities($request->apellido, ENT_QUOTES,'UTF-8')));//se da formato al apellido
         
         //dd($request->all());
         $user = User::find($id);

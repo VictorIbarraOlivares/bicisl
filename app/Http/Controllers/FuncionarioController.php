@@ -74,8 +74,8 @@ class FuncionarioController extends Controller
             'apellido' => 'min:3|max:15|required|alpha',
             'rut'      => 'between:7,12|unique:users|required|string|cl_rut',
             'tipo'  => 'required|in:Visita,Administrador,Funcionario,Alumno',//pueden ser esos 4 tipos
-            'email'    => 'min:4|max:250|unique:users|required_if:tipo,Administrador,Funcionario,Alumno|email',//se requiere si no es visita
-            'password' => 'min:4|max:120|required_if:tipo,Administrador,Funcionario',//se requiere si el tipo es admin o func
+            'email'    => 'min:6|max:30|unique:users|required_if:tipo,Administrador,Funcionario,Alumno|email',//se requiere si no es visita
+            'password' => 'min:4|max:30|required_if:tipo,Administrador,Funcionario',//se requiere si el tipo es admin o func
             'carrera' => 'required_if:tipo,Alumno'//se requiere si el tipo es cliente,alumno
         );
 
@@ -86,8 +86,8 @@ class FuncionarioController extends Controller
             return redirect()->back()->withErrors($v->errors())->withInput($request->except('password'));
             //withInput($request->except('password')) devuelve todos los inputs, excepto el password
         }
-        $nombre=ucfirst(strtolower($request->nombre));//se da formato al nombre
-        $apellido=ucfirst(strtolower($request->apellido));//se da formato al apellido
+        $nombre=ucfirst(strtolower(htmlentities($request->nombre, ENT_QUOTES,'UTF-8')));//se da formato al nombre
+        $apellido=ucfirst(strtolower(htmlentities($request->apellido, ENT_QUOTES,'UTF-8')));//se da formato al apellido
         /*formato rut ,para guardar en la base de datos, se guarda sin puntos ni guion y se guarda K*/
         $rut="";
         $aux=$request->rut;
@@ -243,7 +243,7 @@ class FuncionarioController extends Controller
             'nombre'     => 'min:4|max:15|required|alpha',
             'apellido' => 'min:3|max:15|required|alpha',
             'rut'      => 'between:7,12|unique:users|required|string|cl_rut',
-            'email'    => 'min:4|max:250|unique:users|required_if:tipo,Administrador,Funcionario,Alumno|email',//se requiere si no es visita
+            'email'    => 'min:4|max:30|unique:users|required_if:tipo,Administrador,Funcionario,Alumno|email',//se requiere si no es visita
         );
         /*formato rut ,para guardar en la base de datos, se guarda sin puntos ni guion y se guarda k*/
         $rut="";
@@ -284,8 +284,9 @@ class FuncionarioController extends Controller
             return redirect()->back()->withErrors($v->errors())->withInput($request->except('password'));
             //withInput($request->except('password')) devuelve todos los inputs, excepto el password
         }
-        $nombre=ucfirst(strtolower($request->nombre));//se da formato al nombre
-        $apellido=ucfirst(strtolower($request->apellido));//se da formato al apellido
+
+        $nombre=ucfirst(strtolower(htmlentities($request->nombre, ENT_QUOTES,'UTF-8')));//se da formato al nombre
+        $apellido=ucfirst(strtolower(htmlentities($request->apellido, ENT_QUOTES,'UTF-8')));//se da formato al apellido
         
         //dd($request->all());
         $user = User::find($id);

@@ -251,7 +251,7 @@ function agregarIconosNota()
     $('#checkNota').css("display","none");
 }
 
-function quitaIconosTipo()
+function quitaIconosNota()
 {
     $('#checkNota').removeAttr("hidden");
     $('#checkNota').css("display","inline");

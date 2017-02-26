@@ -80,8 +80,8 @@ class UsersController extends Controller
             return redirect()->back()->withErrors($v->errors())->withInput($request->except('password'));
             //withInput($request->except('password')) devuelve todos los inputs, excepto el password
         }
-        $nombre=ucfirst(strtolower($request->nombre));//se da formato al nombre
-        $apellido=ucfirst(strtolower($request->apellido));//se da formato al apellido
+        $nombre=ucfirst(strtolower(htmlentities($request->nombre, ENT_QUOTES,'UTF-8')));//se da formato al nombre
+        $apellido=ucfirst(strtolower(htmlentities($request->apellido, ENT_QUOTES,'UTF-8')));//se da formato al apellido
         /*formato rut ,para guardar en la base de datos, se guarda sin puntos ni guion y se guarda K*/
         $rut="";
         $aux=$request->rut;
@@ -305,8 +305,8 @@ class UsersController extends Controller
             return redirect()->back()->withErrors($v->errors())->withInput($request->except('password'));
             //withInput($request->except('password')) devuelve todos los inputs, excepto el password
         }
-        $nombre=ucfirst(strtolower($request->nombre));//se da formato al nombre
-        $apellido=ucfirst(strtolower($request->apellido));//se da formato al apellido
+        $nombre=ucfirst(strtolower(htmlentities($request->nombre, ENT_QUOTES,'UTF-8')));//se da formato al nombre
+        $apellido=ucfirst(strtolower(htmlentities($request->apellido, ENT_QUOTES,'UTF-8')));//se da formato al apellido
         
         
         //dd($request->all());
