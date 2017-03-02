@@ -40,8 +40,13 @@ class BicicletasAdminController extends Controller
 
     public function imagen($id)
     {
-        //acá buscar la imagen para luego mostrarla, el $id, es el id de la bicicleta
-        return view('admin.bicicletas.modalimagen');
+        $bike = Bike::find($id);
+        $images = Image::all();
+        foreach ($images as $image) {
+            if($image->bike_id == $bike->id){
+                return view('admin.bicicletas.modalimagen')->with('image',$image);
+            }
+        }
     }
 
     public function retiro($id)
@@ -291,15 +296,10 @@ class BicicletasAdminController extends Controller
             $bike->hora_s = date("H:i:s",time());
             Flash::warning('Se retiro la bicicleta de '. $user->name . ' !');
             if($user->type_id != 1){
-                /*
                 Mail::send('mensaje',['user' => $user],function($msje) use ($user){
                     $msje->subject('SALIDA BICICLETA');             
                     $msje->to($user->email);
-                });
-                */
             }
-            
-
         }else{
             $bike->encargado_a = $encargado->id;
             $bike->fecha_a = date("Y-m-d");

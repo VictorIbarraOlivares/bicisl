@@ -251,6 +251,10 @@ Route::group(['prefix' => 'cliente', 'middleware' => ['auth','is_cliente']],func
 	Route::resource('bicicletas', 'BicicletaClienteController');
 	Route::get('bicicletas/editar/{id}',[
 		'uses' => 'BicicletaClienteController@editar',
-		'as' => 'funcionario.bicicletas.editar'
+		'as' => 'cliente.bicicletas.editar'
+	]);
+	Route::get('bicicletas/imagen/{id}',[
+		'uses' => 'BicicletaClienteController@imagen',
+		'as' => 'cliente.bicicletas.imagen'
 	]);
 });

@@ -46,12 +46,10 @@
 @section('script')
 <script type="text/javascript">
 $(document).ready(function(){
-	$(".imagen-data").click(function(){
+    $(".imagen-data").click(function(){
             var data = $(this).data("role");
-            $.get( "bicicletas/imagen/" + data, function( data ) {            	
+            $.get( "bicicletas/imagen/" + data, function( data ) {              
                 $( "#modal" ).html( data );
-                //$("#miModalRetiro").modal("hide");
-                //$("#miModalRetiro").modal("toggle");
                 $( "#miModalImagen" ).modal();
             });
         });

@@ -35,8 +35,8 @@
                       <a href="{{ route('cliente.users.password', Auth::user()->id ) }}" style="font-size: 16px;color: #080266;" title="Editar Perfil"><span class="glyphicon glyphicon-pencil" aria-hidden="true" style="color: #080266" title="Editar Password"></span>   Editar Password</a>
                     </li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="{{ route('cliente.bicicletas.edit', Auth::user()->id) }}" style="font-size: 16px" title="Editar Perfil">
-                      <span class="glyphicon glyphicon-pencil" aria-hidden="true" style="color: #080266" title="Editar Perfil"></span>   Editar Bicicleta</a></li>
+                    <li><a href="{{ route('cliente.bicicletas.index') }}" style="font-size: 16px" title="Editar Perfil">
+                      <span class="glyphicon glyphicon-pencil" aria-hidden="true" style="color: #080266" title="Editar Perfil"></span>   Mis Bicicletas</a></li>
                     <li role="separator" class="divider"></li>
                     <li><a href="{{ url('/logout') }}" title="Cerrar Sesion" style="font-size: 16px;color: #080266;"><span class="glyphicon glyphicon-exclamation-sign" style="color: #ED1723;" aria-hidden="true" title="Cerrar Sesion"></span>   Cerrar Sesion </a></li>
                     

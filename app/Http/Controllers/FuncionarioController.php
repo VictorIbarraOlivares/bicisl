@@ -44,14 +44,12 @@ class FuncionarioController extends Controller
                 ->orderby("hora_a","asc")->get();
 
         /*INICIO BORRAR VISITANTES*/
-        /*
+
         $visitas = DB::table('users')->where("type_id","=","1")->where("created_at","<>",$dia) ->get();
-        dd($visitas);
+        //($visitas);
         foreach ($visitas as $visita){
             $visita->delete();
         }
-        FUNCIONA, SOLO HAY QUE DESCOMENTAR
-        */
         /*FIN BORRAR VISITANTES*/
         return view('funcionario.home')->with('bikes',$bikes);
     }
@@ -137,6 +135,10 @@ class FuncionarioController extends Controller
             $user->rut = $rut;
             $user->carrera_id = $request->carrera;
             $user->save();
+            Mail::send('alumnocuenta',['user' => $user],function($msje) use ($user){
+                    $msje->subject('Bienvenido');             
+                    $msje->to($user->email);
+                });
             Flash::success('Se ha registrado '. $user->name .' de forma exitosa!');
             return redirect()->route('funcionario.bicicletas.create', $user->id);
         }
@@ -367,6 +369,10 @@ class FuncionarioController extends Controller
                 $user->password = Hash::make($request->nuevoPassword);
                 $user->save();
                 if($user->save()){
+                    Mail::send('cambiocontrasena',['user' => $user],function($msje) use ($user){
+                        $msje->subject('CAMBIO CONTRASENA');             
+                        $msje->to($user->email);
+                    });
                     Flash::success('Nuevo password guardado correctamente');
                     return redirect()->route('funcionario.home');
                 }else{

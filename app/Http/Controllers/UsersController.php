@@ -13,6 +13,7 @@ use App\Http\Requests;
 use App\User;
 use App\Type;
 use App\Carrera;
+use Mail;
 
 use Illuminate\Support\Facades\Auth; /*para poder usar el Auth:: ...*/
 
@@ -44,14 +45,13 @@ class UsersController extends Controller
                 ->orderby("hora_a","asc")->get();
 
         /*INICIO BORRAR VISITANTES*/
-        /*
+
         $visitas = DB::table('users')->where("type_id","=","1")->where("created_at","<>",$dia) ->get();
-        dd($visitas);
+        //dd($visitas);
         foreach ($visitas as $visita){
             $visita->delete();
         }
-        FUNCIONA, SOLO HAY QUE DESCOMENTAR
-        */
+
         /*FIN BORRAR VISITANTES*/
         return view('admin.home')->with('bikes', $bikes);
     }
@@ -131,6 +131,10 @@ class UsersController extends Controller
             $user->rut = $rut;
             $user->carrera_id = $request->carrera;
             $user->save();
+            Mail::send('alumnocuenta',['user' => $user],function($msje) use ($user){
+                    $msje->subject('Bienvenido');             
+                    $msje->to($user->email);
+                });
             Flash::success('Se ha registrado '. $user->name .' de forma exitosa!');
             return redirect()->route('admin.bicicletas.create', $user->id);
         }
@@ -170,6 +174,9 @@ class UsersController extends Controller
     public function destroy($id)
     {
         $user = User::find($id);
+        if(is_dir('/Bicicletas/'.$user->name)){
+            File::delete('/Bicicletas/'.$user->name);
+        }
         $user->delete();
 
         Flash::error('El usuario '. $user->name . ' ha sido eliminado de forma exitosa!');
@@ -401,6 +408,10 @@ class UsersController extends Controller
                 $user->password = Hash::make($request->nuevoPassword);
                 $user->save();
                 if($user->save()){
+                    Mail::send('cambiocontrasena',['user' => $user],function($msje) use ($user){
+                        $msje->subject('CAMBIO CONTRASENA');             
+                        $msje->to($user->email);
+                    });
                     Flash::success('Nuevo password guardado correctamente');
                     return redirect()->route('admin.home');
                 }else{

@@ -37,14 +37,11 @@ class ClienteController extends Controller
                 ->orderby("hora_a","asc")->get();
 
         /*INICIO BORRAR VISITANTES*/
-        /*
         $visitas = DB::table('users')->where("type_id","=","1")->where("created_at","<>",$dia) ->get();
-        dd($visitas);
+        //dd($visitas);
         foreach ($visitas as $visita){
             $visita->delete();
         }
-        FUNCIONA, SOLO HAY QUE DESCOMENTAR
-        */
         /*FIN BORRAR VISITANTES*/
         return view('cliente.home')->with('bikes', $bikes);
     }
@@ -102,8 +99,6 @@ class ClienteController extends Controller
 
         /*SE MODIFICAN REGLAS SEGUN TIPO DE USUARIO*/
         $reglas = array(
-            'nombre'     => 'min:4|max:15|required|alpha',
-            'apellido' => 'min:3|max:15|required|alpha',
             'email'    => 'min:4|max:250|unique:users|required_if:tipo,Administrador,Funcionario,Alumno|email',//se requiere si no es visita
         );
         /*formato rut ,para guardar en la base de datos, se guarda sin puntos ni guion y se guarda k*/
@@ -121,15 +116,9 @@ class ClienteController extends Controller
             return redirect()->back()->withErrors($v->errors())->withInput($request->except('password'));
             //withInput($request->except('password')) devuelve todos los inputs, excepto el password
         }
-        $nombre=ucfirst(strtolower(htmlentities($request->nombre, ENT_QUOTES,'UTF-8')));//se da formato al nombre
-        $apellido=ucfirst(strtolower(htmlentities($request->apellido, ENT_QUOTES,'UTF-8')));//se da formato al apellido
-        
-        //dd($request->all());
         $user = User::find($id);
-        $user->name = $nombre." ".$apellido;
         $user->email= $request->email;
         $user->save();
-        $encargado = Auth::user();
         Flash::warning('Tú perfil ha sido editado con exito '. $user->name . ' !');
 
         return redirect()->route('cliente.users.index');
@@ -169,6 +158,10 @@ class ClienteController extends Controller
                 $user->password = Hash::make($request->nuevoPassword);
                 $user->save();
                 if($user->save()){
+                    Mail::send('cambiocontrasena',['user' => $user],function($msje) use ($user){
+                        $msje->subject('CAMBIO CONTRASENA');             
+                        $msje->to($user->email);
+                    });
                     Flash::success('Nuevo password guardado correctamente');
                     return redirect()->route('cliente.home');
                 }else{

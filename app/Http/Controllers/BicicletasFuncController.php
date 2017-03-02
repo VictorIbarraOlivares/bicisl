@@ -31,6 +31,7 @@ class BicicletasFuncController extends Controller
                 ->join('users','users.id','=','bikes.user_id')
                 ->select('bikes.id','bikes.activa','bikes.descripcion','bikes.hora_a','bikes.fecha_a','hora_s','fecha_s','bikes.encargado_s','bikes.encargado_a','users.name as dueño','bikes.nota')
                 ->orderby("hora_a","asc")->get();
+        dd($bikes);
 
         return view('funcionario.bicicletas.hoy')->with('bikes', $bikes);
     }
@@ -43,8 +44,13 @@ class BicicletasFuncController extends Controller
 
     public function imagen($id)
     {
-        //acá buscar la imagen para luego mostrarla, el $id, es el id de la bicicleta
-        return view('funcionario.bicicletas.modalimagen');
+        $bike = Bike::find($id);
+        $images = Image::all();
+        foreach ($images as $image) {
+            if($image->bike_id == $bike->id){
+                return view('funcionario.bicicletas.modalimagen')->with('image',$image);
+            }
+        }
     }
 
     public function retiro($id)
@@ -289,12 +295,10 @@ class BicicletasFuncController extends Controller
             Flash::warning('Se retiro la bicicleta de '. $user->name . ' !');
 
             if($user->type_id != 1){
-                /*
                 Mail::send('mensaje',['user' => $user],function($msje) use ($user){
                     $msje->subject('SALIDA BICICLETA');             
                     $msje->to($user->email);
                 });
-                */
             }
         }else{
             $bike->encargado_a = $encargado->id;
