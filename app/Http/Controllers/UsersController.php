@@ -269,7 +269,7 @@ class UsersController extends Controller
             'apellido' => 'min:3|max:15|required|alpha',
             'rut'      => 'between:7,12|unique:users|required|string|cl_rut',
             'tipo'  => 'required|in:Visita,Administrador,Funcionario,Alumno',//pueden ser esos 4 tipos
-            'email'    => 'min:4|max:30|unique:users|required_if:tipo,Administrador,Funcionario,Alumno|email',//se requiere si no es visita
+            'email'    => 'min:6|max:40|unique:users|required_if:tipo,Administrador,Funcionario,Alumno|email',//se requiere si no es visita
             'carrera' => 'required_if:tipo,Alumno'//se requiere si el tipo es cliente,alumno
         );
         /*formato rut ,para guardar en la base de datos, se guarda sin puntos ni guion y se guarda k*/

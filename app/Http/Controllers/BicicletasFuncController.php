@@ -31,7 +31,7 @@ class BicicletasFuncController extends Controller
                 ->join('users','users.id','=','bikes.user_id')
                 ->select('bikes.id','bikes.activa','bikes.descripcion','bikes.hora_a','bikes.fecha_a','hora_s','fecha_s','bikes.encargado_s','bikes.encargado_a','users.name as dueño','bikes.nota')
                 ->orderby("hora_a","asc")->get();
-        dd($bikes);
+        //dd($bikes);
 
         return view('funcionario.bicicletas.hoy')->with('bikes', $bikes);
     }
@@ -119,15 +119,11 @@ class BicicletasFuncController extends Controller
         $bike->encargado_a = $request->encargado_a;
         $bike->activa = 1;
         $bike->user_id = $user->id;
-        /* COMENTO, PORQUE AL PARECER NO ES NECESARIO
-        $bike->nota = preg_replace('/[0-9]+/', '', $bike->nota);//elimina números
-        $bike->nota = preg_replace('([^ A-Za-z0-9_-ñÑ])', '', $bike->nota);//elimina caracteres especiales
-        */
-        $default = "/images/default.jpg";
-        $image->name = $default;
+        $bike->save();
+        $image = new Image();
         $image->bike_id = $bike->id;
         $image->save();
-        $bike->save();
+        
 
         Flash::success('Se ha registrado la bicicleta de '.$user->name.' de forma exitosa');
         return redirect()->route('funcionario.home');

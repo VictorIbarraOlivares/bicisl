@@ -48,10 +48,17 @@ function mostrar(id){
                 <p hidden id="mensajeApellido2" style="color: #080266;font-weight:bold;font-size: 90%"><i class="fa fa-exclamation-circle" aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe tener máximo 15 caracteres</p>
 			</div>
 			<div class="col-md-4">
-				<div class="form-group">
+				<div class="form-group form-inline">
 					{!! Form::label('rut', 'Rut') !!}
-					{!! Form::text('rut', formato_rut($user->rut) ,['class' => 'form-control', 'placeholder' => 'Ingrese RUT' ,'required','onblur' => 'return Rut(form1.rut.value)']) !!}
+                    <br>
+					{!! Form::text('rut', formato_rut($user->rut) ,['class' => 'form-control', 'placeholder' => 'Ingrese RUT' ,'required','onblur' => 'return Rut(form1.rut.value)','style' => 'width:90%']) !!}
+                    <p hidden id="checkRut"><i class="fa fa-check" aria-hidden="true" style="color: #5A956F;"></i></p>
+                    <p hidden  id="timesRut"><i class="fa fa-times" aria-hidden="true" style="color: #ED1723;"></i></p>
 				</div>
+                <p hidden id="mensajeRut1" style="color: #080266;font-weight:bold;font-size: 90%"><i class="fa  fa-exclamation-circle " aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Debe ingresar el rut completo</p>
+                <p hidden id="mensajeRut2" style="color: #080266;font-weight:bold;font-size: 90%"><i class="fa  fa-exclamation-circle " aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Debe ingresar un digito verificador valido</p>
+                <p hidden id="mensajeRut3" style="color: #080266;font-weight:bold;font-size: 90%"><i class="fa  fa-exclamation-circle " aria-hidden="true" style="color: #ED1723;"></i>&nbsp;El rut es incorrecto</p>
+                <p hidden id="mensajeRut4" style="color: #080266;font-weight:bold;font-size: 90%"><i class="fa  fa-exclamation-circle " aria-hidden="true" style="color: #ED1723;"></i>&nbsp;El valor ingresado no corresponde a un rut valido</p>
 			</div>
 		</div>
 		<br>
@@ -68,7 +75,7 @@ function mostrar(id){
                     <p hidden  id="timesEmail"><i class="fa fa-times" aria-hidden="true" style="color: #ED1723;"></i></p> 
                 </div>
                 <p hidden id="mensajeEmail1" style="color: #080266;font-weight:bold;font-size: 90%"><i class="fa fa-exclamation-circle" aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe tener mínimo 6 caracteres</p>
-                    <p hidden id="mensajeEmail2" style="color: #080266;font-weight:bold;font-size: 90%"><i class="fa fa-exclamation-circle" aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe tener máximo 30 caracteres</p>
+                    <p hidden id="mensajeEmail2" style="color: #080266;font-weight:bold;font-size: 90%"><i class="fa fa-exclamation-circle" aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe tener máximo 40 caracteres</p>
                     <p hidden id="mensajeEmail3" style="color: #080266;font-weight:bold;font-size: 90%"><i class="fa fa-exclamation-circle" aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe ser un email valido</p>
             </div>
         </div>
@@ -115,8 +122,14 @@ $(document).ready(function(){
 /*FUNCIONES PARA RUT*/
 function revisarDigito(dvr){    
   dv = dvr + ""    
-  if( dv != '0' && dv != '1' && dv != '2' && dv != '3' && dv != '4' && dv != '5' && dv != '6' && dv != '7' && dv != '8' && dv != '9' && dv != 'k'  && dv != 'K'){        
-    alert("Debe ingresar un digito verificador valido");        
+  if( dv != '0' && dv != '1' && dv != '2' && dv != '3' && dv != '4' && dv != '5' && dv != '6' && dv != '7' && dv != '8' && dv != '9' && dv != 'k'  && dv != 'K'){
+    $('#mensajeRut2').removeAttr("hidden");
+    $('#mensajeRut1').attr("hidden","hidden");
+    $('#mensajeRut3').attr("hidden","hidden");
+    $('#mensajeRut4').attr("hidden","hidden");
+    $('#rut').css("border-color","#ED1723");
+    agregaIconosRut();    
+    //alert("Debe ingresar un digito verificador valido");      
     //document.form1.rut.focus();        
     //document.form1.rut.select();        
     return false;    
@@ -126,8 +139,14 @@ function revisarDigito(dvr){
 
 function revisarDigito2(crut){    
   largo = crut.length;    
-  if(largo<2){        
-    alert("Debe ingresar el rut completo")        
+  if(largo<2){
+    $('#mensajeRut1').removeAttr("hidden");
+    $('#mensajeRut2').attr("hidden","hidden");
+    $('#mensajeRut3').attr("hidden","hidden");
+    $('#mensajeRut4').attr("hidden","hidden");
+    $('#rut').css("border-color","#ED1723");
+    agregaIconosRut();         
+    //alert("Debe ingresar el rut completo")        
     //document.form1.rut.focus();        
     //document.form1.rut.select();        
     return false;    
@@ -163,8 +182,14 @@ function revisarDigito2(crut){
         dvr = dvi + ""    
     }
     if ( dvr != dv.toLowerCase() )    
-    {        
-        alert("EL rut es incorrecto")        
+    {
+        $('#mensajeRut3').removeAttr("hidden");
+        $('#mensajeRut1').attr("hidden","hidden");
+        $('#mensajeRut2').attr("hidden","hidden");
+        $('#mensajeRut4').attr("hidden","hidden");
+        $('#rut').css("border-color","#ED1723");
+        agregaIconosRut(); 
+        //alert("EL rut es incorrecto")        
         //document.form1.rut.focus();        
         //document.form1.rut.select();        
         return false    
@@ -181,16 +206,28 @@ function Rut(texto){
     texto = tmpstr;    
     largo = texto.length;    
 
-    if ( largo < 2 ){        
-        alert("Debe ingresar el rut completo")        
+    if ( largo < 2 ){
+        $('#mensajeRut1').removeAttr("hidden");
+        $('#mensajeRut2').attr("hidden","hidden");
+        $('#mensajeRut3').attr("hidden","hidden");
+        $('#mensajeRut4').attr("hidden","hidden");
+        $('#rut').css("border-color","#ED1723");
+        agregaIconosRut();        
+        //alert("Debe ingresar el rut completo");
         //document.form1.rut.focus();        
         //document.form1.rut.select();        
         return false;    
     }    
 
     for (i=0; i < largo ; i++ ){            
-        if ( texto.charAt(i) !="0" && texto.charAt(i) != "1" && texto.charAt(i) !="2" && texto.charAt(i) != "3" && texto.charAt(i) != "4" && texto.charAt(i) !="5" && texto.charAt(i) != "6" && texto.charAt(i) != "7" && texto.charAt(i) !="8" && texto.charAt(i) != "9" && texto.charAt(i) !="k" && texto.charAt(i) != "K" ){            
-            alert("El valor ingresado no corresponde a un R.U.T valido");            
+        if ( texto.charAt(i) !="0" && texto.charAt(i) != "1" && texto.charAt(i) !="2" && texto.charAt(i) != "3" && texto.charAt(i) != "4" && texto.charAt(i) !="5" && texto.charAt(i) != "6" && texto.charAt(i) != "7" && texto.charAt(i) !="8" && texto.charAt(i) != "9" && texto.charAt(i) !="k" && texto.charAt(i) != "K" ){ 
+            $('#mensajeRut4').removeAttr("hidden");
+            $('#mensajeRut1').attr("hidden","hidden");
+            $('#mensajeRut2').attr("hidden","hidden");
+            $('#mensajeRut3').attr("hidden","hidden");
+            $('#rut').css("border-color","#ED1723");
+            agregaIconosRut();           
+            //alert("El valor ingresado no corresponde a un rut valido");            
             //document.form1.rut.focus();            
             //document.form1.rut.select();            
             return false;        
@@ -224,9 +261,35 @@ function Rut(texto){
 
     document.form1.rut.value = invertido.toUpperCase();      
 
-    if(revisarDigito2(texto))        
-        return true;    
-    return false; 
+    if(revisarDigito2(texto)){
+        //ACÁ ESTA TODO BUENO, si se llega hasta acá
+        $('#mensajeRut1').attr("hidden","hidden");
+        $('#mensajeRut2').attr("hidden","hidden");
+        $('#mensajeRut3').attr("hidden","hidden");
+        $('#mensajeRut4').attr("hidden","hidden");
+        $('#rut').css("border-color","#5A956F");
+        quitaIconosRut();
+        return true; 
+    }else{
+        return false;
+    }   
+     
+}
+
+function agregaIconosRut()
+{
+    $('#timesRut').removeAttr("hidden");
+    $('#timesRut').css("display","inline");
+    $('#checkRut').attr("hidden","hidden");
+    $('#checkRut').css("display","none");
+}
+
+function quitaIconosRut()
+{
+    $('#checkRut').removeAttr("hidden");
+    $('#checkRut').css("display","inline");
+    $('#timesRut').attr("hidden","hidden");
+    $('#timesRut').css("display","none");
 }
 /*FIN FUNCIONES PARA RUT */
 
@@ -316,7 +379,7 @@ function validaEmail(){
         $('#mensajeEmail1').removeAttr("hidden");
         $('#email').css("border-color","#ED1723");
         agregaIconosEmail();
-    }else if($("#email").val().length > 30){
+    }else if($("#email").val().length > 40){
         $('#mensajeEmail1').attr("hidden","hidden");
         $('#mensajeEmail2').removeAttr("hidden");
         $('#email').css("border-color","#ED1723");

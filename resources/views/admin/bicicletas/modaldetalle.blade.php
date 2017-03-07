@@ -19,6 +19,7 @@
 	                    					<td>Rut :</td>
 	                    					<td>{{ formato_rut($dueño->rut) }}</td>
 	                    				</tr>
+	                    				@if($dueño->type_id != 1)
 	                    				<tr>
 	                    					<td>Correo :</td>
 	                    					<td>{{ $dueño->email }}</td>
@@ -31,6 +32,7 @@
 	                    					<td>Código Carrera :</td>
 	                    					<td>{{ $carrera->codigo_carrera }}</td>
 	                    				</tr>
+	                    				@endif
 	                    			</tbody>
 	                    		</table>
 	                    	</div>

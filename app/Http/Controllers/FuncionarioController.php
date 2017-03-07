@@ -59,7 +59,7 @@ class FuncionarioController extends Controller
         return view('funcionario.users.modalagregar')->with('user',$user);
     }
 
-    public function store(UserRequest $request)
+    public function store(Request $request)
     {
         $datos = $request->all();
         $mensajes = array(
@@ -76,7 +76,7 @@ class FuncionarioController extends Controller
             'carrera' => 'required_if:tipo,Alumno'//se requiere si el tipo es cliente,alumno
         );
 
-        $v = Validator::make($datos, $reglas,$mensajes);
+        $v = Validator::make($datos,$reglas,$mensajes);
 
         if($v->fails())
         {
@@ -244,7 +244,7 @@ class FuncionarioController extends Controller
             'nombre'     => 'min:4|max:15|required|alpha',
             'apellido' => 'min:3|max:15|required|alpha',
             'rut'      => 'between:7,12|unique:users|required|string|cl_rut',
-            'email'    => 'min:4|max:30|unique:users|required_if:tipo,Administrador,Funcionario,Alumno|email',//se requiere si no es visita
+            'email'    => 'min:6|max:40|unique:users|required_if:tipo,Administrador,Funcionario,Alumno|email',//se requiere si no es visita
         );
         /*formato rut ,para guardar en la base de datos, se guarda sin puntos ni guion y se guarda k*/
         $rut="";
