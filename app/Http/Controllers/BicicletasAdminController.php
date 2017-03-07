@@ -80,12 +80,7 @@ class BicicletasAdminController extends Controller
 	//el id es del usuario
     public function create($id)
     {
-    	/*
-    	$creador = Auth::user();
-    	if($creador->type_id == 2 ){
-	    	return view('admin.bicicletas.create')->with('user',$user);
-	    }
-	    */
+    	
 	    $encargado = Auth::user();
     	$user = User::find($id);
 
@@ -299,6 +294,7 @@ class BicicletasAdminController extends Controller
                 Mail::send('mensaje',['user' => $user],function($msje) use ($user){
                     $msje->subject('SALIDA BICICLETA');             
                     $msje->to($user->email);
+                });
             }
         }else{
             $bike->encargado_a = $encargado->id;

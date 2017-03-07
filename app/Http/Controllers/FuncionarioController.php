@@ -44,9 +44,8 @@ class FuncionarioController extends Controller
                 ->orderby("hora_a","asc")->get();
 
         /*INICIO BORRAR VISITANTES*/
-
-        $visitas = DB::table('users')->where("type_id","=","1")->where("created_at","<>",$dia) ->get();
-        //($visitas);
+        $visitas = User::where("type_id","=","1")->where("created_at","<",$dia) ->get();
+        //dd($visitas);
         foreach ($visitas as $visita){
             $visita->delete();
         }
@@ -72,7 +71,7 @@ class FuncionarioController extends Controller
             'apellido' => 'min:3|max:15|required|alpha',
             'rut'      => 'between:7,12|unique:users|required|string|cl_rut',
             'tipo'  => 'required|in:Visita,Administrador,Funcionario,Alumno',//pueden ser esos 4 tipos
-            'email'    => 'min:6|max:30|unique:users|required_if:tipo,Administrador,Funcionario,Alumno|email',//se requiere si no es visita
+            'email'    => 'min:6|max:40|unique:users|required_if:tipo,Administrador,Funcionario,Alumno|email',//se requiere si no es visita
             'password' => 'min:4|max:30|required_if:tipo,Administrador,Funcionario',//se requiere si el tipo es admin o func
             'carrera' => 'required_if:tipo,Alumno'//se requiere si el tipo es cliente,alumno
         );
