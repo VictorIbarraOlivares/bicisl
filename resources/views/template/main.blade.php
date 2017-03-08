@@ -23,8 +23,10 @@
 
 	@yield('head')
 </head>
-<body class="admin-body" style="margin-left: 10%;margin-right: 10%;">
-	@include('template.partials.nav')
+<body class="admin-body" style="margin-left: 10%;margin-right: 10%;margin-top: 10%;">
+	<!--
+	include('template.partials.nav')
+	-->
 
 	<section>
 		<div class="panel panel-default">

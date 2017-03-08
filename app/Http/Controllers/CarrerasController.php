@@ -28,31 +28,32 @@ class CarrerasController extends Controller
     {
     	//dd($request-> all());
         $datos = $request->all();
-        $mensajes = array(
-         'codigo_carrera' => 'Código Carrera',
-         );
+        
         $reglas = array(
-            'nombre'     => 'min:8|max:35|unique:carreras|required|string',
+            'nombre'     => 'min:8|max:35|required|string',
             'codigo_carrera' => 'digits_between:4,7|unique:carreras|required|numeric'
         );
         
-        $v = Validator::make($datos, $reglas,$mensajes);
+        $v = Validator::make($datos, $reglas);
 
         if($v->fails())
         {
             return redirect()->back()->withErrors($v->errors())->withInput($request->all());
             //withInput($request->except('password')) devuelve todos los inputs, excepto el password
         }
+        
     	$carrera = new Carrera();
         $carrera->codigo_carrera = $request->codigo_carrera;
         $request->nombre = preg_replace('/[0-9]+/', '', $request->nombre );//elimina números
         $request->nombre = preg_replace('([^ A-Za-z0-9_-ñÑ])', '', $request->nombre );//elimina caracteres especiales
-        $carrera->name = $request->nombre;
+        $nombre = ucwords(strtolower(htmlentities($request->nombre, ENT_QUOTES,'UTF-8')));
+        $carrera->name = $nombre;
     	//dd($carrera);
     	$carrera->save();
 
     	Flash::success('Se ha registrado la carrera '. $carrera->name .' de forma exitosa!');
     	return redirect()->route('admin.carreras.index');
+        
     }
 
     public function index()
@@ -92,7 +93,7 @@ class CarrerasController extends Controller
         if($carrera->name != $request->nombre || $carrera->codigo_carrera != $request->codigo_carrera){
             $datos = $request->all();
             $reglas = array(
-                'nombre'     => 'min:8|max:35|unique:carreras|required|string',
+                'nombre'     => 'min:8|max:35|required|string',
                 'codigo_carrera' => 'digits_between:4,7|unique:carreras|required|numeric'
             );
             
@@ -115,6 +116,7 @@ class CarrerasController extends Controller
             $carrera->name = $request->nombre;
             $carrera->name = preg_replace('/[0-9]+/', '', $carrera->name);//elimina números
             $carrera->name = preg_replace('([^ A-Za-z0-9_-ñÑ])', '', $carrera->name);//elimina caracteres especiales
+            $carrera->name = ucwords(strtolower(htmlentities($carrera->name, ENT_QUOTES,'UTF-8')));
             $carrera->codigo_carrera = $request->codigo_carrera;
             $carrera->save();
 
