@@ -14,7 +14,7 @@ use App\User;
 use App\Type;
 use App\Carrera;
 use Mail;
-
+use Storage;
 use Illuminate\Support\Facades\Auth; /*para poder usar el Auth:: ...*/
 
 
@@ -173,8 +173,9 @@ class UsersController extends Controller
     public function destroy($id)
     {
         $user = User::find($id);
-        if(is_dir('/Bicicletas/'.$user->name)){
-            File::delete('/Bicicletas/'.$user->name);
+        $exists = Storage::disk('local')->exists('/Bicicletas/'.$user->name.'/');
+        if($exists == true){
+            Storage::deleteDirectory('/Bicicletas/'.$user->name.'/');
         }
         $user->delete();
 

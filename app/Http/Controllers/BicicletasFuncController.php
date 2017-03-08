@@ -14,7 +14,7 @@ use App\User;
 use App\Type;
 use App\Carrera;
 use App\Bike;
-
+use Storage;
 use App\Image;
 
 use Illuminate\Support\Facades\Auth; /*para poder usar el Auth:: ...*/
@@ -238,6 +238,15 @@ class BicicletasFuncController extends Controller
     {
         $bike = Bike::find($id);
         $user = User::find($bike->user_id);
+        foreach ($images as $image) {
+            if($image->bike_id == $id){
+                $carpeta = explode('/', $image->name);
+                $exists = Storage::disk('local')->exists($image->name);
+                if($exists == true){
+                    Storage::delete($image->name);
+                }
+            }
+        }
         $bike->delete();
 
         Flash::error('La Bicicleta del usuario '. $user->name .' ha sido eliminada de forma exitosa !');

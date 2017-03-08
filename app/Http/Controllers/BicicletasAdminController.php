@@ -15,6 +15,8 @@ use App\Type;
 use App\Carrera;
 use App\Bike;
 use App\Image;
+use Storage;
+use File;
 use Illuminate\Support\Facades\Auth; /*para poder usar el Auth:: ...*/
 
 use Laracasts\Flash\Flash;
@@ -256,10 +258,10 @@ class BicicletasAdminController extends Controller
         $images = Image::all();
         foreach ($images as $image) {
             if($image->bike_id == $id){
-                dd($image->name);
                 $carpeta = explode('/', $image->name);
-                if($carpeta[2] == $user->name && $carpeta[3] == (strval($image->id).'.jpg')){
-                    File::delete($image->name);
+                $exists = Storage::disk('local')->exists($image->name);
+                if($exists == true){
+                    Storage::delete($image->name);
                 }
             }
         }

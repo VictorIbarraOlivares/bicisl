@@ -17,6 +17,7 @@ use App\Image;
 use Form;
 use Html;
 use File;
+use Storage;
 use Illuminate\Support\Facades\Input;
 
 use Illuminate\Support\Facades\Auth; /*para poder usar el Auth:: ...*/
@@ -105,8 +106,9 @@ class BicicletaClienteController extends Controller
                             $bike->save();
                             if ($request->hasFile('image')) {
                                 $carpeta = explode('/', $image->name);
-                                if($carpeta[1] == 'Bicicletas'){
-                                    File::delete($image->name);
+                                $exists = Storage::disk('local')->exists($image->name);
+                                if($exists == true && $carpeta[1] == 'Bicicletas'){
+                                    Storage::delete($image->name);
                                 }
                                 $extension = 'jpg';
                                 $destinationPath = 'Bicicletas/'.$user->name; // upload path
