@@ -131,6 +131,7 @@ class BicicletasAdminController extends Controller
     	//dd($request->all(),$bike);
     	$bike->save();
         $image = new Image();
+        $image->name = "/images/default.jpg";
         $image->bike_id = $bike->id;
         $image->save();
 
@@ -252,6 +253,16 @@ class BicicletasAdminController extends Controller
     {
         $bike = Bike::find($id);
         $user = User::find($bike->user_id);
+        $images = Image::all();
+        foreach ($images as $image) {
+            if($image->bike_id == $id){
+                dd($image->name);
+                $carpeta = explode('/', $image->name);
+                if($carpeta[2] == $user->name && $carpeta[3] == (strval($image->id).'.jpg')){
+                    File::delete($image->name);
+                }
+            }
+        }
         $bike->delete();
 
         Flash::error('La Bicicleta del usuario '. $user->name .' ha sido eliminada de forma exitosa !');
