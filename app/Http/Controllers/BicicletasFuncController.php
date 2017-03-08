@@ -121,6 +121,7 @@ class BicicletasFuncController extends Controller
         $bike->user_id = $user->id;
         $bike->save();
         $image = new Image();
+        $image->name = "/images/default.jpg";
         $image->bike_id = $bike->id;
         $image->save();
         
