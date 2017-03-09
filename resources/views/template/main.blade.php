@@ -22,6 +22,11 @@
 	<!-- Fin Fancybox-->
 
 	@yield('head')
+	<style type="text/css">
+body {
+/*color: #4080FF;*/
+background-color: #006588 }
+</style>
 </head>
 <body class="admin-body" style="margin-left: 10%;margin-right: 10%;margin-top: 10%;">
 	<!--
@@ -47,7 +52,8 @@
 		</div>
 
 	</section>
-
+	
+	<!--
 	<footer class="admin-footer" >
 		<nav class="navbar navbar-default">
 			<div class="container-fluid">
@@ -60,7 +66,7 @@
 		</nav>
 		
 	</footer>
-
+	-->
 <script src="{{ asset('plugins/jquery/js/jquery-2.1.4.js') }}"></script>
 <script src="{{ asset('plugins/bootstrap/js/bootstrap.js') }}"></script>
 <!-- DATATABLES-->
