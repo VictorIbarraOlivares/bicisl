@@ -36,14 +36,7 @@ class ClienteController extends Controller
                 ->select('bikes.id','bikes.activa','bikes.descripcion','bikes.hora_a','bikes.fecha_a','hora_s','fecha_s','bikes.encargado_s','bikes.encargado_a','users.name as dueño','bikes.nota')
                 ->orderby("hora_a","asc")->get();
 
-        /*INICIO BORRAR VISITANTES*/
-        $visitas = DB::table('users')->where("type_id","=","1")->where("created_at","<>",$dia) ->get();
-        //dd($visitas);
-        foreach ($visitas as $visita){
-            $visita->delete();
-        }
-        
-        /*FIN BORRAR VISITANTES*/
+    
         return view('cliente.home')->with('bikes', $bikes);
     }
 

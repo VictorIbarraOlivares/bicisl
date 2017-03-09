@@ -13,7 +13,7 @@ use App\User;
 @section('content')
 		
 		<hr>
-		<table class="table" width="100%" cellpadding="0" cellspacing="0" id="datatable_bike_u">
+		<table class="table table-responsive" width="100%" cellpadding="0" cellspacing="0" id="datatable_bike_u">
 		<thead>
 			<th>Dueño</th>
 			<th>Descripcion</th>

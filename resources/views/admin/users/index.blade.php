@@ -37,6 +37,8 @@
 					</td>
 					<td class="text-center">{{ $user->nomTipo }}</td>
 					<td >
+						<!--Div botones-->
+						<div class="btn-group" role="group" aria-label="...">
 						 <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-warning" title="Editar"><span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Editar"></span></a>
 						 @if(Auth::user()->id != $user->id)
 								<a title="Eliminar" data-role="{{ $user->id }}" class="btn btn-danger eliminar-data" data-target="#miModalEliminar" ><i class="fa fa-trash" aria-hidden="true" title="Eliminar"></i></a>
@@ -45,7 +47,8 @@
 						@if($user->tipo != "2" && $user->tipo != "3")
 							<a title="Añadir Bicicleta" data-role="{{ $user->id }}" class="btn btn-primary agregar-data" data-target="#miModalAgregar" ><i class="fa fa-bicycle" aria-hidden="true" title="Añadir Bicicleta"></i></a>
 						@endif
-
+						</div>
+						<!--FIN Div Botones -->
 					</td>
 				</tr>
 			@endforeach
