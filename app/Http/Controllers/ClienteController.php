@@ -14,7 +14,7 @@ use App\User;
 use App\Type;
 use App\Carrera;
 use App\Bike;
-
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth; /*para poder usar el Auth:: ...*/
 
 
@@ -42,6 +42,7 @@ class ClienteController extends Controller
         foreach ($visitas as $visita){
             $visita->delete();
         }
+        
         /*FIN BORRAR VISITANTES*/
         return view('cliente.home')->with('bikes', $bikes);
     }
