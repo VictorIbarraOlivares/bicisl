@@ -23,36 +23,20 @@
 
 	@yield('head')
 	<style type="text/css">
-body {
-/*color: #4080FF;*/
-background-color: #006588 }
-</style>
+	body {
+	/*color: #4080FF;*/
+	background-color: #006588 }
+	.panel{
+    border: 5px solid transparent !important;
+    border-radius: 20px !important;
+    }
+	</style>
 </head>
 <body class="admin-body" style="margin-left: 10%;margin-right: 10%;margin-top: 10%;">
 	<!--
 	include('template.partials.nav')
 	-->
-
-	<section>
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h3 class="panel-title">@yield('title')</h3>
-			</div>
-
-			<div class="panel-body">
-				@if (Session::has('flash_notification.message'))
-				    <div class="alert alert-{{ Session::get('flash_notification.level') }}">
-				        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-
-				        {{ Session::get('flash_notification.message') }}
-				    </div>
-				@endif
-				@yield('content')
-			</div>
-		</div>
-
-	</section>
-	
+	@yield('cuerpo')
 	<!--
 	<footer class="admin-footer" >
 		<nav class="navbar navbar-default">

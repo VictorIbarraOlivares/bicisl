@@ -54,6 +54,7 @@
                      </h3>
                 </center>
               <div class="panel-body" >
+                <!--No borrar-->
                 @if (Session::has('flash_notification.message'))
                     <div class="alert alert-{{ Session::get('flash_notification.level') }}">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -61,6 +62,7 @@
                         {{ Session::get('flash_notification.message') }}
                     </div>
                 @endif
+                <!--/No borrar-->
                 <div>
                     <div class="row">
                         <div class="col-md-8 col-md-offset-2">
@@ -80,7 +82,6 @@
                                         @endif
                                     </div>
                                 </div>
-
                                 <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                                     <label for="password" class="col-md-4 control-label">Password</label>
 
@@ -94,7 +95,6 @@
                                         @endif
                                     </div>
                                 </div>
-
                                 <div class="form-horizontal form-group col-md-12">
                                     <div class="col-md-4 checkbox pull-left">
                                         <label>
@@ -107,8 +107,6 @@
                                         </button>
                                     </div>
                                 </div>
-
-
                                 <div class="form-group col-md-12">
                                     <a class="btn btn-link  fa fa-arrow-right" href="{{ url('/password/reset') }}">¿Olvidaste tu Password?</a>
                                    <!-- <a href="{{ url('/register') }}" class="btn btn-info">Crear Cuenta</a> -->
@@ -118,6 +116,15 @@
                     </div>
                 </div>
               </div>
+              <center>
+                <p>
+                    <h6 style="font-weight: bold;" class="alert alert-danger">
+                    <i class="fa fa-exclamation-circle fa-lg" aria-hidden="true"></i>
+                    Recuerde que su credencial de acceso es personal, confidencial e intransferible.
+                    </h6>
+                </p>
+                    
+                </center>
             </div>
         </div>
     </div>
