@@ -4,7 +4,7 @@ use App\User;
 @endphp
 @extends('cliente.template.main')
 
-@section('title','Bicicletas en la Universidad')
+@section('title','Bicicletas en la Universidad Hoy '.date("d-m-y"))
 
 @section('head')
 
@@ -18,9 +18,7 @@ use App\User;
 			<th>Dueño</th>
 			<th>Descripcion</th>
 			<th>Hora Llegada</th>
-			<th>Fecha Llegada</th>
 			<th>Hora Salida</th>
-			<th>Fecha Salida</th>
 		</thead>
 		<tbody>
 			@foreach($bikes as $bike)
@@ -44,19 +42,11 @@ use App\User;
 					<td>{{ $bike->dueño }}</td>
 					<td>{{ $bike->descripcion }}</td>
 					<td>{{ $bike->hora_a }}</td>
-					<td>{{ formato_y_m_d($bike->fecha_a) }}</td>
 					<td>
 						@if($bike->fecha_s != $hoy)
 							--:--:--
 						@else
 							{{ $bike->hora_s }}
-						@endif
-					</td>
-					<td>
-						@if($bike->fecha_s != $hoy)
-							xx-xx-xxxx
-						@else
-							{{ formato_y_m_d($bike->fecha_s) }}
 						@endif
 					</td>
 				</tr>

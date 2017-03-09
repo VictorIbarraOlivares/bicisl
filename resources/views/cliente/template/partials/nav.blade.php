@@ -7,7 +7,7 @@
         <div class="navbar-header" >
           <div class="row">
             <div class="col-md-9">
-              <a class="navbar-brand" href="http://www.utem.cl/" target="_blank" title="utem.cl"><img src="{{ asset('images/UTEM.png') }}" class="img-responsive"></a>
+              <a class="navbar-brand" href="http://www.utem.cl/" target="_blank" title="utem.cl"><img src="{{ asset('images/40px-utemcito-azul.png') }}" class="img-responsive"  ></a>
             </div>
           </div>
         </div>
@@ -53,3 +53,4 @@
   </div><!-- /.container-fluid -->
 </nav>
 </center>
+
