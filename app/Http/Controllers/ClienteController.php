@@ -16,7 +16,7 @@ use App\Carrera;
 use App\Bike;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth; /*para poder usar el Auth:: ...*/
-
+use Mail;
 
 
 use Laracasts\Flash\Flash;
@@ -47,16 +47,8 @@ class ClienteController extends Controller
         $user = User::find($id);
         if($perfil->id == $user->id){
             $title = "Mi Perfil";
-            $particiones = explode(" ",$user->name);
-            if(count($particiones) == 2){
-                $nombre = $particiones[0];
-                $apellido = $particiones[1];
-            }else{
-                $nombre = $particiones[0];
-                $apellido = "";
-            }
 
-            return view('cliente.users.edit')->with('user', $user)->with('title',$title)->with('nombre',$nombre)->with('apellido',$apellido);
+            return view('cliente.users.edit')->with('user', $user)->with('title',$title);
         }
     }
 
@@ -116,7 +108,7 @@ class ClienteController extends Controller
         $user->save();
         Flash::warning('Tú perfil ha sido editado con exito '. $user->name . ' !');
 
-        return redirect()->route('cliente.users.index');
+        return redirect()->route('cliente.home');
     }
 
     public function password()
@@ -129,7 +121,7 @@ class ClienteController extends Controller
     public function cambiopassword(Request $request,$id)
     {   
         if(Auth::user()->id != $id){
-            Flash::error('NO PUEDE CAMBIAR EL PASSWORD DE OTRO USUSARIO');
+            Flash::error('NO PUEDE CAMBIAR EL PASSWORD DE OTRO USUARIO');
             return redirect()->route('cliente.home');
         }
         $datos = $request->all();
