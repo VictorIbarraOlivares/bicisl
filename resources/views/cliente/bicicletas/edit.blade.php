@@ -16,10 +16,10 @@
 				<div class="row">
 					<div class="col-md-3">
 						<div class="form-group">
-								{!! Form::label('image', 'Imagen de Bicicleta') !!}
+								{!! Form::label('imagen', 'Imagen de Bicicleta') !!}
 								<img src="{{ asset($image->name)}}" class="img-resposive">
 
-				    			{!! Form::file('image', null, ['class' => 'form-control']) !!}
+				    			{!! Form::file('imagen', null, ['class' => 'form-control']) !!}
 						</div>
 					</div>
 					<div class="col-md-10">

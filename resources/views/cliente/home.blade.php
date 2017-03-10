@@ -4,7 +4,7 @@ use App\User;
 @endphp
 @extends('cliente.template.main')
 
-@section('title','Bicicletas en la Universidad Hoy '.date("d-m-y"))
+@section('title','Mi Bicicleta en la Universidad Hoy '.date("d-m-y"))
 
 @section('head')
 
@@ -15,45 +15,67 @@ use App\User;
 		<hr>
 		<table class="table table-responsive" width="100%" cellpadding="0" cellspacing="0" id="datatable_bike_u">
 		<thead>
-			<th>Dueño</th>
-			<th>Descripcion</th>
-			<th>Hora Llegada</th>
-			<th>Hora Salida</th>
+			<th style="width: 5%;">Dueño</th>
+			<th style="width: 5%;text-align: center;">Activa</th>
+			<th style="width: 5%;">Descripcion</th>
+			<th style="width: 5%;text-align: center;">Encargado Llegada</th>
+			<th style="width: 5%;text-align: center;">Hora Llegada</th>
+			<th style="width: 5%;text-align: center;">Encargado Salida</th>
+			<th style="width: 5%;text-align: center;">Hora Salida</th>
 		</thead>
 		<tbody>
-			@foreach($bikes as $bike)
 			@php
-					$hoy = date("Y-m-d");
-					$encargadoLLegada = User::find($bike->encargado_a);
-					if($bike->encargado_s != 0){
-						$encargadoSalida = User::find($bike->encargado_s);
-						$aux=1;
-					}else{
-						$aux=0;
-					}
-
-					if($bike->activa == 0){
+				$cont = 0;
 			@endphp
-						<tr style="background-color: #069993;" >
-			@php	}else{ @endphp
-						<tr >
-			@php	}
+			@foreach($bikes as $bike)
+				@php
+					if($bike->activa == 1){
+						$cont++;
+					}
 				@endphp
-					<td>{{ $bike->dueño }}</td>
-					<td>{{ $bike->descripcion }}</td>
-					<td>{{ $bike->hora_a }}</td>
-					<td>
-						@if($bike->fecha_s != $hoy)
-							--:--:--
-						@else
-							{{ $bike->hora_s }}
-						@endif
-					</td>
-				</tr>
+				@if($bike->user_id == $user->id)
+					@php
+							$hoy = date("Y-m-d");
+							if($bike->activa == 0){
+					@endphp
+								<tr style="background-color: #069993;" >
+					@php	}else{ @endphp
+								<tr >
+					@php	}
+						@endphp
+							<td>{{ $bike->dueño }}</td>
+							<td style="text-align: center;">
+								@if($bike->activa == 1)
+								Si
+								@else
+								No
+								@endif
+							</td>
+							<td>{{ $bike->descripcion }}</td>
+							@php
+								$encargado_a = User::find($bike->encargado_a);
+							@endphp
+							<td style="text-align: center;">{{ $encargado_a->name }}</td> 
+							<td style="text-align: center;">{{ $bike->hora_a }}</td> 
+							<td style="text-align: center;">
+								@if($bike->fecha_s != $hoy)
+									--------</td>
+									<td style="text-align: center;">--:--:--</td>
+								@else
+									@php
+										$encargado_s = User::find($bike->encargado_s);
+									@endphp
+									{{ $encargado_s->name }}</td>
+									<td style="text-align: center;">{{ $bike->hora_s }}</td> 
+								@endif
+							</td>
+						</tr>
+				@endif
 			@endforeach
 		</tbody>
 	</table>
-@endsection
+	<b>Total de Bicicletas en la Universidad: {{ $cont }}</b>
+	@endsection
 @section('script')
 <script type="text/javascript">
 /*ejemplo fancybox

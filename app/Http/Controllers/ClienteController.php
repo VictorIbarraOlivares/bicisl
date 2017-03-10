@@ -31,13 +31,14 @@ class ClienteController extends Controller
     public function home()
     {
         $dia= date("Y-m-d");
+        $user = Auth::user();
         $bikes = DB::table('bikes')->where("fecha_a","=",$dia)
                 ->join('users','users.id','=','bikes.user_id')
-                ->select('bikes.id','bikes.activa','bikes.descripcion','bikes.hora_a','bikes.fecha_a','hora_s','fecha_s','bikes.encargado_s','bikes.encargado_a','users.name as dueño','bikes.nota')
+                ->select('bikes.id','bikes.activa','bikes.user_id','bikes.descripcion','bikes.hora_a','bikes.fecha_a','hora_s','fecha_s','bikes.encargado_s','bikes.encargado_a','users.name as dueño','bikes.nota')
                 ->orderby("hora_a","asc")->get();
 
     
-        return view('cliente.home')->with('bikes', $bikes);
+        return view('cliente.home')->with('bikes', $bikes)->with('user', $user);
     }
 
     public function edit($id)

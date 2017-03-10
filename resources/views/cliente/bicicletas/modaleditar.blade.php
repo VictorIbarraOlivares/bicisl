@@ -16,8 +16,7 @@
 									<p><strong>¿Seguro quiere editar la información de la bicicleta?</strong></p>
 									<p></p>
 									<br>
-									<p>Esto puede afectar al registro de Bicicletas en la Universidad</p>
-									<p style="color: #ED1723;"><strong>El cambio de estado de la bicicleta quedará registrado</strong></p>
+									<p style="color: #ED1723;"><strong>Esto puede afectar al registro de Bicicletas en la Universidad</strong></p>
 									</center>
 									</div>
 	                            </div>
