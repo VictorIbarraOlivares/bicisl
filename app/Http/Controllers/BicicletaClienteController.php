@@ -104,7 +104,7 @@ class BicicletaClienteController extends Controller
                         if($image->bike_id == $bike->id){
                             $bike->detalle = $request->detalle;
                             $bike->save();
-                            if ($request->hasFile('image')) {
+                            if ($request->hasFile('imagen')) {
                                 $carpeta = explode('/', $image->name);
                                 $exists = Storage::disk('local')->exists($image->name);
                                 if($exists == true && $carpeta[1] == 'Bicicletas'){
@@ -113,7 +113,7 @@ class BicicletaClienteController extends Controller
                                 $extension = 'jpg';
                                 $destinationPath = 'Bicicletas/'.$user->name; // upload path
                                 $fileName = $image->id.'.'.$extension; // renameing image    
-                                Input::file('image')->move($destinationPath, $fileName); // uploading file togiven 
+                                Input::file('imagen')->move($destinationPath, $fileName); // uploading file togiven 
                                 $image->name = '/Bicicletas/'.$user->name.'/'.$fileName;
                                 $image->save();
                                 Flash::warning($user->name . ' Tu bicicleta ha sido editada con exito !');
