@@ -80,7 +80,7 @@ class BicicletaClienteController extends Controller
         $datos = $request->all();
         $reglas = array(
             'detalle' => 'min:4|max:30|string',
-            'image' => 'mimes:jpeg,png,jpg'
+            'imagen' => 'mimes:jpeg,png,jpg'
         );
           
         
