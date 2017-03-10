@@ -5,29 +5,18 @@
 <a href="{{ route('funcionario.users.create') }}" class="btn btn-info">Registrar nuevo Usuario</a><br><br><br>
 	<table class="table display" width="100%" cellpadding="0" cellspacing="0" id="datatable_usuarios">
 		<thead>
-			<th class="text-center">Carrera</th>
 			<th>Nombre</th>
+			<th>Carrera,Funcionarios,Profesores</th>
 			<th>Email</th>
-			<th class="text-center">Tipo</th>
 			<th>Acción</th>
 		</thead>
 		<tbody>
 			@foreach($users as $user)
 				<tr>
-					<td class="text-center" >
-					<strong>
-						@if( $user->tipo == 2 || $user->tipo == 3)
-								<a href="#" style="color: #080266;font: bold;"  title="Funcionarios">Funcionarios</a>
-						@else
-							@if($user->carrera == 15 || $user->carrera == 16 || $user->carrera == 17)
-								<a href="{{ route('funcionario.carreras.detalle', $user->carrera ) }}" style="color: #080266;"  title="{{ $user->nomCarrera }}">{{ $user->nomCarrera }}</a>
-							@else
-								<a href="{{ route('funcionario.carreras.detalle', $user->carrera ) }}" style="color: #080266;"  title="{{ $user->nomCarrera }}">{{ $user->codigo_carrera }}</a>
-							@endif
-						@endif
-					</strong>
-					</td>
 					<td>{{ $user->name }}</td>
+					<td>
+						<a href="{{ route('funcionario.carreras.detalle', $user->carrera ) }}" style="color: #080266;"  title="{{ $user->codigo_carrera }}">{{ $user->nomCarrera }}</a>
+					</td>
 					<td>
 						@if($user->tipo == 1)
 							---------------
@@ -35,7 +24,6 @@
 							{{ $user->email }}
 						@endif
 					</td>
-					<td class="text-center">{{ $user->nomTipo }}</td>
 					<td >
 						<div class="btn-group" role="group" aria-label="...">
 						 @if($user->tipo == 1 || $user->tipo== 4 )

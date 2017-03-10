@@ -13,14 +13,24 @@
 		<tbody>
 			@foreach($carreras as $carrera)
 				<tr>
-					<td>{{ $carrera->name }}</td>
+					<td>
+						<p>{{ $carrera->name }}
+						@if($carrera->id == 17 )
+							(Se Eliminan Diariamente)</p>
+						@endif
+						@if($carrera->id == 16)
+							(Usuarios del Sistema)</p>
+						@endif
+					</td>
 					@php $contador = DB::table('users')->where('carrera_id','=',$carrera->id)->count(); @endphp
 					<td align="center"> {{ $contador }} </td>
 					<td align="center">{{ $carrera->codigo_carrera }}</td>
 					<td>
 						<div class="btn-group" role="group" aria-label="...">
 					 	<a href="{{ route('admin.carreras.edit', $carrera->id ) }}" class="btn btn-warning" title="Editar"><span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Editar" style="color:black;"></span></a>
+					 	@if($carrera->id != 17 && $carrera->id != 16)
 						<a title="Eliminar" data-role="{{ $carrera->id }}" class="btn btn-danger eliminar-data" data-target="#miModalEliminar" ><i class="fa fa-trash" aria-hidden="true" title="Eliminar" style="color:black;"></i></a>
+						@endif
 						<a href="{{ route('admin.carreras.detalle', $carrera->id ) }}" class="btn btn-success" title="Detalles"><span class="glyphicon glyphicon-eye-open" aria-hidden="true" title="Detalles" style="color:black;"></span></a>
 						</div>
 					</td>

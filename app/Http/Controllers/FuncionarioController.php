@@ -30,7 +30,7 @@ class FuncionarioController extends Controller
 {
    public function create()
     {
-        $types = Type::all();
+        $types = DB::table('types')->orderby("name","asc")->get();
         $carreras = Carrera::all();
         return view('funcionario.users.create')->with('types', $types)->with('carreras', $carreras);
     }
@@ -156,10 +156,12 @@ class FuncionarioController extends Controller
     public function index()
     {
         $users = DB::table('users')
+                ->where('users.type_id',"<>","2")
+                ->where('users.type_id',"<>","3")
                 ->join('types','types.id','=','users.type_id')
                 ->join('carreras','carreras.id','=','users.carrera_id')
-                ->select('users.id','users.name','users.rut','users.email','types.name as nomTipo','types.id as tipo','carreras.name as nomCarrera','carreras.id as carrera','carreras.codigo_carrera')
-                ->orderBy('users.created_at','desc')
+                ->select('users.id','users.type_id','users.name','users.rut','users.email','types.name as nomTipo','types.id as tipo','carreras.name as nomCarrera','carreras.id as carrera','carreras.codigo_carrera')
+                ->orderBy('users.name','desc')
                 ->get();
 
         return view('funcionario.users.index')->with('users',$users);

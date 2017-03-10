@@ -28,4 +28,9 @@ function setActive($path)
     return Request::is($path . '*') ? ' class=active' :  '';
 }
 
+function Mayus($variable) {
+$variable = strtr(strtoupper($variable),"àèìòùáéíóúçñäëïöü","ÀÈÌÒÙÁÉÍÓÚÇÑÄËÏÖÜ");
+return $variable;
+}
+
 ?>

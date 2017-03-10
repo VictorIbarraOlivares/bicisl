@@ -21,7 +21,7 @@ class CarrerasFuncionarioController extends Controller
     public function index()
     {
 
-        $carreras = DB::table('carreras')->orderBy('created_at','desc')->get();
+        $carreras = DB::table('carreras')->where('id',"<>","16")->orderBy('name','desc')->get();
         return view('funcionario.carreras.index')->with('carreras',$carreras);
     }
 

@@ -49,7 +49,11 @@ function mostrar(id){//no se pedira clave para los "alumnos"
 					<select class="form-control" id="tipo" name="tipo" onchange="mostrar(this.value);" required>
 						<option value="">Seleccione un tipo de usuario</option>
 						@foreach($types as $type)
-						<option value="{{$type->name }}" name="type_name">{{ $type->name }}</option>
+                        @if($type->id == 4)
+                          <option value="{{$type->name }}" name="type_name">Dueño Bicicleta</option>  
+                        @else
+						  <option value="{{$type->name }}" name="type_name">{{ $type->name }}</option>
+                        @endif
 						@endforeach
 					</select>
 				</div>
@@ -119,10 +123,10 @@ function mostrar(id){//no se pedira clave para los "alumnos"
 		<div class="row">
 			<div class="col-md-12">
 				<div class="form-group" id="carre" style="display: none;">
-					{!! Form::label('carrera_id','Carrera  (en caso de no ser estudiante seleccione la opción)') !!}
+					{!! Form::label('carrera_id','Carrera,Funcionarios,Profesores') !!}
                     <br>
 					<select class="form-control" id="carrera" name="carrera" required style="width: 75%">
-						<option value="">Seleccione la carrera a la que pertenece el Alumno</option>
+						<option value="">Seleccione Según el Dueño</option>
 						@foreach($carreras as $carrera)
 							@if($carrera->id != 16 && $carrera->id != 17)
 								<option value="{{$carrera->id }}">{{ $carrera->name }}</option>
@@ -133,8 +137,6 @@ function mostrar(id){//no se pedira clave para los "alumnos"
 			</div>
 		</div>
 		<hr>
-		
-
 		<div class="form-group">
 			{!! Form::submit('Registrar', ['class' => 'btn btn-success pull-left']) !!}
 		</div>
