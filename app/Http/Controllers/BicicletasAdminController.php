@@ -109,8 +109,8 @@ class BicicletasAdminController extends Controller
     	//dd($request->all());
         $datos = $request->all();
         $reglas = array(
-            'color'     => 'min:4|max:10|required|alpha',
-            'tipo' => 'min:5|max:10|required|alpha',
+            'color'     => 'min:4|max:15|required|alpha',
+            'tipo' => 'min:5|max:15|required|alpha',
             'nota' => 'min:4|max:30|string'
         );
         
@@ -181,8 +181,8 @@ class BicicletasAdminController extends Controller
         //dd($request->all());
         $datos = $request->all();
         $reglas = array(
-            'color' => 'min:4|max:10|required|alpha',
-            'tipo' => 'min:5|max:10|required|alpha',
+            'color' => 'min:4|max:15|required|alpha',
+            'tipo' => 'min:5|max:15|required|alpha',
             'notaNueva' => 'min:4|max:30|string',
             'nota' => 'min:4|max:30|string'
         );

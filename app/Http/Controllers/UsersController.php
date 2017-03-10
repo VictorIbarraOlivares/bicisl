@@ -66,7 +66,7 @@ class UsersController extends Controller
          );
         /*SE MODIFICAN REGLAS SEGUN TIPO DE USUARIO*/
         $reglas = array(
-            'nombre'     => 'min:4|max:15|required|alpha',
+            'nombre'     => 'min:2|max:15|required|alpha',
             'apellido' => 'min:3|max:15|required|alpha',
             'rut'      => 'between:7,12|unique:users|required|string|cl_rut',
             'tipo'  => 'required|in:Visita,Administrador,Funcionario,Alumno',//pueden ser esos 4 tipos
@@ -269,7 +269,7 @@ class UsersController extends Controller
 
         /*SE MODIFICAN REGLAS SEGUN TIPO DE USUARIO*/
         $reglas = array(
-            'nombre'     => 'min:4|max:15|required|alpha',
+            'nombre'     => 'min:2|max:15|required|alpha',
             'apellido' => 'min:3|max:15|required|alpha',
             'rut'      => 'between:7,12|unique:users|required|string|cl_rut',
             'tipo'  => 'required|in:Visita,Administrador,Funcionario,Alumno',//pueden ser esos 4 tipos

@@ -59,7 +59,7 @@
 	                    				<tr>
 	                    					<td>Fecha Salida :</td>
 	                    					<td>
-		                    				@if($bike->fecha_s != $hoy)
+		                    				@if($bike->fecha_s != $hoy || $bike->activa==1)
 												xx-xx-xxxx
 											@else
 												{{ formato_y_m_d($bike->fecha_s) }}
@@ -69,7 +69,7 @@
 	                    				<tr>
 	                    					<td>Hora Salida :</td>
 	                    					<td>
-		                    				@if($bike->fecha_s != $hoy)
+		                    				@if($bike->fecha_s != $hoy || $bike->activa==1)
 												--:--:--
 											@else
 												{{ $bike->hora_s }}
@@ -79,7 +79,7 @@
 	                    				<tr>
 	                    					<td>Encargado Salida :</td>
 	                    					<td>
-	                    					@if($bike->fecha_s != $hoy)
+	                    					@if($bike->fecha_s != $hoy || $bike->activa==1)
 												No registra retiro hoy
 											@else
 												@if($encargadoSalida != "")

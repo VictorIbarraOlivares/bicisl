@@ -64,21 +64,21 @@ use App\User;
 					<td>{{ formato_y_m_d($bike->fecha_a) }}</td>
 					<td>{{ $encargadoLLegada->name }}</td> 
 					<td>
-						@if($bike->fecha_s != $hoy)
+						@if($bike->fecha_s != $hoy || $bike->activa==1)
 							--:--:--
 						@else
 							{{ $bike->hora_s }}
 						@endif
 					</td>
 					<td>
-						@if($bike->fecha_s != $hoy)
+						@if($bike->fecha_s != $hoy || $bike->activa==1)
 							xx-xx-xxxx
 						@else
 							{{ formato_y_m_d($bike->fecha_s) }}
 						@endif
 					</td>
 					<td>
-						@if($bike->fecha_s != $hoy)
+						@if($bike->fecha_s != $hoy || $bike->activa==1)
 							No registra retiro hoy
 						@else
 							@if($aux == 1)

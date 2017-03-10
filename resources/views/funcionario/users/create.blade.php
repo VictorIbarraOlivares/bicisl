@@ -46,8 +46,8 @@ function mostrar(id){//no se pedira clave para los "alumnos"
 			<div class="col-md-3">
 				<div class="form-group">
 					{!! Form::label('type_id','Tipo') !!}
-					<select class="form-control" id="tipo" name="tipo" onchange="mostrar(this.value);" >
-						<option selected="selected" required >Seleccione un tipo de usuario</option>
+					<select class="form-control" id="tipo" name="tipo" onchange="mostrar(this.value);" required>
+						<option value="" >Seleccione un tipo de usuario</option>
 						@foreach($types as $type)
                         @if($type->id == 1 || $type->id == 4)
 						<option value="{{$type->name }}" name="type_name">{{ $type->name }}</option>
@@ -65,7 +65,7 @@ function mostrar(id){//no se pedira clave para los "alumnos"
                      <p hidden id="checkNombre"><i class="fa fa-check" aria-hidden="true" style="color: #5A956F;"></i></p>
                     <p hidden  id="timesNombre"><i class="fa fa-times" aria-hidden="true" style="color: #ED1723;"></i></p>
 				</div>
-                <p hidden id="mensajeNombre1" style="color: #080266;font-weight:bold;font-size: 90%"><i class="fa  fa-exclamation-circle " aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe tener mínimo 4 caracteres</p>
+                <p hidden id="mensajeNombre1" style="color: #080266;font-weight:bold;font-size: 90%"><i class="fa  fa-exclamation-circle " aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe tener mínimo 2 caracteres</p>
                 <p hidden id="mensajeNombre2" style="color: #080266;font-weight:bold;font-size: 90%"><i class="fa fa-exclamation-circle" aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe tener máximo 15 caracteres</p>
 			</div>
 			<div class="col-md-4">
@@ -350,7 +350,7 @@ function quitaIconosRut()
 /*FUNCION PARA VALIDAR EL NOMBRE*/
 function validaNombre(){
 
-    if($("#nombre").val().length < 4) {  
+    if($("#nombre").val().length < 2) {  
         $('#mensajeNombre1').removeAttr("hidden");
         $('#mensajeNombre2').attr("hidden","hidden");
         $('#nombre').css("border-color","#ED1723");

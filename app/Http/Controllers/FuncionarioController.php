@@ -13,7 +13,7 @@ use App\Http\Requests;
 use App\User;
 use App\Type;
 use App\Carrera;
-
+use Mail;
 use Illuminate\Support\Facades\Auth; /*para poder usar el Auth:: ...*/
 
 
@@ -50,7 +50,10 @@ class FuncionarioController extends Controller
             $visita->delete();
         }
         /*FIN BORRAR VISITANTES*/
-        return view('funcionario.home')->with('bikes',$bikes);
+        /*PARA BUSQUEDA DE LLEGADA*/
+        $clientes = User::where("type_id","=","4")->get();
+        /*FIN PARA BUSQUEDA DE LLEGADA*/
+        return view('funcionario.home')->with('bikes',$bikes)->with('clientes',$clientes);
     }
 
     public function agregar($id)
@@ -67,7 +70,7 @@ class FuncionarioController extends Controller
          );
         /*SE MODIFICAN REGLAS SEGUN TIPO DE USUARIO*/
         $reglas = array(
-            'nombre'     => 'min:4|max:15|required|alpha',
+            'nombre'     => 'min:2|max:15|required|alpha',
             'apellido' => 'min:3|max:15|required|alpha',
             'rut'      => 'between:7,12|unique:users|required|string|cl_rut',
             'tipo'  => 'required|in:Visita,Administrador,Funcionario,Alumno',//pueden ser esos 4 tipos

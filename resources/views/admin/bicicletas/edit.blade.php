@@ -118,7 +118,7 @@ function datos(id,valor){
                 <p hidden  id="timesColor"><i class="fa fa-times" aria-hidden="true" style="color: #ED1723;"></i></p>
 			</div>
 			<p hidden id="mensajeColor1" style="color: #080266;font-weight:bold;font-size: 90%"><i class="fa  fa-exclamation-circle " aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe tener mínimo 4 caracteres</p>
-            <p hidden id="mensajeColor2" style="color: #080266;font-weight:bold;font-size: 90%"><i class="fa fa-exclamation-circle" aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe tener máximo 10 caracteres</p>
+            <p hidden id="mensajeColor2" style="color: #080266;font-weight:bold;font-size: 90%"><i class="fa fa-exclamation-circle" aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe tener máximo 15 caracteres</p>
 		</div>
 		<div class="col-md-4">
 			<div class="form-group form-inline">
@@ -129,7 +129,7 @@ function datos(id,valor){
                 <p hidden  id="timesTipo"><i class="fa fa-times" aria-hidden="true" style="color: #ED1723;"></i></p>
 			</div>
 			<p hidden id="mensajeTipo1" style="color: #080266;font-weight:bold;font-size: 90%"><i class="fa  fa-exclamation-circle " aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe tener mínimo 5 caracteres</p>
-            <p hidden id="mensajeTipo2" style="color: #080266;font-weight:bold;font-size: 90%"><i class="fa fa-exclamation-circle" aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe tener máximo 10 caracteres</p>
+            <p hidden id="mensajeTipo2" style="color: #080266;font-weight:bold;font-size: 90%"><i class="fa fa-exclamation-circle" aria-hidden="true" style="color: #ED1723;"></i>&nbsp;Este campo debe tener máximo 15 caracteres</p>
 		</div>
 	</div>
 	<div class="row">
@@ -332,7 +332,7 @@ function validaColor(){
         $('#mensajeColor2').attr("hidden","hidden");
         $('#color').css("border-color","#ED1723");
         agregaIconosColor();
-    }else if($("#color").val().length > 10){
+    }else if($("#color").val().length > 15){
         $('#mensajeColor1').attr("hidden","hidden");
         $('#mensajeColor2').removeAttr("hidden");
         $('#color').css("border-color","#ED1723");
@@ -369,7 +369,7 @@ function validaTipo(){
         $('#mensajeTipo1').removeAttr("hidden");
         $('#tipo').css("border-color","#ED1723");
         agregarIconosTipo();
-    }else if($("#tipo").val().length > 10){
+    }else if($("#tipo").val().length > 15){
         $('#mensajeTipo1').attr("hidden","hidden");
         $('#mensajeTipo2').removeAttr("hidden");
         $('#tipo').css("border-color","#ED1723");

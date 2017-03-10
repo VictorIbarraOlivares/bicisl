@@ -11,21 +11,45 @@
 	<div class="row">
 		<!--Buscador de "clientes" -->
 		{!! Form::open(['route' => 'funcionario.bicicletas.ingreso', 'method' => 'get']) !!}
+			<!--
 			<input type="hidden" name="valor" id="valor" autocomplete="on">
 			<div class="col-md-3">
 				{{ Form::text('q','',['id' => 'q','placeholder' => 'Buscar Cliente...','required', 'class' => 'form-control' ]) }}
 			</div>
-			<div class="col-md-2">
+			-->
+			<div class="col-md-5">
+				<div class="form-group">
+					<label class="control-label"><strong>Llegada</strong></label>
+					<div class="form-inline">
+						<select class="form-control" name="llegada" id="llegada" required>
+	                    <option value="">Buscar Cliente</option>
+	                    @foreach($clientes as $cliente)
+	                        <option value="{{ $cliente->id }}">{{$cliente->name }} {{ formato_rut($cliente->rut) }}</option>
+	                    @endforeach
+	                </select>
+	                
 				{!! Form::submit('Ingresar llegada' ,['class' => 'btn btn-danger']) !!}
+					</div>
+				</div>
 			</div>
 		{!! Form::close() !!}
 		<!--Fin del buscador -->
 		<div class="col-md-4">
-			<a href="{{ route('funcionario.users.create') }}" class="btn btn-success">Registrar nuevo Usuario e Ingresar Bicicleta</a>
+			<div class="form-group">
+				<label class="control-label"><strong><br></strong></label>
+				<div class="form-inline">
+					<a href="{{ route('funcionario.users.create') }}" class="btn btn-success">Registrar nuevo Usuario e Ingresar Bicicleta</a>
+				</div>
+			</div>
 		</div>
 
 		<div class="colm-md-3">
-			<a href="{{ route('funcionario.bicicletas.hoy') }}" class="btn btn-info" >Detalle De Hoy</a>
+			<div class="form-group">
+				<label class="control-label"><strong><br></strong></label>
+				<div class="form-inline">
+					<a href="{{ route('funcionario.bicicletas.hoy') }}" class="btn btn-info" >Detalle De Hoy</a>
+				</div>
+			</div>
 		</div>
 	</div>
 		
@@ -68,7 +92,7 @@
 					<td>{{ $bike->descripcion }}</td>
 					<td class="text-center">{{ $bike->hora_a }}</td>
 					<td class="text-center">
-						@if($bike->fecha_s != $hoy)
+						@if($bike->fecha_s != $hoy || $bike->activa==1)
 							--:--:--
 						@else
 							{{ $bike->hora_s }}
