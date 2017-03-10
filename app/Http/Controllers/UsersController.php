@@ -52,7 +52,10 @@ class UsersController extends Controller
             $visita->delete();
         }
         /*FIN BORRAR VISITANTES*/
-        return view('admin.home')->with('bikes', $bikes);
+        /*PARA BUSQUEDA DE LLEGADA*/
+        $clientes = User::where("type_id","=","4")->get();
+        /*FIN PARA BUSQUEDA DE LLEGADA*/
+        return view('admin.home')->with('bikes', $bikes)->with('clientes',$clientes);
     }
 
     public function store(Request $request) // se cambia UserRequest por Request
@@ -359,7 +362,7 @@ class UsersController extends Controller
         //previene que nose pueda ingresar por url
         if($request->ajax())
         {
-            $term = $request->get('term');
+            $term = utf8_decode($request->get('term'));
             //dd($term);
             $results = array();
 
@@ -367,7 +370,8 @@ class UsersController extends Controller
 
             foreach($consultas as $consulta)
             {
-                $results[] = array ('id' => $consulta->id, 'value' => $consulta->name." Rut:".$consulta->rut);
+                $nombre = utf8_encode($consulta->name);
+                $results[] = array ('id' => $consulta->id, 'value' => $nombre." Rut:".$consulta->rut);
             }
 
             return json_encode($results);

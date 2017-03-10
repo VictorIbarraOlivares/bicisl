@@ -97,7 +97,15 @@
 <!--Fin Select2-->
 <script type="text/javascript">
   $('select').select2({
-  	theme: "classic"
+  	theme: "classic",  
+    language: {
+    noResults: function() {
+      return "No hay resultado";        
+    },
+    searching: function() {
+      return "Buscando...";
+    }
+  },
   });
 </script>
 @yield('script')

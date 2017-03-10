@@ -46,8 +46,8 @@ function mostrar(id){//no se pedira clave para los "alumnos"
 			<div class="col-md-3">
 				<div class="form-group">
 					{!! Form::label('type_id','Tipo') !!}
-					<select class="form-control" id="tipo" name="tipo" onchange="mostrar(this.value);" >
-						<option selected="selected" required >Seleccione un tipo de usuario</option>
+					<select class="form-control" id="tipo" name="tipo" onchange="mostrar(this.value);" required>
+						<option value="">Seleccione un tipo de usuario</option>
 						@foreach($types as $type)
 						<option value="{{$type->name }}" name="type_name">{{ $type->name }}</option>
 						@endforeach

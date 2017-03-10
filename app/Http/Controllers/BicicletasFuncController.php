@@ -77,6 +77,13 @@ class BicicletasFuncController extends Controller
         */
         $encargado = Auth::user();
         $user = User::find($id);
+        $bikes = Bike::where("user_id","=",$id)->get();
+        foreach ($bikes as $bike) {
+            if($bike->activa == 1){
+                Flash::error('No se puede agregar bicicleta a '. $user->name . ', tiene una bicicleta como activa !');
+                return redirect()->route('funcionario.users.index');
+            }
+        }
 
         if( $user->type_id == 2 || $user->type_id == 3){
 

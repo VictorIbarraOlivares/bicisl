@@ -49,7 +49,9 @@ function mostrar(id){//no se pedira clave para los "alumnos"
 					<select class="form-control" id="tipo" name="tipo" onchange="mostrar(this.value);" >
 						<option selected="selected" required >Seleccione un tipo de usuario</option>
 						@foreach($types as $type)
+                        @if($type->id == 1 || $type->id == 4)
 						<option value="{{$type->name }}" name="type_name">{{ $type->name }}</option>
+                        @endif
 						@endforeach
 					</select>
 				</div>

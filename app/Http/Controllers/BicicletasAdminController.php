@@ -86,6 +86,14 @@ class BicicletasAdminController extends Controller
 	    $encargado = Auth::user();
     	$user = User::find($id);
 
+        $bikes = Bike::where("user_id","=",$id)->get();
+        foreach ($bikes as $bike) {
+            if($bike->activa == 1){
+                Flash::error('No se puede agregar bicicleta a '. $user->name . ', tiene una bicicleta como activa !');
+                return redirect()->route('admin.users.index');
+            }
+        }
+
         if( $user->type_id == 2 || $user->type_id == 3){
 
             Flash::warning('No se puede agregar bicicleta a '. $user->name . ' !');
@@ -325,8 +333,9 @@ class BicicletasAdminController extends Controller
 
     public function ingreso(Request $request)
     {
+        //dd($request->all());
         $dia= date("Y-m-d");//obtener con la hora
-        $valor = $request->get('valor');
+        $valor = $request->llegada;
         //dd($valor);
         $encargado = Auth::user();
         $user = User::find($valor);
