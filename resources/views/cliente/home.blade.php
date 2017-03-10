@@ -58,7 +58,7 @@ use App\User;
 							<td style="text-align: center;">{{ $encargado_a->name }}</td> 
 							<td style="text-align: center;">{{ $bike->hora_a }}</td> 
 							<td style="text-align: center;">
-								@if($bike->fecha_s != $hoy)
+								@if($bike->fecha_s != $hoy || $bike->activa == 1)
 									--------</td>
 									<td style="text-align: center;">--:--:--</td>
 								@else
