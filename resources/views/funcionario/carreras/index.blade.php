@@ -17,7 +17,9 @@
 					<td align="center"> {{ $contador }} </td>
 					<td align="center">{{ $carrera->codigo_carrera }}</td>
 					<td>
-						<a href="{{ route('funcionario.carreras.detalle', $carrera->id ) }}" class="btn btn-success" title="Detalles"><span class="glyphicon glyphicon-eye-open" aria-hidden="true" title="Detalles"></span></a>
+						<div class="btn-group" role="group" aria-label="...">
+						<a href="{{ route('funcionario.carreras.detalle', $carrera->id ) }}" class="btn btn-success" title="Detalles"><span class="glyphicon glyphicon-eye-open" aria-hidden="true" title="Detalles" style="color:black;"></span></a>
+						</div>
 					</td>
 				</tr>
 			@endforeach

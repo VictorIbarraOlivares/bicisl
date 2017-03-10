@@ -75,6 +75,7 @@
 						@endif
 					</td>
 					<td>
+						<div class="btn-group" role="group" aria-label="...">
 						<a  title="Detalles" data-role="{{ $bike->id }}" class="btn btn-success detalles-data" data-target="#miModalDetalle" style="color:black;"><i class="fa fa-address-card-o fa-2x" aria-hidden="true" title="Detalles" style="color:black;" ></i>&nbsp; Detalles</a>
 
 						<a title="Imagen" data-role="{{ $bike->id }}" class="btn btn-warning imagen-data" data-target="#miModalImagen" style="color:black;"><i class="fa fa-picture-o fa-2x" aria-hidden="true" title="Imagen" style="color:black;"></i>&nbsp; Imagen</a>
@@ -89,7 +90,7 @@
                     		<!--FIN CODIGO QUE SIRVE PARA LA IMAGEN -->
                     		<a title="Ver Nota" data-role="{{ $bike->id }}" class="btn btn-info nota-data"  data-target="#miModalNota" style="color:black;" ><i class="fa fa-comment fa-2x" aria-hidden="true" style="color:black;" title="Ver nota"></i>&nbsp; Nota</a>
 						@endif
-
+						</div>
 					</td>
 				</tr>
 			@endforeach
