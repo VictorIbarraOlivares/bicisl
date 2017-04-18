@@ -1,6 +1,6 @@
 @extends('admin.template.main')
 
-@section('title','Detalles de la carrera ' . $carrera->name)
+@section('title','Detalles de  ' . $carrera->name)
 
 @section('content')
 
@@ -11,18 +11,23 @@
 					{!! Form::text('name',  $carrera->name ,['class' => 'form-control' ,'readonly'=>'readonly']) !!}
 				</div>
 			</div>
+			@if($carrera->id != 16 && $carrera->id != 17 && $carrera->id != 15)
 			<div class="col-md-3">
 				<div class="form-group">
 					{!! Form::label('codigo_carrera', 'Código Carrera') !!}
 					{!! Form::text('codigo_carrera', $carrera->codigo_carrera ,['class' => 'form-control','readonly'=>'readonly']) !!}
 				</div>
 			</div>
+			@endif
 		</div>
 
 		
 
-		
+		@if($carrera->id != 16 && $carrera->id != 17 && $carrera->id != 15)
 		<p style="font-weight:bold;">Total de personas que pertenecen a esta carrera : {{$contador}} </p>
+		@else
+		<p style="font-weight:bold;">Total de personas que pertenecen a este grupo : {{$contador}} </p>
+		@endif
 		<hr>
 
 		<!-- Inicio de tabla de los usuarios -->
@@ -31,7 +36,6 @@
 			<th>Rut</th>
 			<th>Nombre</th>
 			<th>Email</th>
-			<th class="text-center">Tipo</th>
 			<th>Acción</th>
 		</thead>
 		<tbody>
@@ -40,7 +44,6 @@
 					<td>{{ formato_rut($user->rut) }}</td>
 					<td>{{ $user->name }}</td>
 					<td>{{ $user->email }}</td>
-					<td class="text-center">{{ $user->nomTipo }}</td>
 					<td>
 						<div class="btn-group" role="group" aria-label="...">
 						 <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-warning" title="Editar"><span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Editar" style="color:black;"></span></a>
